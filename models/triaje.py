@@ -12,6 +12,7 @@ class ConsultaTriaje:
         self.asistente_ia = asistente_ia
         self.nivel_urgencia = "PENDIENTE"
         self.especialidad_sugerida = ""
+        self.primeros_auxilios = ""
 
     def evaluar_sintomas(self) -> None:
         resultado = self.asistente_ia.procesar_triaje(
@@ -19,6 +20,7 @@ class ConsultaTriaje:
         )
         self.nivel_urgencia = resultado["nivel_urgencia"]
         self.especialidad_sugerida = resultado["especialidad_sugerida"]
+        self.primeros_auxilios = resultado["primeros_auxilios"]
 
 
 class AlertaUrgencia:

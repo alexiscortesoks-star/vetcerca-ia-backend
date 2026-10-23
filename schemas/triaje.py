@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 
 
 class TriajeRequest(BaseModel):
+    id_cliente: Optional[int] = Field(default=1, example=1)
     nombre_mascota: str = Field(..., example="Mimi")
     sintomas: str = Field(
         ..., example="Obstrucción urológica y maullidos de dolor"
@@ -24,3 +25,7 @@ class TriajeResponse(BaseModel):
     primeros_auxilios: str
     veterinaria_cercana: Optional[str] = None
     distancia_km: Optional[float] = None
+    alerta_despachada: bool = False
+    id_alerta: Optional[int] = None
+    estado_notificacion: Optional[str] = None
+    mensaje_alerta: Optional[str] = None
