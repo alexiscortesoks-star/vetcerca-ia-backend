@@ -133,3 +133,9 @@ def obtener_veterinarias_cercanas(
 
     cercanas.sort(key=lambda veterinaria: veterinaria["distancia_km"])
     return {"cantidad": len(cercanas), "veterinarias": cercanas}
+
+
+from routers import auth, mascotas
+
+app.include_router(auth.router)
+app.include_router(mascotas.router)

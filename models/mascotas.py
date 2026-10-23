@@ -73,5 +73,15 @@ class Mascota:
     def es_exotica(self) -> bool:
         return self.raza.especie.es_exotica
 
+    def obtener_edad_formateada(self) -> str:
+        hoy = date.today()
+        edad_anios = hoy.year - self.fecha_nacimiento.year
+        if (hoy.month, hoy.day) < (
+            self.fecha_nacimiento.month,
+            self.fecha_nacimiento.day,
+        ):
+            edad_anios -= 1
+        return f"{edad_anios} años" if edad_anios else "Menos de un año"
+
     def agregar_historial(self, historial: HistorialMedico) -> None:
         self._historial_medico.append(historial)
