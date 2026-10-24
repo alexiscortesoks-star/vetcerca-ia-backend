@@ -4,7 +4,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException, status
 
 from models.mascotas import Especie, Mascota, Raza
-from routers.auth import SESIONES_ACTIVAS
+from routers.auth import cliente_tiene_sesion
 from schemas.mascotas import MascotaCreate, MascotaResponse
 
 
@@ -55,7 +55,7 @@ def _crear_respuesta(
     "/cliente/{id_cliente}", response_model=List[MascotaResponse]
 )
 def obtener_mascotas_por_cliente(id_cliente: int) -> List[MascotaResponse]:
-    if id_cliente not in SESIONES_ACTIVAS:
+    if not cliente_tiene_sesion(id_cliente):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=(
@@ -75,7 +75,7 @@ def obtener_mascotas_por_cliente(id_cliente: int) -> List[MascotaResponse]:
     "/", response_model=MascotaResponse, status_code=status.HTTP_201_CREATED
 )
 def registrar_mascota(datos: MascotaCreate) -> MascotaResponse:
-    if datos.id_cliente not in SESIONES_ACTIVAS:
+    if not cliente_tiene_sesion(datos.id_cliente):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=(
