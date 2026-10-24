@@ -4,7 +4,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException, status
 
 from models.mascotas import Especie, Mascota, Raza
-from routers.auth import cliente_tiene_sesion
+from routers.auth import USUARIOS_DB, cliente_tiene_sesion
 from schemas.mascotas import MascotaCreate, MascotaResponse
 
 
@@ -39,15 +39,21 @@ MASCOTAS_DB = [
 def _crear_respuesta(
     mascota: Mascota, id_cliente: int
 ) -> MascotaResponse:
+    username_cliente = next(
+        usuario["username"]
+        for usuario in USUARIOS_DB
+        if usuario["id_cliente"] == id_cliente
+    )
     return MascotaResponse(
         id_mascota=mascota.id_mascota,
-        id_cliente=id_cliente,
+        username_cliente=username_cliente,
         nombre=mascota.nombre,
         especie=mascota.raza.especie.nombre_especie,
         raza=mascota.raza.nombre_raza,
         sexo=mascota.sexo,
         peso_kg=mascota.peso_kg,
         edad_estimada=mascota.obtener_edad_formateada(),
+        foto_url=mascota.foto_url,
     )
 
 
@@ -75,7 +81,15 @@ def obtener_mascotas_por_cliente(id_cliente: int) -> List[MascotaResponse]:
     "/", response_model=MascotaResponse, status_code=status.HTTP_201_CREATED
 )
 def registrar_mascota(datos: MascotaCreate) -> MascotaResponse:
-    if not cliente_tiene_sesion(datos.id_cliente):
+    usuario = next(
+        (
+            usuario
+            for usuario in USUARIOS_DB
+            if usuario["username"] == datos.username_cliente
+        ),
+        None,
+    )
+    if usuario is None or not cliente_tiene_sesion(usuario["id_cliente"]):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=(
@@ -97,6 +111,8 @@ def registrar_mascota(datos: MascotaCreate) -> MascotaResponse:
         sexo=datos.sexo,
         peso_kg=datos.peso_kg,
         raza=raza,
+        foto_url=datos.foto_url,
     )
-    MASCOTAS_DB.append({"id_cliente": datos.id_cliente, "mascota": mascota})
-    return _crear_respuesta(mascota, datos.id_cliente)
+    id_cliente = usuario["id_cliente"]
+    MASCOTAS_DB.append({"id_cliente": id_cliente, "mascota": mascota})
+    return _crear_respuesta(mascota, id_cliente)

@@ -1,5 +1,5 @@
 from datetime import date
-from typing import List
+from typing import List, Optional
 
 
 class Especie:
@@ -52,6 +52,7 @@ class Mascota:
         sexo: str,
         peso_kg: float,
         raza: Raza,
+        foto_url: Optional[str] = None,
     ) -> None:
         self.id_mascota = id_mascota
         self.nombre = nombre
@@ -59,6 +60,9 @@ class Mascota:
         self.sexo = sexo
         self._peso_kg = peso_kg
         self.raza = raza
+        self.foto_url = (
+            foto_url or "https://via.placeholder.com/150?text=Mascota"
+        )
         self._historial_medico: List[HistorialMedico] = []
 
     @property

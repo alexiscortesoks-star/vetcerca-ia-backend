@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -19,4 +21,5 @@ class LoginResponse(BaseModel):
     username: str
     nombre_cliente: str
     email: str
+    avatar_url: Optional[str] = "https://ejemplo.com/avatars/maria.jpg"
     token_sesion: str
