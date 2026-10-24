@@ -24,8 +24,14 @@ class TriajeResponse(BaseModel):
     especialidad_sugerida: str
     primeros_auxilios: str
     veterinaria_cercana: Optional[str] = None
+    direccion_veterinaria: Optional[str] = None
+    telefono_veterinaria: Optional[str] = None
     distancia_km: Optional[float] = None
     alerta_despachada: bool = False
     id_alerta: Optional[int] = None
     estado_notificacion: Optional[str] = None
     mensaje_alerta: Optional[str] = None
+    latitud_cliente: Optional[float] = None
+    longitud_cliente: Optional[float] = None
+    latitud_veterinaria: Optional[float] = None
+    longitud_veterinaria: Optional[float] = None

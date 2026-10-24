@@ -129,10 +129,52 @@ raíz del proyecto, serví los archivos frontend:
 python -m http.server 5500 --directory frontend
 ```
 
-Abrí `http://127.0.0.1:5500` para iniciar sesión y acceder al formulario de
-triaje. CORS está habilitado para `localhost` y `127.0.0.1` en los puertos
-5500 y 5501. La ubicación del triaje utiliza las coordenadas predeterminadas
-de Buenos Aires mientras no se conecte la geolocalización del dispositivo.
+Abrí `http://127.0.0.1:5500` para ver la portada y consultar clínicas cercanas.
+Para cargar síntomas y recibir una orientación de triaje primero hay que iniciar
+sesión desde la portada. Después vas a encontrar un espacio privado para cargar
+y gestionar tus mascotas, ver sus datos generales e iniciar el triaje por separado.
+El resultado se presenta en lenguaje claro e incluye la urgencia estimada, los
+pasos sugeridos, la guardia cercana y su ubicación. Desde el dashboard también
+podés consultar el historial clínico.
+El navegador solicitará permiso para compartir la
+ubicación; si no está disponible, se usarán coordenadas predeterminadas de
+Buenos Aires. CORS está habilitado para `localhost` y `127.0.0.1` en los
+puertos 5500 y 5501.
+
+### Acceso de veterinarias (demostración)
+
+Desde el enlace de la ventana de inicio de sesión se puede abrir el portal
+veterinario. Las credenciales locales de demostración son `admin` / `1234`.
+El perfil de demostración muestra la clínica configurada en el backend.
+Podés reemplazar estas credenciales configurando `VETCERCA_VET_ADMIN_USER` y
+`VETCERCA_VET_ADMIN_PASSWORD` antes de iniciar FastAPI. Este acceso usa datos
+en memoria y no debe publicarse en Internet con las credenciales por defecto.
+
+### Compartir la demo en una red local
+
+Para que tus compañeros la prueben conectados a la misma red Wi-Fi:
+
+1. Averiguá la IP local de tu computadora con `ipconfig` (por ejemplo,
+   `192.168.1.50`).
+2. En PowerShell, iniciá el backend permitiendo el origen de la página:
+
+   ```powershell
+   $env:VETCERCA_CORS_ORIGINS = "http://192.168.1.50:5500"
+   python -m uvicorn app:app --host 0.0.0.0 --port 8000
+   ```
+
+3. En otra terminal iniciá el frontend para la red local:
+
+   ```powershell
+   python -m http.server 5500 --bind 0.0.0.0 --directory frontend
+   ```
+
+4. Compartí `http://192.168.1.50:5500` con tus compañeros. Si Windows muestra
+   un aviso del firewall, permití el acceso en la red privada.
+
+Esto es solo para una prueba en una red de confianza. No abras los puertos del
+router ni publiques la demo directamente en Internet: los usuarios y datos son
+de demostración y la autenticación aún no es adecuada para producción.
 
 ---
 
@@ -141,8 +183,13 @@ de Buenos Aires mientras no se conecte la geolocalización del dispositivo.
 | Método | Endpoint                         | Descripción                                                                              | Requiere Auth |
 | ------ | -------------------------------- | ---------------------------------------------------------------------------------------- | ------------- |
 | `POST` | `/auth/login`                    | Inicia sesión de cliente y activa la sesión en memoria                                   | ❌             |
-| `GET`  | `/mascotas/cliente/{id_cliente}` | Devuelve la lista de mascotas del cliente autenticado                                    | 🌐 Sí         |
+| `POST` | `/auth/veterinaria/login`        | Inicia sesión de demostración de una veterinaria                                        | ❌             |
+| `GET`  | `/auth/veterinaria/perfil`       | Consulta el perfil de la veterinaria usando token Bearer                                 | 🌐 Sí         |
+| `GET`  | `/mascotas/cliente/{identificador_cliente}` | Devuelve mascotas usando ID o username del cliente autenticado                  | 🌐 Sí         |
 | `POST` | `/mascotas/`                     | Registra una nueva mascota vinculada al cliente logueado                                 | 🌐 Sí         |
+| `PUT`  | `/mascotas/{id_mascota}`         | Actualiza una mascota del usuario autenticado                                             | 🌐 Sí         |
+| `DELETE` | `/mascotas/{id_mascota}?username_cliente={username}` | Elimina una mascota propia                         | 🌐 Sí         |
+| `GET`  | `/mascotas/{id_mascota}/historial?username_cliente={username}` | Consulta historial clínico propio       | 🌐 Sí         |
 | `POST` | `/triaje/evaluar`                | Evalúa síntomas con IA, calcula vet más cercana por GPS y despacha alerta si es **ALTA** | ❌             |
 | `GET`  | `/veterinarias/cercanas`         | Busca y ordena clínicas por distancia GPS según un radio en km                           | ❌             |
 

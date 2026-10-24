@@ -1,0 +1,1111 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+:root {
+  --bg-dark-teal: #0f3d39;
+  --bg-dark-surface: #134e4a;
+  --bg-light-mint: #edf7f5;
+  --primary-teal: #0d9488;
+  --accent-mint: #6ee7b7;
+  --accent-red: #dc2626;
+  --card-radius: 24px;
+  --pill-radius: 50px;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg-light-mint);
+  color: #1f2937;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.login-body {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #0f3d39 0%, #0d4742 50%, #082d29 100%);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px 30px;
+  border: 1px solid rgb(255 255 255 / 15%);
+  border-radius: 28px;
+  background: rgb(255 255 255 / 7%);
+  box-shadow: 0 25px 50px rgb(0 0 0 / 35%);
+  color: #fff;
+  backdrop-filter: blur(16px);
+}
+
+.login-card .text-secondary,
+.login-card .form-label {
+  color: rgb(255 255 255 / 78%) !important;
+}
+
+.login-input {
+  border: 1px solid rgb(255 255 255 / 25%) !important;
+  border-radius: var(--pill-radius) !important;
+  background: rgb(255 255 255 / 10%) !important;
+  color: #fff !important;
+  padding: 14px 20px !important;
+}
+
+.login-input::placeholder {
+  color: rgb(255 255 255 / 60%) !important;
+}
+
+.login-input:focus {
+  border-color: var(--accent-mint) !important;
+  box-shadow: 0 0 15px rgb(110 231 183 / 30%) !important;
+}
+
+.btn-login-mint {
+  width: 100%;
+  border: 0;
+  border-radius: var(--pill-radius);
+  background: linear-gradient(135deg, #86efac, var(--accent-mint));
+  box-shadow: 0 8px 20px rgb(110 231 183 / 35%);
+  color: #064e3b;
+  font-weight: 700;
+  padding: 14px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-login-mint:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgb(110 231 183 / 50%);
+  color: #064e3b;
+}
+
+.navbar-vet {
+  background-color: var(--bg-dark-teal);
+  padding: 16px 24px;
+}
+
+.navbar-vet .navbar-brand,
+.navbar-vet .welcome-message {
+  color: #fff;
+}
+
+.navbar-vet .navbar-brand span {
+  color: var(--accent-mint);
+}
+
+.card-vet {
+  margin-bottom: 20px;
+  border: 0;
+  border-radius: var(--card-radius);
+  background-color: #fff;
+  box-shadow: 0 10px 30px rgb(13 148 136 / 8%);
+  padding: 24px;
+}
+
+.btn-alertar-guardia {
+  border: 0;
+  border-radius: var(--pill-radius);
+  background: linear-gradient(135deg, var(--primary-teal), #0f766e);
+  box-shadow: 0 10px 25px rgb(13 148 136 / 35%);
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 16px 28px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-alertar-guardia:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgb(13 148 136 / 45%);
+  color: #fff;
+}
+
+.badge-urgencia-alta {
+  border-radius: var(--pill-radius);
+  background-color: var(--accent-red);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 8px 18px;
+}
+
+#triageForm .form-control,
+#triageForm .form-select {
+  border-radius: 14px;
+  padding: 12px 16px;
+}
+
+.modal-content {
+  border: 0;
+  border-radius: 20px;
+}
+
+@media (max-width: 576px) {
+  .navbar-vet {
+    padding: 12px 16px;
+  }
+
+  .card-vet {
+    padding: 20px;
+  }
+}
+
+.landing-body {
+  overflow-x: hidden;
+  background: #e9f8f7;
+}
+
+.landing-header {
+  position: relative;
+  z-index: 10;
+  background: #fff;
+  box-shadow: 0 2px 14px rgb(15 61 57 / 6%);
+}
+
+.landing-brand {
+  display: inline-flex;
+  align-items: center;
+  color: #123e4a;
+  line-height: 0;
+}
+
+.landing-brand:hover {
+  color: #123e4a;
+}
+
+.brand-mark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff;
+  object-fit: cover;
+  object-position: center;
+}
+
+.brand-logo {
+  display: block;
+  width: 164px;
+  height: 76px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.landing-header .nav-link {
+  color: #254650;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.landing-header .nav-link:hover,
+.landing-header .nav-link.active {
+  color: var(--primary-teal);
+}
+
+.btn-coral {
+  border: 0;
+  border-radius: var(--pill-radius);
+  background: linear-gradient(135deg, #f46f5d, #e95d50);
+  box-shadow: 0 6px 16px rgb(233 93 80 / 22%);
+  color: #fff;
+  font-weight: 700;
+}
+
+.btn-coral:hover,
+.btn-coral:focus-visible {
+  background: #d94f43;
+  color: #fff;
+}
+
+.landing-hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(115deg, #e8fbfa 0%, #dff7f5 70%, #cef3ef 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding-top: clamp(56px, 8vw, 104px);
+  padding-bottom: clamp(80px, 10vw, 128px);
+}
+
+.hero-decoration {
+  position: absolute;
+  pointer-events: none;
+  background: #08b8c4;
+  opacity: 0.95;
+}
+
+.hero-decoration-top {
+  top: -120px;
+  right: -70px;
+  width: 280px;
+  height: 230px;
+  border-radius: 0 0 0 100px;
+}
+
+.hero-decoration-bottom {
+  bottom: -120px;
+  left: -85px;
+  width: 400px;
+  height: 200px;
+  border-radius: 0 130px 0 0;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  color: #49716f;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #21b789;
+  box-shadow: 0 0 0 4px rgb(33 183 137 / 14%);
+}
+
+.landing-hero h1 {
+  max-width: 650px;
+  color: #123e4a;
+  font-size: clamp(2.35rem, 4.4vw, 3.75rem);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+}
+
+.landing-hero h1 span {
+  color: var(--primary-teal);
+  white-space: nowrap;
+}
+
+.hero-description {
+  max-width: 540px;
+  margin: 20px 0 26px;
+  color: #365560;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.landing-map-card {
+  position: relative;
+  z-index: 1;
+  padding: 16px;
+  border: 1px solid rgb(18 62 74 / 8%);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgb(18 62 74 / 15%);
+}
+
+.map-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 3px 4px 12px;
+}
+
+.map-kicker {
+  color: #688486;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.map-card-heading h2 {
+  margin: 2px 0 0;
+  color: #123e4a;
+  font-size: 1.08rem;
+  font-weight: 800;
+}
+
+.open-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border-radius: 50px;
+  background: #e7f8f1;
+  color: #187b5a;
+  font-size: 0.7rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#landingMap {
+  height: 295px;
+  border-radius: 14px;
+  background:
+    linear-gradient(35deg, transparent 46%, #fff 47%, #fff 51%, transparent 52%),
+    linear-gradient(145deg, transparent 44%, #d5eeea 45%, #d5eeea 47%, transparent 48%),
+    #edf5f1;
+}
+
+.clinics-message {
+  padding: 12px 4px 2px;
+  color: #61777a;
+  font-size: 0.78rem;
+}
+
+.clinics-list {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.clinics-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: #254650;
+  font-size: 0.76rem;
+}
+
+.clinics-list li span {
+  color: #718489;
+  text-align: right;
+}
+
+.feature-section {
+  position: relative;
+  z-index: 2;
+  margin-top: -46px;
+  padding-bottom: 60px;
+}
+
+.feature-card {
+  height: 100%;
+  padding: 24px;
+  border: 1px solid rgb(18 62 74 / 7%);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 12px 34px rgb(18 62 74 / 10%);
+}
+
+.feature-icon {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  margin-bottom: 18px;
+  place-items: center;
+  border-radius: 18px;
+  font-size: 2rem;
+}
+
+.icon-coral {
+  background: #fff0eb;
+}
+
+.icon-teal {
+  background: #e3f8f6;
+}
+
+.feature-card h2 {
+  color: #e35e50;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.feature-section .col-md-4:nth-child(2) .feature-card h2 {
+  color: #10999b;
+}
+
+.feature-card p {
+  min-height: 72px;
+  margin: 10px 0 16px;
+  color: #546a70;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.feature-link {
+  border: 0;
+  background: transparent;
+  color: #117f7c;
+  font-size: 0.84rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.feature-link:hover {
+  color: #0b5d5a;
+}
+
+.feature-link-button {
+  padding: 0;
+}
+
+.landing-footer {
+  padding: 22px 0;
+  background: #103f43;
+  color: rgb(255 255 255 / 75%);
+  font-size: 0.76rem;
+}
+
+.login-modal {
+  border-radius: 24px;
+  padding: 12px;
+}
+
+.dashboard-action-card {
+  height: 100%;
+  padding: 26px;
+  border: 1px solid rgb(18 62 74 / 7%);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 12px 34px rgb(18 62 74 / 10%);
+}
+
+.veterinary-login-main {
+  display: grid;
+  min-height: calc(100vh - 105px);
+  place-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.veterinary-login-card {
+  width: min(100%, 440px);
+  padding: 34px;
+  border: 1px solid rgb(18 62 74 / 8%);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgb(18 62 74 / 12%);
+}
+
+.veterinary-login-icon {
+  display: grid;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 20px;
+  place-items: center;
+  border-radius: 18px;
+  background: #e3f8f6;
+  font-size: 1.8rem;
+}
+
+.veterinary-login-card .eyebrow {
+  margin-bottom: 8px;
+}
+
+.veterinary-login-card h1 {
+  color: #123e4a;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.veterinary-login-card .form-control {
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.demo-credentials {
+  margin-top: 20px;
+  padding: 11px;
+  border-radius: 12px;
+  background: #f1f9f8;
+  color: #546a70;
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.veterinary-profile-card {
+  max-width: 720px;
+  padding: clamp(22px, 5vw, 38px);
+  border: 1px solid rgb(18 62 74 / 8%);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 12px 34px rgb(18 62 74 / 10%);
+}
+
+.veterinary-profile-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.veterinary-profile-card h2 {
+  color: #123e4a;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 800;
+}
+
+.veterinary-profile-card > p {
+  margin-bottom: 8px;
+}
+
+.vet-hours {
+  color: #187b5a;
+  font-weight: 700;
+}
+
+.veterinary-contact {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 16px;
+  background: #f1f9f8;
+}
+
+.veterinary-contact span {
+  color: #61777a;
+  font-size: 0.82rem;
+}
+
+.veterinary-contact strong {
+  margin-top: 4px;
+  color: #123e4a;
+  font-size: 1.1rem;
+}
+
+.dashboard-action-card h2 {
+  margin: 14px 0 8px;
+  color: #123e4a;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.dashboard-action-card p {
+  max-width: 32rem;
+  min-height: 48px;
+  color: #546a70;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.dashboard-action-icon {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border-radius: 17px;
+  background: #fff0eb;
+  font-size: 1.7rem;
+}
+
+.action-triage .dashboard-action-icon {
+  background: #e3f8f6;
+}
+
+.btn-teal,
+.btn-outline-teal {
+  border-radius: var(--pill-radius);
+  font-weight: 700;
+}
+
+.btn-teal {
+  border: 0;
+  background: linear-gradient(135deg, var(--primary-teal), #0f766e);
+  color: #fff;
+}
+
+.btn-teal:hover,
+.btn-teal:focus-visible {
+  background: #0f766e;
+  color: #fff;
+}
+
+.btn-outline-teal {
+  border: 1px solid var(--primary-teal);
+  color: #087c73;
+}
+
+.btn-outline-teal:hover,
+.btn-outline-teal:focus-visible {
+  background: #e3f8f6;
+  color: #075e58;
+}
+
+.pets-overview {
+  padding-top: 4px;
+}
+
+.pets-overview-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pets-overview-heading .eyebrow {
+  margin-bottom: 8px;
+}
+
+.pets-overview-heading h2 {
+  margin: 0;
+  color: #123e4a;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+}
+
+.pets-count {
+  color: #61777a;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.pet-summary-card {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid rgb(18 62 74 / 8%);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgb(18 62 74 / 7%);
+}
+
+.pet-summary-photo {
+  display: grid;
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
+  place-items: center;
+  border-radius: 15px;
+  background: #e3f8f6;
+  color: var(--primary-teal);
+  font-size: 2.2rem;
+}
+
+.pet-summary-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pet-summary-details {
+  min-width: 0;
+}
+
+.pet-summary-details h3 {
+  overflow: hidden;
+  margin: 0 0 4px;
+  color: #123e4a;
+  font-size: 1rem;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pet-summary-details p {
+  margin: 0;
+  color: #61777a;
+  font-size: 0.85rem;
+}
+
+.pet-summary-actions {
+  display: flex;
+  grid-column: 1 / -1;
+  gap: 8px;
+}
+
+.pet-summary-actions .btn {
+  flex: 1;
+}
+
+#mascotasMessage:empty,
+#petManagementMessage:empty {
+  display: none;
+}
+
+.dashboard-nav .nav-link,
+.dashboard-nav .welcome-message {
+  color: #254650;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.dashboard-nav .nav-link:hover {
+  color: var(--primary-teal);
+}
+
+.dashboard-main {
+  min-height: calc(100vh - 150px);
+}
+
+.dashboard-intro {
+  margin-bottom: 28px;
+}
+
+.dashboard-intro h1 {
+  margin-bottom: 8px;
+  color: #123e4a;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.dashboard-intro p {
+  margin: 0;
+  color: #546a70;
+}
+
+.triage-result-card[hidden] {
+  display: none !important;
+}
+
+.triage-result-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.triage-result-heading .eyebrow {
+  margin-bottom: 0;
+}
+
+.urgency-badge {
+  flex: 0 0 auto;
+  padding: 9px 14px;
+  border-radius: var(--pill-radius);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.urgency-high {
+  background: #fff0eb;
+  color: #b83c30;
+}
+
+.urgency-medium {
+  background: #fff6dc;
+  color: #805b0c;
+}
+
+.urgency-low {
+  background: #e7f8f1;
+  color: #187b5a;
+}
+
+.urgency-unknown {
+  background: #eef2f4;
+  color: #43565d;
+}
+
+.result-disclaimer {
+  margin: 16px 0;
+  color: #61777a;
+  font-size: 0.82rem;
+}
+
+.result-pet-panel,
+.result-guidance,
+.assigned-clinic {
+  padding: 16px;
+  border-radius: 16px;
+  background: #f1f9f8;
+}
+
+.result-pet-panel {
+  display: grid;
+  gap: 4px;
+}
+
+.result-pet-panel span,
+.result-guidance h3,
+.assigned-clinic h3 {
+  color: #49716f;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.result-pet-panel strong,
+.assigned-clinic > strong {
+  color: #123e4a;
+  font-size: 1.05rem;
+}
+
+.result-pet-panel p {
+  color: #546a70;
+}
+
+.result-guidance-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.result-guidance h3,
+.assigned-clinic h3 {
+  margin-bottom: 8px;
+}
+
+.result-guidance p,
+.assigned-clinic p {
+  color: #365560;
+  line-height: 1.6;
+}
+
+.result-first-aid {
+  background: #fff7ee;
+}
+
+.assigned-clinic {
+  background: #eef6ff;
+}
+
+.alert-dispatched {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #e7f8f1;
+  color: #187b5a;
+  font-size: 0.88rem;
+}
+
+#mapaGPS {
+  height: 300px;
+  border-radius: 14px;
+}
+
+.mobile-landing-logo,
+.mobile-shortcuts,
+.mobile-pets-card {
+  display: none;
+}
+
+@media (min-width: 992px) {
+  .landing-header .navbar {
+    min-height: 76px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .hero-content {
+    padding-top: 48px;
+    padding-bottom: 100px;
+  }
+
+  .landing-header .navbar {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .landing-brand {
+    gap: 0;
+  }
+
+  .landing-brand .brand-logo {
+    width: 142px;
+    height: 68px;
+  }
+
+  .mobile-landing-logo {
+    display: block;
+    width: 104px;
+    height: 64px;
+    margin: 0 auto 20px;
+    border-radius: 14px;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .landing-hero h1 {
+    font-size: clamp(2.1rem, 8vw, 3.1rem);
+    text-align: center;
+  }
+
+  .landing-hero .eyebrow {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .hero-description {
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+  }
+
+  .mobile-shortcuts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .mobile-shortcut {
+    display: flex;
+    min-height: 88px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    border: 0;
+    border-radius: 18px;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-align: center;
+    box-shadow: 0 8px 18px rgb(18 62 74 / 14%);
+  }
+
+  .mobile-shortcut span {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .mobile-shortcut-coral {
+    background: linear-gradient(135deg, #f46f5d, #e95d50);
+  }
+
+  .mobile-shortcut-teal {
+    background: linear-gradient(135deg, #09bdc6, #08a8b5);
+  }
+
+  .landing-map-card {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+  }
+
+  #landingMap {
+    order: 3;
+    height: 155px;
+  }
+
+  .clinics-message {
+    order: 1;
+    padding-top: 4px;
+  }
+
+  .clinics-list {
+    order: 2;
+    margin-top: 6px;
+  }
+
+  .landing-map-card .map-card-heading {
+    order: 0;
+  }
+
+  .hero-decoration-top {
+    right: -170px;
+  }
+
+  .feature-section {
+    margin-top: -52px;
+  }
+
+  .feature-section > .row {
+    display: none;
+  }
+
+  .feature-card p {
+    min-height: 0;
+  }
+
+  .mobile-pets-card {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 12px;
+    align-items: center;
+    margin-top: 18px;
+    padding: 18px;
+    border: 1px solid rgb(18 62 74 / 7%);
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 12px 34px rgb(18 62 74 / 10%);
+  }
+
+  .mobile-pets-icon {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border-radius: 12px;
+    background: #e3f8f6;
+    color: var(--primary-teal);
+    font-size: 1.4rem;
+  }
+
+  .mobile-pets-card h2 {
+    margin: 0;
+    color: #123e4a;
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  .mobile-pets-card p {
+    margin: 3px 0 0;
+    color: #61777a;
+    font-size: 0.76rem;
+  }
+
+  .mobile-pets-card .btn {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .dashboard-nav {
+    justify-content: flex-end;
+    gap: 8px !important;
+  }
+
+  .dashboard-nav .nav-link {
+    padding: 0;
+    font-size: 0.78rem;
+  }
+
+  .dashboard-nav .welcome-message {
+    display: none;
+  }
+
+  .dashboard-main {
+    padding-top: 30px !important;
+  }
+
+  .dashboard-action-card {
+    padding: 21px;
+  }
+
+  .pet-summary-card {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .pet-summary-photo {
+    width: 76px;
+    height: 76px;
+  }
+
+  .result-guidance-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .triage-result-heading {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .clinics-list li {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .clinics-list li span {
+    text-align: left;
+  }
+}

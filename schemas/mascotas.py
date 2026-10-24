@@ -29,4 +29,5 @@ class MascotaResponse(BaseModel):
     sexo: str
     peso_kg: float
     edad_estimada: str
+    fecha_nacimiento: Optional[date] = None
     foto_url: Optional[str] = None

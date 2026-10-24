@@ -115,6 +115,16 @@ def evaluar_triaje(datos: TriajeRequest) -> TriajeResponse:
             if veterinaria_mas_cercana
             else "No disponible"
         ),
+        direccion_veterinaria=(
+            veterinaria_mas_cercana.direccion
+            if veterinaria_mas_cercana
+            else None
+        ),
+        telefono_veterinaria=(
+            veterinaria_mas_cercana.telefono_guardia
+            if veterinaria_mas_cercana
+            else None
+        ),
         distancia_km=(
             distancia_minima if veterinaria_mas_cercana else None
         ),
@@ -122,4 +132,16 @@ def evaluar_triaje(datos: TriajeRequest) -> TriajeResponse:
         id_alerta=id_alerta_generada,
         estado_notificacion=estado_envio,
         mensaje_alerta=mensaje_texto,
+        latitud_cliente=datos.latitud_cliente,
+        longitud_cliente=datos.longitud_cliente,
+        latitud_veterinaria=(
+            veterinaria_mas_cercana.latitud
+            if veterinaria_mas_cercana
+            else None
+        ),
+        longitud_veterinaria=(
+            veterinaria_mas_cercana.longitud
+            if veterinaria_mas_cercana
+            else None
+        ),
     )

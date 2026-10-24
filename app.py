@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -14,14 +16,21 @@ app = FastAPI(
     version="1.1.0",
 )
 
+origins_permitidos = [
+    "http://localhost:5500",
+    "http://127.0.0.1:5500",
+    "http://localhost:5501",
+    "http://127.0.0.1:5501",
+]
+origins_permitidos.extend(
+    origen.strip()
+    for origen in os.getenv("VETCERCA_CORS_ORIGINS", "").split(",")
+    if origen.strip()
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5500",
-        "http://127.0.0.1:5500",
-        "http://localhost:5501",
-        "http://127.0.0.1:5501",
-    ],
+    allow_origins=origins_permitidos,
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -57,6 +66,8 @@ def obtener_veterinarias_cercanas(
                     "nombre": veterinaria.nombre_fantasia,
                     "direccion": veterinaria.direccion,
                     "telefono": veterinaria.telefono_guardia,
+                    "latitud": veterinaria.latitud,
+                    "longitud": veterinaria.longitud,
                     "distancia_km": distancia,
                     "es_24hs": veterinaria.es_24hs,
                 }

@@ -3,50 +3,276 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VetCerca IA | Iniciar sesión</title>
+    <meta
+      name="description"
+      content="Atención veterinaria de urgencia inteligente, triaje con IA y clínicas cercanas."
+    >
+    <title>VetCerca IA | Urgencias veterinarias</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     >
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="styles.css">
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      defer
+    ></script>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+      defer
+    ></script>
     <script src="app.js" defer></script>
   </head>
-  <body class="bg-light">
-    <main class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
-      <section class="card shadow-sm border-0 w-100" style="max-width: 28rem;">
-        <div class="card-body p-4 p-md-5">
-          <header class="text-center mb-4">
-            <h1 class="h3">VetCerca IA</h1>
-            <p class="text-secondary mb-0">Urgencias veterinarias con IA</p>
-          </header>
+  <body class="landing-body">
+    <header class="landing-header">
+      <nav class="navbar navbar-expand-lg container" aria-label="Navegación principal">
+        <a class="navbar-brand landing-brand" href="#inicio">
+          <img
+            class="brand-logo"
+            src="assets/vetcerca-logo-original.png"
+            alt="VetCerca IA"
+          >
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#landingNavigation"
+          aria-controls="landingNavigation"
+          aria-expanded="false"
+          aria-label="Abrir navegación"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="landingNavigation" class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+            <li class="nav-item"><a class="nav-link active" href="#inicio">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="#guardias">Guardias 24h</a></li>
+            <li class="nav-item">
+              <button
+                class="btn btn-coral btn-sm px-4"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
+              >
+                Iniciar sesión / Registro
+              </button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
 
-          <form id="loginForm">
-            <div class="mb-3">
-              <label for="usuarioOEmail" class="form-label">Usuario o email</label>
-              <input
-                id="usuarioOEmail"
-                name="usuario_o_email"
-                class="form-control"
-                type="text"
-                autocomplete="username"
-                required
+    <main>
+      <section id="inicio" class="landing-hero">
+        <div class="hero-decoration hero-decoration-top" aria-hidden="true"></div>
+        <div class="container hero-content">
+          <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+              <img
+                class="mobile-landing-logo"
+                src="assets/vetcerca-logo-original.png"
+                alt="Logo VetCerca"
+                width="112"
+                height="68"
               >
+              <span class="eyebrow"><span class="status-dot"></span> Cuidado veterinario, siempre cerca</span>
+              <h1>
+                Atención veterinaria de urgencia inteligente y geolocalización
+                <span>24/7</span>
+              </h1>
+              <p class="hero-description">
+                Encontrá la ayuda adecuada para tu mascota de inmediato con
+                nuestra plataforma de triaje con inteligencia artificial.
+              </p>
+              <div class="mobile-shortcuts">
+                <button
+                  class="mobile-shortcut mobile-shortcut-coral"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#loginModal"
+                >
+                  <span aria-hidden="true">♡</span>
+                  Iniciar triaje
+                </button>
+                <button
+                  class="mobile-shortcut mobile-shortcut-teal"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#loginModal"
+                >
+                  <span aria-hidden="true">♙</span>
+                  Iniciar sesión / Registrarse
+                </button>
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Contraseña</label>
-              <input
-                id="password"
-                name="password"
-                class="form-control"
-                type="password"
-                autocomplete="current-password"
-                required
+
+            <div class="col-lg-6">
+              <section id="guardias" class="landing-map-card" aria-labelledby="clinicsHeading">
+                <div class="map-card-heading">
+                  <div>
+                    <span class="map-kicker">ATENCIÓN CERCANA</span>
+                    <h2 id="clinicsHeading">Guardias veterinarias</h2>
+                  </div>
+                  <span class="open-badge"><span class="status-dot"></span> Disponibles</span>
+                </div>
+                <div
+                  id="landingMap"
+                  role="region"
+                  aria-label="Mapa de clínicas veterinarias cercanas"
+                ></div>
+                <p id="clinicsMessage" class="clinics-message mb-0" role="status" aria-live="polite">
+                  Buscando clínicas cercanas...
+                </p>
+                <ul id="clinicsList" class="clinics-list"></ul>
+              </section>
+            </div>
+          </div>
+        </div>
+        <div class="hero-decoration hero-decoration-bottom" aria-hidden="true"></div>
+      </section>
+
+      <section class="container feature-section" aria-label="Servicios de VetCerca IA">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <article id="triaje" class="feature-card">
+              <div class="feature-icon icon-coral" aria-hidden="true">🤖</div>
+              <h2>Triaje IA 24/7</h2>
+              <p>
+                Evaluación instantánea de síntomas por inteligencia artificial
+                para orientar la urgencia. Acceso en cualquier momento.
+              </p>
+              <button
+                class="feature-link feature-link-button"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
               >
-            </div>
-            <p id="loginMessage" class="small" role="status" aria-live="polite"></p>
-            <button class="btn btn-primary w-100" type="submit">Iniciar sesión</button>
-          </form>
+                Iniciar sesión para hacer un triaje <span aria-hidden="true">→</span>
+              </button>
+            </article>
+          </div>
+          <div class="col-md-4">
+            <article class="feature-card">
+              <div class="feature-icon icon-teal" aria-hidden="true">📍</div>
+              <h2>GPS y clínicas</h2>
+              <p>
+                Localizá veterinarios de guardia y clínicas de urgencia cercanas
+                con navegación en tiempo real.
+              </p>
+              <a href="#guardias" class="feature-link">Ver clínicas cercanas <span aria-hidden="true">→</span></a>
+            </article>
+          </div>
+          <div class="col-md-4">
+            <article id="historial" class="feature-card">
+              <div class="feature-icon icon-coral" aria-hidden="true">📋</div>
+              <h2>Historial médico</h2>
+              <p>
+                Consultá los registros de salud de tu mascota y compartilos
+                fácilmente con los profesionales veterinarios.
+              </p>
+              <button
+                class="feature-link feature-link-button"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
+              >
+                Acceder a mi cuenta <span aria-hidden="true">→</span>
+              </button>
+            </article>
+          </div>
+        </div>
+        <div class="mobile-pets-card">
+          <div class="mobile-pets-icon" aria-hidden="true">🐾</div>
+          <div>
+            <h2>Mis mascotas</h2>
+            <p>Iniciá sesión para consultar sus perfiles e historiales médicos.</p>
+          </div>
+          <button
+            class="btn btn-coral"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#loginModal"
+          >
+            Ver mis mascotas
+          </button>
         </div>
       </section>
     </main>
+
+    <footer class="landing-footer">
+      <div class="container d-flex flex-column flex-sm-row justify-content-between gap-2">
+        <span>VetCerca IA · Cuidado inteligente para quienes más querés.</span>
+        <span>Ante una emergencia grave, contactá directamente a una guardia veterinaria.</span>
+      </div>
+    </footer>
+
+    <div
+      id="loginModal"
+      class="modal fade"
+      tabindex="-1"
+      aria-labelledby="loginModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content login-modal">
+          <div class="modal-header border-0 pb-0">
+            <div>
+              <span class="eyebrow">TU CUENTA VETCERCA</span>
+              <h2 id="loginModalLabel" class="modal-title h4 mt-2">Bienvenido/a</h2>
+            </div>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body pt-3">
+            <p class="text-secondary">Iniciá sesión para continuar con el cuidado de tu mascota.</p>
+            <form id="loginForm">
+              <div class="mb-3">
+                <label for="usuarioOEmail" class="form-label">Usuario o email</label>
+                <input
+                  id="usuarioOEmail"
+                  name="usuario_o_email"
+                  class="form-control"
+                  type="text"
+                  autocomplete="username"
+                  required
+                >
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input
+                  id="password"
+                  name="password"
+                  class="form-control"
+                  type="password"
+                  autocomplete="current-password"
+                  required
+                >
+              </div>
+              <p id="loginMessage" class="small" role="status" aria-live="polite"></p>
+              <button class="btn btn-coral w-100" type="submit">Iniciar sesión</button>
+            </form>
+            <p class="small text-center mt-3 mb-0">
+              ¿Trabajás en una veterinaria?
+              <a href="login-veterinaria.html">Ingresar al portal veterinario</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

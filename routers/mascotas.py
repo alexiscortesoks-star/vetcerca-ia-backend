@@ -35,6 +35,27 @@ MASCOTAS_DB = [
     },
 ]
 
+HISTORIALES_DB = {
+    1: [
+        {
+            "fecha": "2024-09-15",
+            "motivo": "Control anual y vacunación",
+            "diagnostico": (
+                "Paciente felino saludable. Se aplica vacuna Triple Felina."
+            ),
+            "veterinario": "Dr. Roberto Gómez (MP 4512)",
+        },
+        {
+            "fecha": "2024-03-10",
+            "motivo": "Consulta por inapetencia",
+            "diagnostico": (
+                "Indigestión leve. Tratamiento con dieta blanda por 48 hs."
+            ),
+            "veterinario": "Dra. Laura Martínez (MP 5890)",
+        },
+    ]
+}
+
 
 def _crear_respuesta(
     mascota: Mascota, id_cliente: int
@@ -53,15 +74,37 @@ def _crear_respuesta(
         sexo=mascota.sexo,
         peso_kg=mascota.peso_kg,
         edad_estimada=mascota.obtener_edad_formateada(),
+        fecha_nacimiento=mascota.fecha_nacimiento,
         foto_url=mascota.foto_url,
     )
 
 
 @router.get(
-    "/cliente/{id_cliente}", response_model=List[MascotaResponse]
+    "/cliente/{identificador_cliente}", response_model=List[MascotaResponse]
 )
-def obtener_mascotas_por_cliente(id_cliente: int) -> List[MascotaResponse]:
-    if not cliente_tiene_sesion(id_cliente):
+def obtener_mascotas_por_cliente(
+    identificador_cliente: str,
+) -> List[MascotaResponse]:
+    usuario = next(
+        (
+            usuario
+            for usuario in USUARIOS_DB
+            if usuario["username"].lower() == identificador_cliente.lower()
+        ),
+        None,
+    )
+    if usuario is None and identificador_cliente.isdecimal():
+        id_cliente = int(identificador_cliente)
+        usuario = next(
+            (
+                usuario
+                for usuario in USUARIOS_DB
+                if usuario["id_cliente"] == id_cliente
+            ),
+            None,
+        )
+
+    if usuario is None or not cliente_tiene_sesion(usuario["id_cliente"]):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=(
@@ -69,6 +112,8 @@ def obtener_mascotas_por_cliente(id_cliente: int) -> List[MascotaResponse]:
                 "para ver sus mascotas."
             ),
         )
+
+    id_cliente = usuario["id_cliente"]
 
     return [
         _crear_respuesta(item["mascota"], id_cliente)
@@ -116,3 +161,133 @@ def registrar_mascota(datos: MascotaCreate) -> MascotaResponse:
     id_cliente = usuario["id_cliente"]
     MASCOTAS_DB.append({"id_cliente": id_cliente, "mascota": mascota})
     return _crear_respuesta(mascota, id_cliente)
+
+
+@router.put("/{id_mascota}", response_model=MascotaResponse)
+def actualizar_mascota(
+    id_mascota: int, datos: MascotaCreate
+) -> MascotaResponse:
+    usuario = next(
+        (
+            usuario
+            for usuario in USUARIOS_DB
+            if usuario["username"].lower() == datos.username_cliente.lower()
+        ),
+        None,
+    )
+    if usuario is None or not cliente_tiene_sesion(usuario["id_cliente"]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Acceso denegado: se requiere una sesión activa.",
+        )
+
+    item = next(
+        (
+            item
+            for item in MASCOTAS_DB
+            if item["mascota"].id_mascota == id_mascota
+            and item["id_cliente"] == usuario["id_cliente"]
+        ),
+        None,
+    )
+    if item is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Mascota no encontrada o no pertenece al usuario.",
+        )
+
+    mascota = item["mascota"]
+    mascota.nombre = datos.nombre
+    mascota.peso_kg = datos.peso_kg
+    mascota.sexo = datos.sexo
+    mascota.raza = Raza(
+        mascota.raza.id_raza,
+        datos.raza,
+        Especie(
+            mascota.raza.especie.id_especie,
+            datos.especie,
+            mascota.raza.especie.es_exotica,
+        ),
+    )
+    if datos.fecha_nacimiento is not None:
+        mascota.fecha_nacimiento = datos.fecha_nacimiento
+    if datos.foto_url is not None:
+        mascota.foto_url = datos.foto_url
+
+    return _crear_respuesta(mascota, usuario["id_cliente"])
+
+
+@router.delete("/{id_mascota}")
+def eliminar_mascota(id_mascota: int, username_cliente: str) -> dict[str, str]:
+    usuario = next(
+        (
+            usuario
+            for usuario in USUARIOS_DB
+            if usuario["username"].lower() == username_cliente.lower()
+        ),
+        None,
+    )
+    if usuario is None or not cliente_tiene_sesion(usuario["id_cliente"]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Acceso denegado: se requiere una sesión activa.",
+        )
+
+    for index, item in enumerate(MASCOTAS_DB):
+        if (
+            item["mascota"].id_mascota == id_mascota
+            and item["id_cliente"] == usuario["id_cliente"]
+        ):
+            mascota_eliminada = MASCOTAS_DB.pop(index)["mascota"]
+            return {
+                "mensaje": (
+                    f"La mascota '{mascota_eliminada.nombre}' "
+                    "fue eliminada correctamente."
+                )
+            }
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Mascota no encontrada o no pertenece al usuario.",
+    )
+
+
+@router.get("/{id_mascota}/historial")
+def obtener_historial_medico(
+    id_mascota: int, username_cliente: str
+) -> dict[str, object]:
+    usuario = next(
+        (
+            usuario
+            for usuario in USUARIOS_DB
+            if usuario["username"].lower() == username_cliente.lower()
+        ),
+        None,
+    )
+    if usuario is None or not cliente_tiene_sesion(usuario["id_cliente"]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Acceso denegado: se requiere una sesión activa.",
+        )
+
+    item = next(
+        (
+            item
+            for item in MASCOTAS_DB
+            if item["mascota"].id_mascota == id_mascota
+            and item["id_cliente"] == usuario["id_cliente"]
+        ),
+        None,
+    )
+    if item is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Mascota no encontrada o no pertenece al usuario.",
+        )
+
+    historial = HISTORIALES_DB.get(id_mascota, [])
+    return {
+        "id_mascota": id_mascota,
+        "total_atenciones": len(historial),
+        "historial": historial,
+    }

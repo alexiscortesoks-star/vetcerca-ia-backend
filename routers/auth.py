@@ -1,6 +1,17 @@
-from fastapi import APIRouter, HTTPException, status
+import os
+import secrets
+from typing import Optional
 
-from schemas.auth import LoginRequest, LoginResponse
+from fastapi import APIRouter, Header, HTTPException, status
+
+from routers.triaje import VETERINARIAS_MOCK
+from schemas.auth import (
+    LoginRequest,
+    LoginResponse,
+    LoginVeterinariaRequest,
+    LoginVeterinariaResponse,
+    PerfilVeterinariaResponse,
+)
 
 
 router = APIRouter(prefix="/auth", tags=["Autenticación y Sesión"])
@@ -23,6 +34,9 @@ USUARIOS_DB = [
 ]
 
 SESIONES_ACTIVAS = set()
+SESIONES_VETERINARIAS: dict[str, int] = {}
+USUARIO_VETERINARIA = os.getenv("VETCERCA_VET_ADMIN_USER", "admin")
+PASSWORD_VETERINARIA = os.getenv("VETCERCA_VET_ADMIN_PASSWORD", "1234")
 
 
 def cliente_tiene_sesion(id_cliente: int) -> bool:
@@ -57,4 +71,62 @@ def iniciar_sesion(datos: LoginRequest) -> LoginResponse:
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Credenciales incorrectas (usuario/email o contraseña inválidos)",
+    )
+
+
+@router.post(
+    "/veterinaria/login",
+    response_model=LoginVeterinariaResponse,
+    tags=["Acceso de Veterinarias"],
+)
+def iniciar_sesion_veterinaria(
+    datos: LoginVeterinariaRequest,
+) -> LoginVeterinariaResponse:
+    """Inicia la sesión de demostración del portal veterinario."""
+    if (
+        datos.usuario.strip() != USUARIO_VETERINARIA
+        or datos.password != PASSWORD_VETERINARIA
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Usuario o contraseña de veterinaria incorrectos.",
+        )
+
+    veterinaria = VETERINARIAS_MOCK[0]
+    token = secrets.token_urlsafe(32)
+    SESIONES_VETERINARIAS[token] = veterinaria.id_veterinaria
+    return LoginVeterinariaResponse(
+        mensaje="Inicio de sesión de veterinaria exitoso.",
+        id_veterinaria=veterinaria.id_veterinaria,
+        nombre_veterinaria=veterinaria.nombre_fantasia,
+        token_sesion=token,
+    )
+
+
+@router.get(
+    "/veterinaria/perfil",
+    response_model=PerfilVeterinariaResponse,
+    tags=["Acceso de Veterinarias"],
+)
+def obtener_perfil_veterinaria(
+    authorization: Optional[str] = Header(default=None),
+) -> PerfilVeterinariaResponse:
+    esquema, _, token = (authorization or "").partition(" ")
+    id_veterinaria = SESIONES_VETERINARIAS.get(token)
+    if esquema.lower() != "bearer" or id_veterinaria is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Iniciá sesión como veterinaria para acceder al portal.",
+        )
+
+    veterinaria = next(
+        item for item in VETERINARIAS_MOCK if item.id_veterinaria == id_veterinaria
+    )
+    return PerfilVeterinariaResponse(
+        id_veterinaria=veterinaria.id_veterinaria,
+        nombre=veterinaria.nombre_fantasia,
+        direccion=veterinaria.direccion,
+        telefono_guardia=veterinaria.telefono_guardia,
+        es_24hs=veterinaria.es_24hs,
+        estado_disponibilidad=veterinaria.estado_disponibilidad,
     )
