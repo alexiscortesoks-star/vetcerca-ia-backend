@@ -120,6 +120,22 @@ Una vez iniciado el servidor, acceder a la documentación interactiva OpenAPI en
 
 ---
 
+## 🖥️ Frontend local
+
+Iniciá el backend con `uvicorn app:app --reload`. En otra terminal, desde la
+raíz del proyecto, serví los archivos frontend:
+
+```powershell
+python -m http.server 5500 --directory frontend
+```
+
+Abrí `http://127.0.0.1:5500` para iniciar sesión y acceder al formulario de
+triaje. CORS está habilitado para `localhost` y `127.0.0.1` en los puertos
+5500 y 5501. La ubicación del triaje utiliza las coordenadas predeterminadas
+de Buenos Aires mientras no se conecte la geolocalización del dispositivo.
+
+---
+
 ## 📌 Resumen de Endpoints
 
 | Método | Endpoint                         | Descripción                                                                              | Requiere Auth |
