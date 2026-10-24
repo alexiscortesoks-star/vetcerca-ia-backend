@@ -1,3 +1,6 @@
+from typing import Optional
+
+
 class Especialidad:
     def __init__(self, id_especialidad: int, nombre_especialidad: str) -> None:
         self.id_especialidad = id_especialidad
@@ -12,8 +15,13 @@ class Veterinaria:
         direccion: str,
         latitud: float,
         longitud: float,
-        telefono_guardia: str,
+        telefono_guardia: Optional[str],
         es_24hs: bool,
+        horario_informado: Optional[str] = None,
+        fuente_datos: Optional[str] = None,
+        fuente_url: Optional[str] = None,
+        atribucion_fuente: Optional[str] = None,
+        estado_verificacion: str = "PENDIENTE_CONFIRMACION",
     ) -> None:
         self.id_veterinaria = id_veterinaria
         self.nombre_fantasia = nombre_fantasia
@@ -22,6 +30,11 @@ class Veterinaria:
         self.longitud = longitud
         self.telefono_guardia = telefono_guardia
         self.es_24hs = es_24hs
+        self.horario_informado = horario_informado
+        self.fuente_datos = fuente_datos
+        self.fuente_url = fuente_url
+        self.atribucion_fuente = atribucion_fuente
+        self.estado_verificacion = estado_verificacion
         self.estado_disponibilidad = "DISPONIBLE"
 
     def esta_disponible(self) -> bool:

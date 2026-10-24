@@ -57,7 +57,7 @@
         <div id="landingNavigation" class="collapse navbar-collapse">
           <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
             <li class="nav-item"><a class="nav-link active" href="#inicio">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="#guardias">Guardias 24h</a></li>
+            <li class="nav-item"><a class="nav-link" href="#guardias">Clínicas cercanas</a></li>
             <li class="nav-item">
               <button
                 class="btn btn-coral btn-sm px-4"
@@ -122,9 +122,9 @@
                 <div class="map-card-heading">
                   <div>
                     <span class="map-kicker">ATENCIÓN CERCANA</span>
-                    <h2 id="clinicsHeading">Guardias veterinarias</h2>
+                    <h2 id="clinicsHeading">Clínicas cercanas</h2>
                   </div>
-                  <span class="open-badge"><span class="status-dot"></span> Disponibles</span>
+                  <span class="open-badge"><span class="status-dot"></span> Datos por validar</span>
                 </div>
                 <div
                   id="landingMap"
@@ -239,7 +239,9 @@
             ></button>
           </div>
           <div class="modal-body pt-3">
-            <p class="text-secondary">Iniciá sesión para continuar con el cuidado de tu mascota.</p>
+            <p class="text-secondary">
+              Ingresá con tu cuenta de cliente o veterinaria para continuar.
+            </p>
             <form id="loginForm">
               <div class="mb-3">
                 <label for="usuarioOEmail" class="form-label">Usuario o email</label>
@@ -266,10 +268,6 @@
               <p id="loginMessage" class="small" role="status" aria-live="polite"></p>
               <button class="btn btn-coral w-100" type="submit">Iniciar sesión</button>
             </form>
-            <p class="small text-center mt-3 mb-0">
-              ¿Trabajás en una veterinaria?
-              <a href="login-veterinaria.html">Ingresar al portal veterinario</a>
-            </p>
           </div>
         </div>
       </div>

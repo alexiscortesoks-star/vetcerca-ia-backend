@@ -16,35 +16,38 @@ router = APIRouter(prefix="/triaje", tags=["Triaje de Urgencia e IA"])
 asistente_ia = AsistenteIA()
 notificador = ServicioNotificacion(proveedor_api="WhatsApp / Twilio")
 
-VETERINARIAS_MOCK = [
+VETERINARIAS_CANDIDATAS = [
     Veterinaria(
         1,
-        "Hospital Felino 24h",
-        "Av. Corrientes 1234",
-        -34.6037,
-        -58.3816,
-        "+5491199998888",
-        True,
+        "Centro Médico Veterinario Belgrano",
+        "Amenábar 2214, Belgrano, CABA",
+        -34.562069,
+        -58.4596054,
+        None,
+        False,
+        horario_informado="24/7 según OpenStreetMap; pendiente de confirmación directa",
+        fuente_datos="OpenStreetMap",
+        fuente_url="https://www.openstreetmap.org/node/2276920088",
+        atribucion_fuente="© OpenStreetMap contributors (ODbL)",
+        estado_verificacion="PENDIENTE_CONFIRMACION",
     ),
     Veterinaria(
         2,
-        "Clínica Veterinaria Central",
-        "Av. Belgrano 500",
-        -34.6150,
-        -58.3700,
-        "+5491188887777",
-        True,
-    ),
-    Veterinaria(
-        3,
-        "Guardia Veterinaria Sur",
-        "Av. Santa Fe 2500",
-        -34.5900,
-        -58.4000,
-        "+5491177776666",
-        True,
+        "Panda",
+        "Av. Ruiz Huidobro 4771, Saavedra, CABA",
+        -34.5549092,
+        -58.4945994,
+        None,
+        False,
+        horario_informado="24/7 según OpenStreetMap; pendiente de confirmación directa",
+        fuente_datos="OpenStreetMap",
+        fuente_url="https://www.openstreetmap.org/node/8067203564",
+        atribucion_fuente="© OpenStreetMap contributors (ODbL)",
+        estado_verificacion="PENDIENTE_CONFIRMACION",
     ),
 ]
+for candidata in VETERINARIAS_CANDIDATAS:
+    candidata.actualizar_estado_guardia("PENDIENTE_VERIFICACION")
 
 contador_alertas = 900
 
@@ -74,7 +77,7 @@ def evaluar_triaje(datos: TriajeRequest) -> TriajeResponse:
     veterinaria_mas_cercana: Optional[Veterinaria] = None
     distancia_minima = float("inf")
     if datos.latitud_cliente is not None and datos.longitud_cliente is not None:
-        for veterinaria in VETERINARIAS_MOCK:
+        for veterinaria in VETERINARIAS_CANDIDATAS:
             if veterinaria.esta_disponible():
                 distancia = calcular_distancia_haversine(
                     datos.latitud_cliente,

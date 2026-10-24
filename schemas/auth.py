@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -8,8 +8,7 @@ class LoginRequest(BaseModel):
         ...,
         example="maria_g2024",
         description=(
-            "Ingresá tu Nombre de Usuario alfanumérico "
-            "(ej: maria_g2024) O tu Email (ej: maria@email.com)"
+            "Ingresá tu usuario de cliente, email o usuario de veterinaria."
         ),
     )
     password: str = Field(..., example="123456")
@@ -23,6 +22,19 @@ class LoginResponse(BaseModel):
     email: str
     avatar_url: Optional[str] = "https://ejemplo.com/avatars/maria.jpg"
     token_sesion: str
+
+
+class LoginUnificadoResponse(BaseModel):
+    tipo_usuario: Literal["cliente", "veterinaria"]
+    mensaje: str
+    token_sesion: str
+    id_cliente: Optional[int] = None
+    username: Optional[str] = None
+    nombre_cliente: Optional[str] = None
+    email: Optional[str] = None
+    avatar_url: Optional[str] = None
+    id_veterinaria: Optional[int] = None
+    nombre_veterinaria: Optional[str] = None
 
 
 class LoginVeterinariaRequest(BaseModel):

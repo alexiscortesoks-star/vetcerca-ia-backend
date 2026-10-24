@@ -3,7 +3,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers.triaje import VETERINARIAS_MOCK
+from routers.triaje import VETERINARIAS_CANDIDATAS
 from utils.geo import calcular_distancia_haversine
 
 
@@ -52,7 +52,7 @@ def obtener_veterinarias_cercanas(
     latitud: float, longitud: float, radio_km: float = 10.0
 ) -> dict[str, object]:
     cercanas = []
-    for veterinaria in VETERINARIAS_MOCK:
+    for veterinaria in VETERINARIAS_CANDIDATAS:
         distancia = calcular_distancia_haversine(
             latitud,
             longitud,
@@ -70,6 +70,11 @@ def obtener_veterinarias_cercanas(
                     "longitud": veterinaria.longitud,
                     "distancia_km": distancia,
                     "es_24hs": veterinaria.es_24hs,
+                    "horario_informado": veterinaria.horario_informado,
+                    "estado_verificacion": veterinaria.estado_verificacion,
+                    "fuente_datos": veterinaria.fuente_datos,
+                    "fuente_url": veterinaria.fuente_url,
+                    "atribucion_fuente": veterinaria.atribucion_fuente,
                 }
             )
 

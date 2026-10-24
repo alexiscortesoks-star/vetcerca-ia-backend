@@ -19,6 +19,11 @@ function mostrarMensaje(elemento, mensaje, esError = false) {
 }
 
 async function iniciarSesion(usuarioOEmail, password) {
+  const submitButton = document.querySelector(
+    "#loginForm button[type='submit']",
+  );
+  if (submitButton) submitButton.disabled = true;
+
   try {
     const response = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
@@ -30,44 +35,30 @@ async function iniciarSesion(usuarioOEmail, password) {
     });
     const data = await leerRespuesta(response);
 
+    if (data.tipo_usuario === "veterinaria") {
+      localStorage.removeItem("username");
+      localStorage.removeItem("id_cliente");
+      localStorage.removeItem("token");
+      localStorage.setItem("vet_username", usuarioOEmail);
+      localStorage.setItem("vet_id", String(data.id_veterinaria));
+      localStorage.setItem("vet_token", data.token_sesion);
+      window.location.href = "veterinaria-dashboard.html";
+      return;
+    }
+
+    if (data.tipo_usuario !== "cliente" || !data.username || !data.id_cliente) {
+      throw new Error("La respuesta de acceso no contiene un perfil válido.");
+    }
     localStorage.setItem("username", data.username);
     localStorage.setItem("id_cliente", String(data.id_cliente));
     localStorage.setItem("token", data.token_sesion);
     localStorage.removeItem("vet_username");
+    localStorage.removeItem("vet_id");
     localStorage.removeItem("vet_token");
     window.location.href = "dashboard.html";
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
     mostrarMensaje(document.getElementById("loginMessage"), error.message, true);
-  }
-}
-
-async function iniciarSesionVeterinaria(usuario, password) {
-  const form = document.getElementById("veterinaryLoginForm");
-  const submitButton = form?.querySelector("button[type='submit']");
-  if (submitButton) submitButton.disabled = true;
-
-  try {
-    const response = await fetch(`${API_URL}/auth/veterinaria/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ usuario, password }),
-    });
-    const data = await leerRespuesta(response);
-    localStorage.removeItem("username");
-    localStorage.removeItem("id_cliente");
-    localStorage.removeItem("token");
-    localStorage.setItem("vet_username", usuario);
-    localStorage.setItem("vet_id", String(data.id_veterinaria));
-    localStorage.setItem("vet_token", data.token_sesion);
-    window.location.href = "veterinaria-dashboard.html";
-  } catch (error) {
-    console.error("Error al iniciar sesión de veterinaria:", error);
-    mostrarMensaje(
-      document.getElementById("veterinaryLoginMessage"),
-      error.message,
-      true,
-    );
   } finally {
     if (submitButton) submitButton.disabled = false;
   }
@@ -76,7 +67,7 @@ async function iniciarSesionVeterinaria(usuario, password) {
 async function cargarPerfilVeterinaria() {
   const token = localStorage.getItem("vet_token");
   if (!token) {
-    window.location.href = "login-veterinaria.html";
+    window.location.href = "index.html?acceso=unificado";
     return;
   }
 
@@ -107,7 +98,7 @@ async function cargarPerfilVeterinaria() {
     localStorage.removeItem("vet_token");
     localStorage.removeItem("vet_id");
     localStorage.removeItem("vet_username");
-    window.location.href = "login-veterinaria.html";
+    window.location.href = "index.html?acceso=unificado";
   }
 }
 
@@ -152,8 +143,75 @@ async function cargarClinicasCercanas() {
   const message = document.getElementById("clinicsMessage");
   if (!mapElement || !clinicsList || !message) return;
 
+  const location = { lat: -34.6037, lng: -58.3816 };
+  const candidatasLocales = [
+    {
+      nombre: "Centro Médico Veterinario Belgrano",
+      direccion: "Amenábar 2214, Belgrano, CABA",
+      latitud: -34.562069,
+      longitud: -58.4596054,
+      horario_informado:
+        "24/7 según OpenStreetMap; pendiente de confirmación directa",
+      fuente_url: "https://www.openstreetmap.org/node/2276920088",
+    },
+    {
+      nombre: "Panda",
+      direccion: "Av. Ruiz Huidobro 4771, Saavedra, CABA",
+      latitud: -34.5549092,
+      longitud: -58.4945994,
+      horario_informado:
+        "24/7 según OpenStreetMap; pendiente de confirmación directa",
+      fuente_url: "https://www.openstreetmap.org/node/8067203564",
+    },
+  ];
+  const nombresMarcadoresLocales = new Set();
+  if (typeof L !== "undefined") {
+    if (mapaInstancia) mapaInstancia.remove();
+    mapaInstancia = L.map("landingMap").setView(
+      [location.lat, location.lng],
+      12,
+    );
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "&copy; OpenStreetMap contributors",
+    }).addTo(mapaInstancia);
+    L.marker([location.lat, location.lng])
+      .addTo(mapaInstancia)
+      .bindPopup("Ubicación de referencia · CABA");
+    for (const clinic of candidatasLocales) {
+      const popup = document.createElement("div");
+      const name = document.createElement("strong");
+      name.textContent = clinic.nombre;
+      const address = document.createElement("p");
+      address.textContent = clinic.direccion;
+      const status = document.createElement("p");
+      status.textContent = "Candidata · horario por confirmar";
+      const source = document.createElement("a");
+      source.href = clinic.fuente_url;
+      source.target = "_blank";
+      source.rel = "noopener noreferrer";
+      source.textContent = "Fuente: OpenStreetMap";
+      popup.append(name, address, status, source);
+      L.marker([clinic.latitud, clinic.longitud])
+        .addTo(mapaInstancia)
+        .bindPopup(popup);
+      nombresMarcadoresLocales.add(clinic.nombre);
+    }
+    mapaInstancia.fitBounds(
+      [
+        [location.lat, location.lng],
+        ...candidatasLocales.map((clinic) => [
+          clinic.latitud,
+          clinic.longitud,
+        ]),
+      ],
+      { padding: [24, 24] },
+    );
+  } else {
+    mapElement.textContent = "No se pudo cargar el mapa. Revisá tu conexión.";
+  }
+
   try {
-    const location = { lat: -34.6037, lng: -58.3816 };
     const params = new URLSearchParams({
       latitud: String(location.lat),
       longitud: String(location.lng),
@@ -165,26 +223,30 @@ async function cargarClinicasCercanas() {
     const data = await leerRespuesta(response);
 
     clinicsList.replaceChildren();
-    if (typeof L !== "undefined") {
-      if (mapaInstancia) mapaInstancia.remove();
-      mapaInstancia = L.map("landingMap").setView(
-        [location.lat, location.lng],
-        12,
-      );
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: "&copy; OpenStreetMap contributors",
-      }).addTo(mapaInstancia);
-      L.marker([location.lat, location.lng])
-        .addTo(mapaInstancia)
-        .bindPopup("Tu ubicación");
-    }
 
     for (const clinic of data.veterinarias) {
+      const verificacionPendiente =
+        clinic.estado_verificacion !== "VERIFICADO";
+      const guardia24hsVerificada =
+        !verificacionPendiente && clinic.es_24hs;
+      const estadoHorario = guardia24hsVerificada
+        ? "Guardia 24 h verificada"
+        : verificacionPendiente
+          ? "Horario por confirmar"
+          : "Guardia 24 h no verificada";
       if (typeof L !== "undefined") {
-        L.marker([clinic.latitud, clinic.longitud])
-          .addTo(mapaInstancia)
-          .bindPopup(clinic.nombre);
+        if (!nombresMarcadoresLocales.has(clinic.nombre)) {
+          const popup = document.createElement("div");
+          const popupName = document.createElement("strong");
+          popupName.textContent = clinic.nombre;
+          const popupStatus = document.createElement("p");
+          popupStatus.className = "mb-0";
+          popupStatus.textContent = estadoHorario;
+          popup.append(popupName, popupStatus);
+          L.marker([clinic.latitud, clinic.longitud])
+            .addTo(mapaInstancia)
+            .bindPopup(popup);
+        }
       }
 
       const item = document.createElement("li");
@@ -193,12 +255,53 @@ async function cargarClinicasCercanas() {
       const details = document.createElement("span");
       details.textContent =
         `${clinic.distancia_km.toFixed(1)} km · ${clinic.direccion}`;
-      item.append(name, details);
+      const status = document.createElement("span");
+      status.className = guardia24hsVerificada
+        ? "clinic-verification clinic-verification-confirmed"
+        : "clinic-verification clinic-verification-pending";
+      status.textContent = estadoHorario;
+      item.append(name, details, status);
+
+      if (clinic.horario_informado) {
+        const hours = document.createElement("span");
+        hours.textContent = clinic.horario_informado;
+        item.appendChild(hours);
+      }
+      if (clinic.telefono) {
+        const phone = document.createElement("span");
+        phone.textContent = `Teléfono: ${clinic.telefono}`;
+        item.appendChild(phone);
+      } else {
+        const phone = document.createElement("span");
+        phone.textContent = "Teléfono no disponible";
+        item.appendChild(phone);
+      }
+      if (clinic.fuente_url) {
+        const source = document.createElement("a");
+        source.href = clinic.fuente_url;
+        source.target = "_blank";
+        source.rel = "noopener noreferrer";
+        source.textContent = `Fuente: ${clinic.fuente_datos || "consultar"}`;
+        item.appendChild(source);
+      }
+      if (clinic.atribucion_fuente) {
+        const attribution = document.createElement("small");
+        attribution.textContent = clinic.atribucion_fuente;
+        item.appendChild(attribution);
+      }
       clinicsList.appendChild(item);
     }
 
+    const pendientes = data.veterinarias.filter(
+      (clinic) =>
+        clinic.estado_verificacion !== "VERIFICADO" || !clinic.es_24hs,
+    ).length;
     message.textContent = data.cantidad
-      ? `${data.cantidad} clínicas dentro de 25 km`
+      ? `${data.cantidad} clínicas candidatas dentro de 25 km${
+          pendientes
+            ? ` · ${pendientes} sin guardia 24 h verificada`
+            : ""
+        }`
       : "No encontramos clínicas en el radio seleccionado.";
     if (typeof L !== "undefined" && data.veterinarias.length) {
       const locations = [
@@ -212,8 +315,29 @@ async function cargarClinicasCercanas() {
     }
   } catch (error) {
     console.error("Error al cargar clínicas cercanas:", error);
-    message.textContent = "No pudimos cargar las clínicas. Intentá nuevamente.";
     clinicsList.replaceChildren();
+    for (const clinic of candidatasLocales) {
+      const item = document.createElement("li");
+      const name = document.createElement("strong");
+      name.textContent = clinic.nombre;
+      const address = document.createElement("span");
+      address.textContent = clinic.direccion;
+      const status = document.createElement("span");
+      status.className = "clinic-verification clinic-verification-pending";
+      status.textContent = "Horario por confirmar";
+      const hours = document.createElement("span");
+      hours.textContent = clinic.horario_informado;
+      const source = document.createElement("a");
+      source.href = clinic.fuente_url;
+      source.target = "_blank";
+      source.rel = "noopener noreferrer";
+      source.textContent = "Fuente: OpenStreetMap";
+      item.append(name, address, status, hours, source);
+      clinicsList.appendChild(item);
+    }
+    message.textContent =
+      `Mostrando ${candidatasLocales.length} candidatas guardadas; ` +
+      "no pudimos actualizar desde el servidor.";
   }
 }
 
@@ -697,12 +821,14 @@ document.addEventListener("DOMContentLoaded", () => {
     await iniciarSesion(form.get("usuario_o_email"), form.get("password"));
   });
 
-  const veterinaryLoginForm = document.getElementById("veterinaryLoginForm");
-  veterinaryLoginForm?.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const form = new FormData(veterinaryLoginForm);
-    await iniciarSesionVeterinaria(form.get("usuario"), form.get("password"));
-  });
+  if (
+    loginForm &&
+    new URLSearchParams(window.location.search).get("acceso") === "unificado"
+  ) {
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("loginModal"),
+    ).show();
+  }
 
   if (document.getElementById("veterinaryDashboard")) {
     document.getElementById("vetLogoutButton")

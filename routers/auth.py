@@ -4,10 +4,10 @@ from typing import Optional
 
 from fastapi import APIRouter, Header, HTTPException, status
 
-from routers.triaje import VETERINARIAS_MOCK
+from models.veterinarias import Veterinaria
 from schemas.auth import (
     LoginRequest,
-    LoginResponse,
+    LoginUnificadoResponse,
     LoginVeterinariaRequest,
     LoginVeterinariaResponse,
     PerfilVeterinariaResponse,
@@ -15,6 +15,17 @@ from schemas.auth import (
 
 
 router = APIRouter(prefix="/auth", tags=["Autenticación y Sesión"])
+
+VETERINARIA_DEMO = Veterinaria(
+    0,
+    "Cuenta veterinaria de demostración",
+    "Sin sede registrada (demo)",
+    0.0,
+    0.0,
+    "No disponible",
+    False,
+)
+VETERINARIA_DEMO.actualizar_estado_guardia("DEMO")
 
 USUARIOS_DB = [
     {
@@ -47,10 +58,25 @@ def cliente_tiene_sesion(id_cliente: int) -> bool:
     )
 
 
-@router.post("/login", response_model=LoginResponse)
-def iniciar_sesion(datos: LoginRequest) -> LoginResponse:
-    """Permite iniciar sesión con el nombre de usuario o el email."""
+@router.post("/login", response_model=LoginUnificadoResponse)
+def iniciar_sesion(datos: LoginRequest) -> LoginUnificadoResponse:
+    """Autentica clientes o veterinarias desde el mismo formulario."""
     identificador = datos.usuario_o_email.strip().lower()
+
+    if (
+        identificador == USUARIO_VETERINARIA.lower()
+        and datos.password == PASSWORD_VETERINARIA
+    ):
+        veterinaria = VETERINARIA_DEMO
+        token = secrets.token_urlsafe(32)
+        SESIONES_VETERINARIAS[token] = veterinaria.id_veterinaria
+        return LoginUnificadoResponse(
+            tipo_usuario="veterinaria",
+            mensaje="Inicio de sesión de veterinaria exitoso.",
+            id_veterinaria=veterinaria.id_veterinaria,
+            nombre_veterinaria=veterinaria.nombre_fantasia,
+            token_sesion=token,
+        )
 
     for usuario in USUARIOS_DB:
         if (
@@ -59,12 +85,14 @@ def iniciar_sesion(datos: LoginRequest) -> LoginResponse:
             and usuario["password"] == datos.password
         ):
             SESIONES_ACTIVAS.add(usuario["username"])
-            return LoginResponse(
+            return LoginUnificadoResponse(
+                tipo_usuario="cliente",
                 mensaje="Inicio de sesión exitoso",
                 id_cliente=usuario["id_cliente"],
                 username=usuario["username"],
                 nombre_cliente=usuario["nombre"],
                 email=usuario["email"],
+                avatar_url="https://ejemplo.com/avatars/maria.jpg",
                 token_sesion=f"token-sesion-{usuario['username']}",
             )
 
@@ -92,7 +120,7 @@ def iniciar_sesion_veterinaria(
             detail="Usuario o contraseña de veterinaria incorrectos.",
         )
 
-    veterinaria = VETERINARIAS_MOCK[0]
+    veterinaria = VETERINARIA_DEMO
     token = secrets.token_urlsafe(32)
     SESIONES_VETERINARIAS[token] = veterinaria.id_veterinaria
     return LoginVeterinariaResponse(
@@ -113,15 +141,16 @@ def obtener_perfil_veterinaria(
 ) -> PerfilVeterinariaResponse:
     esquema, _, token = (authorization or "").partition(" ")
     id_veterinaria = SESIONES_VETERINARIAS.get(token)
-    if esquema.lower() != "bearer" or id_veterinaria is None:
+    if (
+        esquema.lower() != "bearer"
+        or id_veterinaria != VETERINARIA_DEMO.id_veterinaria
+    ):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Iniciá sesión como veterinaria para acceder al portal.",
         )
 
-    veterinaria = next(
-        item for item in VETERINARIAS_MOCK if item.id_veterinaria == id_veterinaria
-    )
+    veterinaria = VETERINARIA_DEMO
     return PerfilVeterinariaResponse(
         id_veterinaria=veterinaria.id_veterinaria,
         nombre=veterinaria.nombre_fantasia,

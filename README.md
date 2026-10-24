@@ -143,8 +143,9 @@ puertos 5500 y 5501.
 
 ### Acceso de veterinarias (demostración)
 
-Desde el enlace de la ventana de inicio de sesión se puede abrir el portal
-veterinario. Las credenciales locales de demostración son `admin` / `1234`.
+El mismo formulario de acceso identifica si la cuenta es de cliente o
+veterinaria y abre el panel correspondiente. Las credenciales locales de
+demostración de veterinaria son `admin` / `1234`.
 El perfil de demostración muestra la clínica configurada en el backend.
 Podés reemplazar estas credenciales configurando `VETCERCA_VET_ADMIN_USER` y
 `VETCERCA_VET_ADMIN_PASSWORD` antes de iniciar FastAPI. Este acceso usa datos
@@ -182,7 +183,7 @@ de demostración y la autenticación aún no es adecuada para producción.
 
 | Método | Endpoint                         | Descripción                                                                              | Requiere Auth |
 | ------ | -------------------------------- | ---------------------------------------------------------------------------------------- | ------------- |
-| `POST` | `/auth/login`                    | Inicia sesión de cliente y activa la sesión en memoria                                   | ❌             |
+| `POST` | `/auth/login`                    | Inicia sesión unificada y devuelve el tipo de perfil (cliente o veterinaria)             | ❌             |
 | `POST` | `/auth/veterinaria/login`        | Inicia sesión de demostración de una veterinaria                                        | ❌             |
 | `GET`  | `/auth/veterinaria/perfil`       | Consulta el perfil de la veterinaria usando token Bearer                                 | 🌐 Sí         |
 | `GET`  | `/mascotas/cliente/{identificador_cliente}` | Devuelve mascotas usando ID o username del cliente autenticado                  | 🌐 Sí         |
@@ -192,6 +193,20 @@ de demostración y la autenticación aún no es adecuada para producción.
 | `GET`  | `/mascotas/{id_mascota}/historial?username_cliente={username}` | Consulta historial clínico propio       | 🌐 Sí         |
 | `POST` | `/triaje/evaluar`                | Evalúa síntomas con IA, calcula vet más cercana por GPS y despacha alerta si es **ALTA** | ❌             |
 | `GET`  | `/veterinarias/cercanas`         | Busca y ordena clínicas por distancia GPS según un radio en km                           | ❌             |
+
+### Datos de clínicas
+
+El catálogo incluye dos candidatos de CABA con horario `24/7` indicado en
+OpenStreetMap, pero pendiente de confirmación directa:
+
+- Centro Médico Veterinario Belgrano, Amenábar 2214, Belgrano ([ficha OSM](https://www.openstreetmap.org/node/2276920088)).
+- Panda, Av. Ruiz Huidobro 4771, Saavedra ([ficha OSM](https://www.openstreetmap.org/node/8067203564), [sitio oficial](https://www.veterinariapanda.com.ar/)).
+
+La API los muestra como candidatos, pero no los trata como guardias disponibles
+para asignación de triaje. No se encontró un teléfono verificable en las fuentes
+consultadas. Los datos de ubicación y horario proceden de OpenStreetMap bajo
+ODbL. Atribución: © OpenStreetMap contributors
+([licencia](https://www.openstreetmap.org/copyright)).
 
 ---
 
