@@ -356,48 +356,78 @@ body {
 }
 
 .clinics-message {
-  padding: 12px 4px 2px;
+  padding: 8px 4px 0;
   color: #61777a;
-  font-size: 0.78rem;
+  font-size: 0.7rem;
 }
 
 .clinics-list {
   display: grid;
-  gap: 8px;
-  margin: 8px 0 0;
+  gap: 6px;
+  margin: 6px 0 0;
   padding: 0;
   list-style: none;
 }
 
 .clinics-list li {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
   gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid #e8f0ef;
+  border-radius: 12px;
+  background: #fbfefd;
   color: #254650;
-  font-size: 0.76rem;
+  font-size: 0.7rem;
 }
 
-.clinics-list li span {
-  color: #718489;
-  text-align: right;
+.clinic-details {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
 }
 
-.clinics-list li .clinic-verification {
-  width: fit-content;
-  border-radius: var(--pill-radius);
-  font-size: 0.78rem;
+.clinic-details strong {
+  color: #254650;
+  font-size: 0.72rem;
   font-weight: 700;
-  padding: 4px 10px;
 }
 
-.clinic-verification-pending {
-  background: #fff4d6;
-  color: #854d0e !important;
+.clinic-details > span,
+.clinics-list .clinic-whatsapp {
+  color: #718489;
+  line-height: 1.35;
 }
 
-.clinic-verification-confirmed {
-  background: #dcfce7;
-  color: #166534 !important;
+.clinic-whatsapp a {
+  color: #0f766e;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.clinic-whatsapp a:hover,
+.clinic-whatsapp a:focus-visible {
+  text-decoration: underline;
+}
+
+.clinic-validation {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #854d0e;
+  font-size: 0.66rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.clinic-validation-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #eab308;
+  box-shadow: 0 0 0 3px rgb(234 179 8 / 16%);
 }
 
 .feature-section {
@@ -424,6 +454,16 @@ body {
   place-items: center;
   border-radius: 18px;
   font-size: 2rem;
+}
+
+.feature-logo {
+  display: block;
+  width: 100%;
+  max-width: 190px;
+  height: 150px;
+  margin: -12px auto 12px;
+  object-fit: contain;
+  object-position: center;
 }
 
 .icon-coral {
@@ -1124,11 +1164,15 @@ body {
 
 @media (max-width: 480px) {
   .clinics-list li {
-    flex-direction: column;
-    gap: 2px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 10px;
   }
 
-  .clinics-list li span {
-    text-align: left;
+  .clinic-details {
+    grid-column: 1 / -1;
+  }
+
+  .clinic-validation {
+    justify-self: end;
   }
 }

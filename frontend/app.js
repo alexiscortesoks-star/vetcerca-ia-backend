@@ -137,6 +137,47 @@ function obtenerUbicacion() {
   });
 }
 
+function crearElementoClinica(clinic) {
+  const item = document.createElement("li");
+  item.className = "clinic-item";
+
+  const details = document.createElement("div");
+  details.className = "clinic-details";
+
+  const name = document.createElement("strong");
+  name.textContent = clinic.nombre;
+  const address = document.createElement("span");
+  address.textContent = clinic.direccion;
+  details.append(name, address);
+
+  const phone = document.createElement("span");
+  phone.className = "clinic-whatsapp";
+  const phoneDigits = (clinic.telefono || "").replace(/\D/g, "");
+  if (phoneDigits) {
+    const whatsapp = document.createElement("a");
+    whatsapp.href = `https://wa.me/${phoneDigits}`;
+    whatsapp.target = "_blank";
+    whatsapp.rel = "noopener noreferrer";
+    whatsapp.textContent = "WhatsApp";
+    phone.appendChild(whatsapp);
+  } else {
+    phone.textContent = "WhatsApp no disponible";
+  }
+
+  const validation = document.createElement("span");
+  validation.className = "clinic-validation";
+  validation.setAttribute("aria-label", "Dato a validar");
+  const dot = document.createElement("span");
+  dot.className = "clinic-validation-dot";
+  dot.setAttribute("aria-hidden", "true");
+  const validationText = document.createElement("span");
+  validationText.textContent = "Dato a validar";
+  validation.append(dot, validationText);
+
+  item.append(details, phone, validation);
+  return item;
+}
+
 async function cargarClinicasCercanas() {
   const mapElement = document.getElementById("landingMap");
   const clinicsList = document.getElementById("clinicsList");
@@ -148,20 +189,16 @@ async function cargarClinicasCercanas() {
     {
       nombre: "Centro Médico Veterinario Belgrano",
       direccion: "Amenábar 2214, Belgrano, CABA",
+      telefono: null,
       latitud: -34.562069,
       longitud: -58.4596054,
-      horario_informado:
-        "24/7 según OpenStreetMap; pendiente de confirmación directa",
-      fuente_url: "https://www.openstreetmap.org/node/2276920088",
     },
     {
       nombre: "Panda",
       direccion: "Av. Ruiz Huidobro 4771, Saavedra, CABA",
+      telefono: null,
       latitud: -34.5549092,
       longitud: -58.4945994,
-      horario_informado:
-        "24/7 según OpenStreetMap; pendiente de confirmación directa",
-      fuente_url: "https://www.openstreetmap.org/node/8067203564",
     },
   ];
   const nombresMarcadoresLocales = new Set();
@@ -184,14 +221,7 @@ async function cargarClinicasCercanas() {
       name.textContent = clinic.nombre;
       const address = document.createElement("p");
       address.textContent = clinic.direccion;
-      const status = document.createElement("p");
-      status.textContent = "Candidata · horario por confirmar";
-      const source = document.createElement("a");
-      source.href = clinic.fuente_url;
-      source.target = "_blank";
-      source.rel = "noopener noreferrer";
-      source.textContent = "Fuente: OpenStreetMap";
-      popup.append(name, address, status, source);
+      popup.append(name, address);
       L.marker([clinic.latitud, clinic.longitud])
         .addTo(mapaInstancia)
         .bindPopup(popup);
@@ -225,83 +255,26 @@ async function cargarClinicasCercanas() {
     clinicsList.replaceChildren();
 
     for (const clinic of data.veterinarias) {
-      const verificacionPendiente =
-        clinic.estado_verificacion !== "VERIFICADO";
-      const guardia24hsVerificada =
-        !verificacionPendiente && clinic.es_24hs;
-      const estadoHorario = guardia24hsVerificada
-        ? "Guardia 24 h verificada"
-        : verificacionPendiente
-          ? "Horario por confirmar"
-          : "Guardia 24 h no verificada";
       if (typeof L !== "undefined") {
         if (!nombresMarcadoresLocales.has(clinic.nombre)) {
           const popup = document.createElement("div");
           const popupName = document.createElement("strong");
           popupName.textContent = clinic.nombre;
-          const popupStatus = document.createElement("p");
-          popupStatus.className = "mb-0";
-          popupStatus.textContent = estadoHorario;
-          popup.append(popupName, popupStatus);
+          const popupAddress = document.createElement("p");
+          popupAddress.className = "mb-0";
+          popupAddress.textContent = clinic.direccion;
+          popup.append(popupName, popupAddress);
           L.marker([clinic.latitud, clinic.longitud])
             .addTo(mapaInstancia)
             .bindPopup(popup);
         }
       }
 
-      const item = document.createElement("li");
-      const name = document.createElement("strong");
-      name.textContent = clinic.nombre;
-      const details = document.createElement("span");
-      details.textContent =
-        `${clinic.distancia_km.toFixed(1)} km · ${clinic.direccion}`;
-      const status = document.createElement("span");
-      status.className = guardia24hsVerificada
-        ? "clinic-verification clinic-verification-confirmed"
-        : "clinic-verification clinic-verification-pending";
-      status.textContent = estadoHorario;
-      item.append(name, details, status);
-
-      if (clinic.horario_informado) {
-        const hours = document.createElement("span");
-        hours.textContent = clinic.horario_informado;
-        item.appendChild(hours);
-      }
-      if (clinic.telefono) {
-        const phone = document.createElement("span");
-        phone.textContent = `Teléfono: ${clinic.telefono}`;
-        item.appendChild(phone);
-      } else {
-        const phone = document.createElement("span");
-        phone.textContent = "Teléfono no disponible";
-        item.appendChild(phone);
-      }
-      if (clinic.fuente_url) {
-        const source = document.createElement("a");
-        source.href = clinic.fuente_url;
-        source.target = "_blank";
-        source.rel = "noopener noreferrer";
-        source.textContent = `Fuente: ${clinic.fuente_datos || "consultar"}`;
-        item.appendChild(source);
-      }
-      if (clinic.atribucion_fuente) {
-        const attribution = document.createElement("small");
-        attribution.textContent = clinic.atribucion_fuente;
-        item.appendChild(attribution);
-      }
-      clinicsList.appendChild(item);
+      clinicsList.appendChild(crearElementoClinica(clinic));
     }
 
-    const pendientes = data.veterinarias.filter(
-      (clinic) =>
-        clinic.estado_verificacion !== "VERIFICADO" || !clinic.es_24hs,
-    ).length;
     message.textContent = data.cantidad
-      ? `${data.cantidad} clínicas candidatas dentro de 25 km${
-          pendientes
-            ? ` · ${pendientes} sin guardia 24 h verificada`
-            : ""
-        }`
+      ? `${data.cantidad} centros cercanos`
       : "No encontramos clínicas en el radio seleccionado.";
     if (typeof L !== "undefined" && data.veterinarias.length) {
       const locations = [
@@ -317,26 +290,10 @@ async function cargarClinicasCercanas() {
     console.error("Error al cargar clínicas cercanas:", error);
     clinicsList.replaceChildren();
     for (const clinic of candidatasLocales) {
-      const item = document.createElement("li");
-      const name = document.createElement("strong");
-      name.textContent = clinic.nombre;
-      const address = document.createElement("span");
-      address.textContent = clinic.direccion;
-      const status = document.createElement("span");
-      status.className = "clinic-verification clinic-verification-pending";
-      status.textContent = "Horario por confirmar";
-      const hours = document.createElement("span");
-      hours.textContent = clinic.horario_informado;
-      const source = document.createElement("a");
-      source.href = clinic.fuente_url;
-      source.target = "_blank";
-      source.rel = "noopener noreferrer";
-      source.textContent = "Fuente: OpenStreetMap";
-      item.append(name, address, status, hours, source);
-      clinicsList.appendChild(item);
+      clinicsList.appendChild(crearElementoClinica(clinic));
     }
     message.textContent =
-      `Mostrando ${candidatasLocales.length} candidatas guardadas; ` +
+      `Mostrando ${candidatasLocales.length} centros; ` +
       "no pudimos actualizar desde el servidor.";
   }
 }
