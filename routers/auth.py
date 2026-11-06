@@ -4,6 +4,7 @@ from typing import Optional
 
 from fastapi import APIRouter, Header, HTTPException, status
 
+from models.usuarios import Cliente
 from models.veterinarias import Veterinaria
 from schemas.auth import (
     LoginRequest,
@@ -22,26 +23,48 @@ VETERINARIA_DEMO = Veterinaria(
     "Sin sede registrada (demo)",
     0.0,
     0.0,
-    "No disponible",
-    False,
+    tiene_guardia_24h=False,
+    telefono_guardia="No disponible",
 )
 VETERINARIA_DEMO.actualizar_estado_guardia("DEMO")
 
+CLIENTES_DB_OBJ: list[Cliente] = [
+    Cliente(
+        id_usuario=1,
+        username="maria_g2024",
+        email="maria.gonzalez@email.com",
+        contrasena_hash="123456",
+        direccion="Av. Cabildo 1500, Belgrano, CABA",
+        latitud=-34.562,
+        longitud=-58.455,
+        telefono="1122334455",
+        nombre_apellido="María González",
+        avatar_url="https://ejemplo.com/avatars/maria.jpg",
+    ),
+    Cliente(
+        id_usuario=2,
+        username="jperez99",
+        email="juan.perez@email.com",
+        contrasena_hash="123456",
+        direccion="Av. Juramento 2500, CABA",
+        latitud=-34.561,
+        longitud=-58.459,
+        telefono="1155667788",
+        nombre_apellido="Juan Pérez",
+        avatar_url="https://ejemplo.com/avatars/juan.jpg",
+    ),
+]
+
 USUARIOS_DB = [
     {
-        "id_cliente": 1,
-        "nombre": "María González",
-        "username": "maria_g2024",
-        "email": "maria.gonzalez@email.com",
-        "password": "123456",
-    },
-    {
-        "id_cliente": 2,
-        "nombre": "Juan Pérez",
-        "username": "jperez99",
-        "email": "juan.perez@email.com",
-        "password": "123456",
-    },
+        "id_cliente": c.id_usuario,
+        "nombre": c.nombre_apellido,
+        "username": c.username,
+        "email": c.email,
+        "password": c.contrasena_hash,
+        "cliente_obj": c,
+    }
+    for c in CLIENTES_DB_OBJ
 ]
 
 SESIONES_ACTIVAS = set()
@@ -60,7 +83,7 @@ def cliente_tiene_sesion(id_cliente: int) -> bool:
 
 @router.post("/login", response_model=LoginUnificadoResponse)
 def iniciar_sesion(datos: LoginRequest) -> LoginUnificadoResponse:
-    """Autentica clientes o veterinarias desde el mismo formulario."""
+    """Autentica clientes o veterinarias desde el mismo formulario mediante POO."""
     identificador = datos.usuario_o_email.strip().lower()
 
     if (
@@ -78,22 +101,19 @@ def iniciar_sesion(datos: LoginRequest) -> LoginUnificadoResponse:
             token_sesion=token,
         )
 
-    for usuario in USUARIOS_DB:
-        if (
-            identificador
-            in (usuario["username"].lower(), usuario["email"].lower())
-            and usuario["password"] == datos.password
-        ):
-            SESIONES_ACTIVAS.add(usuario["username"])
+    # Autenticación de Cliente invocando el método de POO verificar_credenciales
+    for cliente in CLIENTES_DB_OBJ:
+        if cliente.verificar_credenciales(datos.usuario_o_email, datos.password):
+            SESIONES_ACTIVAS.add(cliente.username)
             return LoginUnificadoResponse(
                 tipo_usuario="cliente",
                 mensaje="Inicio de sesión exitoso",
-                id_cliente=usuario["id_cliente"],
-                username=usuario["username"],
-                nombre_cliente=usuario["nombre"],
-                email=usuario["email"],
-                avatar_url="https://ejemplo.com/avatars/maria.jpg",
-                token_sesion=f"token-sesion-{usuario['username']}",
+                id_cliente=cliente.id_usuario,
+                username=cliente.username,
+                nombre_cliente=cliente.nombre_apellido,
+                email=cliente.email,
+                avatar_url=cliente.avatar_url or "https://ejemplo.com/avatars/maria.jpg",
+                token_sesion=f"token-sesion-{cliente.username}",
             )
 
     raise HTTPException(

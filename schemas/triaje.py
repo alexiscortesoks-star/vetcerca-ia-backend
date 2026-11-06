@@ -21,6 +21,7 @@ class TriajeResponse(BaseModel):
     paciente: str
     sintomas_ingresados: str
     nivel_urgencia: str
+    diagnostico_preliminar: Optional[str] = None
     especialidad_sugerida: str
     primeros_auxilios: str
     veterinaria_cercana: Optional[str] = None
@@ -30,6 +31,7 @@ class TriajeResponse(BaseModel):
     alerta_despachada: bool = False
     id_alerta: Optional[int] = None
     estado_notificacion: Optional[str] = None
+    tiempo_estimado_arribo_min: Optional[int] = None
     mensaje_alerta: Optional[str] = None
     latitud_cliente: Optional[float] = None
     longitud_cliente: Optional[float] = None

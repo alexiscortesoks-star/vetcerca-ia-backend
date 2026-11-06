@@ -3,36 +3,56 @@ from typing import List
 
 from fastapi import APIRouter, HTTPException, status
 
-from models.mascotas import Especie, Mascota, Raza
+from models.mascotas import Especie, HistorialClinico, Mascota, Raza
 from routers.auth import USUARIOS_DB, cliente_tiene_sesion
 from schemas.mascotas import MascotaCreate, MascotaResponse
 
 
 router = APIRouter(prefix="/mascotas", tags=["Mascotas y Pacientes"])
 
+mimi = Mascota(
+    1,
+    "Mimi",
+    date(2021, 5, 10),
+    "Hembra",
+    3.8,
+    Raza(1, "Siamés", Especie(1, "Felino", es_exotico=False), descripcion="Felino doméstico de pelaje corto"),
+)
+mimi.agregar_historial(
+    HistorialClinico(
+        id_registro=1,
+        id_mascota=1,
+        fecha=date(2024, 9, 15),
+        motivo="Control anual y vacunación",
+        diagnostico="Paciente felino saludable. Se aplica vacuna Triple Felina.",
+        tratamiento="Inmunización preventiva",
+        veterinario_firmante="Dr. Roberto Gómez (MP 4512)",
+    )
+)
+mimi.agregar_historial(
+    HistorialClinico(
+        id_registro=2,
+        id_mascota=1,
+        fecha=date(2024, 3, 10),
+        motivo="Consulta por inapetencia",
+        diagnostico="Indigestión leve. Tratamiento con dieta blanda por 48 hs.",
+        tratamiento="Dieta blanda e hidratación",
+        veterinario_firmante="Dra. Laura Martínez (MP 5890)",
+    )
+)
+
+thor = Mascota(
+    2,
+    "Thor",
+    date(2019, 8, 15),
+    "Macho",
+    28.0,
+    Raza(2, "Ovejero Alemán", Especie(2, "Canino", es_exotico=False), descripcion="Canino de guardia y compañía"),
+)
+
 MASCOTAS_DB = [
-    {
-        "id_cliente": 1,
-        "mascota": Mascota(
-            1,
-            "Mimi",
-            date(2021, 5, 10),
-            "Hembra",
-            3.8,
-            Raza(1, "Siamés", Especie(1, "Felino")),
-        ),
-    },
-    {
-        "id_cliente": 2,
-        "mascota": Mascota(
-            2,
-            "Thor",
-            date(2019, 8, 15),
-            "Macho",
-            28.0,
-            Raza(2, "Ovejero Alemán", Especie(2, "Canino")),
-        ),
-    },
+    {"id_cliente": 1, "mascota": mimi},
+    {"id_cliente": 2, "mascota": thor},
 ]
 
 HISTORIALES_DB = {
@@ -40,17 +60,15 @@ HISTORIALES_DB = {
         {
             "fecha": "2024-09-15",
             "motivo": "Control anual y vacunación",
-            "diagnostico": (
-                "Paciente felino saludable. Se aplica vacuna Triple Felina."
-            ),
+            "diagnostico": "Paciente felino saludable. Se aplica vacuna Triple Felina.",
+            "tratamiento": "Inmunización preventiva",
             "veterinario": "Dr. Roberto Gómez (MP 4512)",
         },
         {
             "fecha": "2024-03-10",
             "motivo": "Consulta por inapetencia",
-            "diagnostico": (
-                "Indigestión leve. Tratamiento con dieta blanda por 48 hs."
-            ),
+            "diagnostico": "Indigestión leve. Tratamiento con dieta blanda por 48 hs.",
+            "tratamiento": "Dieta blanda e hidratación",
             "veterinario": "Dra. Laura Martínez (MP 5890)",
         },
     ]
@@ -285,7 +303,21 @@ def obtener_historial_medico(
             detail="Mascota no encontrada o no pertenece al usuario.",
         )
 
-    historial = HISTORIALES_DB.get(id_mascota, [])
+    mascota = item["mascota"]
+    if getattr(mascota, "_historial_clinico", None):
+        historial = [
+            {
+                "fecha": reg.fecha.strftime("%Y-%m-%d") if hasattr(reg.fecha, "strftime") else str(reg.fecha),
+                "motivo": reg.motivo,
+                "diagnostico": reg.diagnostico,
+                "tratamiento": reg.tratamiento,
+                "veterinario": reg.veterinario_firmante,
+            }
+            for reg in mascota._historial_clinico
+        ]
+    else:
+        historial = HISTORIALES_DB.get(id_mascota, [])
+
     return {
         "id_mascota": id_mascota,
         "total_atenciones": len(historial),

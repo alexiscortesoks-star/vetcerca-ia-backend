@@ -1,3 +1,4 @@
+import math
 from typing import Optional
 
 
@@ -11,31 +12,70 @@ class Veterinaria:
     def __init__(
         self,
         id_veterinaria: int,
-        nombre_fantasia: str,
+        nombre: str,
         direccion: str,
         latitud: float,
         longitud: float,
-        telefono_guardia: Optional[str],
-        es_24hs: bool,
+        tiene_guardia_24h: bool = True,
+        telefono_guardia: Optional[str] = None,
         horario_informado: Optional[str] = None,
         fuente_datos: Optional[str] = None,
         fuente_url: Optional[str] = None,
         atribucion_fuente: Optional[str] = None,
         estado_verificacion: str = "PENDIENTE_CONFIRMACION",
+        nombre_fantasia: Optional[str] = None,
+        es_24hs: Optional[bool] = None,
     ) -> None:
-        self.id_veterinaria = id_veterinaria
-        self.nombre_fantasia = nombre_fantasia
-        self.direccion = direccion
-        self.latitud = latitud
-        self.longitud = longitud
-        self.telefono_guardia = telefono_guardia
-        self.es_24hs = es_24hs
-        self.horario_informado = horario_informado
-        self.fuente_datos = fuente_datos
-        self.fuente_url = fuente_url
-        self.atribucion_fuente = atribucion_fuente
-        self.estado_verificacion = estado_verificacion
-        self.estado_disponibilidad = "DISPONIBLE"
+        self.id_veterinaria: int = id_veterinaria
+        self.nombre: str = nombre or (nombre_fantasia or "")
+        self.direccion: str = direccion
+        self.latitud: float = latitud
+        self.longitud: float = longitud
+        self.tiene_guardia_24h: bool = (
+            es_24hs if es_24hs is not None else tiene_guardia_24h
+        )
+        self.telefono_guardia: Optional[str] = telefono_guardia
+        self.horario_informado: Optional[str] = horario_informado
+        self.fuente_datos: Optional[str] = fuente_datos
+        self.fuente_url: Optional[str] = fuente_url
+        self.atribucion_fuente: Optional[str] = atribucion_fuente
+        self.estado_verificacion: str = estado_verificacion
+        self.estado_disponibilidad: str = "DISPONIBLE"
+
+    # Alias y propiedades para compatibilidad
+    @property
+    def nombre_fantasia(self) -> str:
+        return self.nombre
+
+    @nombre_fantasia.setter
+    def nombre_fantasia(self, valor: str) -> None:
+        self.nombre = valor
+
+    @property
+    def es_24hs(self) -> bool:
+        return self.tiene_guardia_24h
+
+    @es_24hs.setter
+    def es_24hs(self, valor: bool) -> None:
+        self.tiene_guardia_24h = valor
+
+    def calcular_distancia_km(self, lat_origen: float, lng_origen: float) -> float:
+        """
+        Calcula la distancia geodésica en kilómetros entre las coordenadas de origen
+        y la ubicación de esta veterinaria mediante la fórmula de Haversine.
+        """
+        radio_tierra_km = 6371.0
+
+        diferencia_latitud = math.radians(self.latitud - lat_origen)
+        diferencia_longitud = math.radians(self.longitud - lng_origen)
+        a = (
+            math.sin(diferencia_latitud / 2) ** 2
+            + math.cos(math.radians(lat_origen))
+            * math.cos(math.radians(self.latitud))
+            * math.sin(diferencia_longitud / 2) ** 2
+        )
+        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+        return round(radio_tierra_km * c, 2)
 
     def esta_disponible(self) -> bool:
         return self.estado_disponibilidad == "DISPONIBLE"

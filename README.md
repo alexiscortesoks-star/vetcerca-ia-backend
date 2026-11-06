@@ -221,3 +221,202 @@ ODbL. Atribución: © OpenStreetMap contributors
   * Asistencia en el diseño de arquitectura POO, encapsulamiento y refactorización a Clean Architecture.
   * Generación y optimización de algoritmos de geolocalización (Haversine).
   * Automatización de pruebas de integración con `httpx` y `TestClient`.
+
+---
+
+## 🏛️ ESPECIFICACIÓN TÉCNICA FORMAL: VETCERCA IA (POO + CASOS DE USO)
+
+### 1. Diagrama de Clases (Arquitectura Orientada a Objetos)
+
+#### Módulo: Autenticación y Usuarios (Herencia)
+* **`Usuario` (Clase Base / Abstracta `ABC`):**
+  * **Atributos privados:**
+    * `- _id_usuario: int`
+    * `- _username: str` (alfanumérico único)
+    * `- _email: str` (único)
+    * `- _contrasena_hash: str`
+    * `- _fecha_registro: datetime`
+    * `- _avatar_url: Optional[str]`
+    * `- _telefono: str`
+  * **Métodos públicos:**
+    * `+ verificar_credenciales(usuario_o_email: str, password: str) -> bool`
+    * `+ cambiar_contrasena(nueva_contrasena: str) -> None`
+* **`Cliente` (Especialización de `Usuario`):**
+  * **Atributos privados:**
+    * `- _direccion: str`
+    * `- _latitud: float`
+    * `- _longitud: float`
+    * `- _telefono: str`
+  * **Relaciones:**
+    * Composición con `Mascota` (1 a 1..*): Un cliente posee una o varias mascotas registradas (`_mascotas: List[Mascota]`).
+* **`UsuarioVeterinario` (Especialización de `Usuario`):**
+  * **Atributos privados:**
+    * `- _matricula_profesional: str`
+    * `- _especialidad_principal: str`
+  * **Relaciones:**
+    * Pertenece a una `Veterinaria` (* a 1).
+  * **Métodos:**
+    * `+ gestionar_estado_guardia(disponible: bool) -> None`
+    * `+ recibir_alerta_urgencia(alerta) -> None`
+
+#### Módulo: Pacientes e Historial Médico
+* **`Mascota`:**
+  * **Atributos privados:**
+    * `- id_mascota: int`
+    * `- nombre: str`
+    * `- fecha_nacimiento: Optional[date]`
+    * `- sexo: str` ("Macho" | "Hembra")
+    * `- _peso_kg: float` (encapsulado con validación > 0)
+    * `- foto_url: Optional[str]`
+  * **Métodos públicos:**
+    * `+ get_peso() -> float`
+    * `+ set_peso(nuevo_peso: float) -> None`
+    * `+ calcular_edad_formateada() -> str`
+  * **Relaciones:**
+    * Asociación con `Raza` (* a 1).
+    * Agregación con `HistorialClinico` (1 a 0..*) vía `_historial_clinico`.
+* **`Especie`:**
+  * `- id_especie: int`
+  * `- nombre: str` ("Felino", "Canino", "Ave Exótica")
+  * `- es_exotico: bool`
+  * `- requiere_permiso_senasa: bool`
+* **`Raza`:**
+  * `- id_raza: int`
+  * `- nombre: str`
+  * `- descripcion: str`
+  * Relación: Pertenece a una `Especie` (* a 1).
+* **`HistorialClinico`:**
+  * `- id_registro: int`
+  * `- id_mascota: int`
+  * `- fecha: date`
+  * `- motivo: str`
+  * `- diagnostico: str`
+  * `- tratamiento: str`
+  * `- veterinario_firmante: str`
+  * `- observaciones: str`
+  * `- veterinaria_emisora: Optional[Veterinaria]`
+
+#### Módulo: Triaje Inteligente y Georreferenciación
+* **`ConsultaTriaje`:**
+  * `- id_triaje: int`
+  * `- id_cliente: int`
+  * `- id_mascota: int`
+  * `- fecha_hora: datetime`
+  * `- sintomas_ingresados: str`
+  * `- nivel_urgencia: str` ("ALTA", "MEDIA", "BAJA")
+  * `- diagnostico_preliminar: str`
+  * `- especialidad_sugerida: str`
+  * `- alerta_despachada: bool`
+  * **Métodos:**
+    * `+ ejecutar_triaje(asistente_ia: AsistenteIA) -> None`
+* **`AsistenteIA` (Servicio de Inferencia):**
+  * `- api_key: str`
+  * `- modelo_principal: str` (LLM / Gemini 1.5 Pro API)
+  * `- modo_fallback: bool` (Motor heurístico de contingencia)
+  * **Métodos:**
+    * `+ clasificar_urgencia(sintomas: str, especie: str) -> dict`: Retorna `{nivel_urgencia, diagnostico_preliminar, especialidad_sugerida, primeros_auxilios}`.
+    * `+ ejecutar_fallback(sintomas: str) -> dict`
+* **`Veterinaria`:**
+  * `- id_veterinaria: int`
+  * `- nombre: str`
+  * `- direccion: str`
+  * `- latitud: float`
+  * `- longitud: float`
+  * `- tiene_guardia_24h: bool`
+  * `- telefono_guardia: Optional[str]`
+  * **Métodos:**
+    * `+ calcular_distancia_km(lat_origen: float, lng_origen: float) -> float` (Fórmula de Haversine encapsulada en la clase)
+    * `+ esta_disponible() -> bool`
+    * `+ actualizar_estado_guardia(estado: str) -> None`
+* **`AlertaUrgencia`:**
+  * `- id_alerta: int`
+  * `- id_triaje: int`
+  * `- id_veterinaria_asignada: int`
+  * `- fecha_hora: datetime`
+  * `- estado: str` ("EMITIDA", "NOTIFICADA", "EN_CURSO", "ATENDIDA")
+  * `- tiempo_estimado_arribo_min: int`
+  * **Métodos:**
+    * `+ transmitir() -> bool`
+* **`ServicioNotificacion`:**
+  * **Métodos:**
+    * `+ despachar_whatsapp(telefono_destino: str, mensaje: str) -> bool`
+    * `+ despachar_alerta(alerta: AlertaUrgencia) -> bool`
+
+---
+
+### 2. Especificación Formal de Casos de Uso (UML)
+
+#### Actores
+1. **Cliente (Dueño de Mascota):** Actor humano primario.
+2. **Veterinario de Guardia:** Actor humano secundario/receptor.
+3. **Asistente IA:** Actor del sistema externo (procesamiento de lenguaje natural / Gemini API).
+4. **Servicio Notificación (WhatsApp API):** Actor del sistema externo.
+
+#### CU-01: Iniciar Sesión (Autenticación Dual)
+* **Actor Primario:** Cliente / Veterinario.
+* **Tipo:** Primario, Esencial.
+* **Precondición:** El usuario debe estar registrado en el sistema.
+* **Poscondición:** Sesión iniciada y token devuelto al cliente.
+* **Flujo Principal:**
+  1. El usuario ingresa `usuario_o_email` y `password`.
+  2. El sistema busca coincidencias por username o por email invocando `Usuario.verificar_credenciales()`.
+  3. El sistema valida el hash de la contraseña.
+  4. El sistema registra la sesión en `SESIONES_ACTIVAS` y retorna token y perfil.
+* **Flujo Alternativo (Credenciales inválidas):**
+  * 3a. El sistema emite error HTTP 401 ("Credenciales incorrectas") y deniega el acceso.
+
+#### CU-02: Gestionar Mascotas (CRUD)
+* **Actor Primario:** Cliente.
+* **Tipo:** Primario, Esencial.
+* **Precondición:** Sesión activa válida.
+* **Flujos:**
+  * **Alta (`POST /mascotas/`):** Cliente ingresa nombre, especie, raza, sexo, peso_kg (>0) y foto_url opcional. Se asocia al cliente logueado.
+  * **Lectura (`GET /mascotas/cliente/{username}`):** Sistema lista las mascotas del usuario con edad calculada (`calcular_edad_formateada()`).
+  * **Modificación (`PUT /mascotas/{id}`):** Cliente actualiza peso (`set_peso()`) o nombre; se validan permisos de dueño.
+  * **Baja (`DELETE /mascotas/{id}`):** Se elimina la mascota de la cuenta del cliente.
+
+#### CU-03: Consultar Historial Clínico
+* **Actor:** Cliente / Veterinario.
+* **Tipo:** Secundario, Esencial.
+* **Precondición:** Mascota registrada con identificador válido.
+* **Flujo Principal:**
+  1. El usuario solicita el historial médico de una mascota (`GET /mascotas/{id_mascota}/historial`).
+  2. El sistema recupera la lista cronológica de atenciones del objeto `Mascota._historial_clinico` (fecha, motivo, diagnóstico, tratamiento y veterinario firmante).
+  3. El frontend renderiza las fichas clínicas en un timeline modal.
+
+#### CU-04: Realizar Triaje de Urgencia con IA (Caso Central)
+* **Actor Primario:** Cliente.
+* **Actores Secundarios:** Asistente IA, Servicio Notificación.
+* **Precondición:** Mascota y cliente identificados; síntomas reportados.
+* **Flujo Principal:**
+  1. El cliente envía síntomas y coordenadas GPS del móvil (`POST /triaje/evaluar`).
+  2. Se instancia `ConsultaTriaje` y se invoca `ejecutar_triaje(asistente_ia)`.
+  3. El `AsistenteIA` clasifica la urgencia (`ALTA`, `MEDIA`, `BAJA`), generando diagnóstico preliminar y especialidad sugerida.
+  4. Si la urgencia es **ALTA**:
+     * El sistema filtra las veterinarias disponibles con guardia 24h activa (`tiene_guardia_24h == True` y `esta_disponible() == True`).
+     * Calcula la distancia con `Veterinaria.calcular_distancia_km()` y selecciona la más cercana.
+     * Instancia `AlertaUrgencia` con tiempo estimado de arribo y estado `"EMITIDA"`.
+     * Ejecuta `alerta.transmitir()`, notificando al veterinario de guardia vía `ServicioNotificacion.despachar_whatsapp()`.
+     * El estado de la alerta cambia a `"NOTIFICADA"`.
+  5. Se retorna `TriajeResponse` al cliente con semáforo, primeros auxilios, clínica asignada y confirmación de alerta despachada.
+* **Flujo Alternativo (Contingencia de IA):**
+  * 3a. Si el LLM tiene timeout o no responde, se activa `modo_fallback = True` y se ejecuta `ejecutar_fallback()`, emitiendo una recomendación heurística sin interrumpir el flujo.
+
+---
+
+## 📑 REPORTE DE ACTUALIZACIÓN TÉCNICA (NOTEBOOKLM EXPORT)
+
+| Requerimiento POO / UML | Estado | Archivo / Componente |
+| :--- | :---: | :--- |
+| **`Usuario`** (Username, fecha_registro, avatar, verificar_credenciales, cambiar_contrasena) | ✅ Implementado | [`models/usuarios.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/usuarios.py) |
+| **`Cliente`** (Dirección, latitud, longitud, teléfono, composición Mascota) | ✅ Implementado | [`models/usuarios.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/usuarios.py) |
+| **`UsuarioVeterinario`** (Matrícula, especialidad principal, asociación Veterinaria) | ✅ Implementado | [`models/usuarios.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/usuarios.py) |
+| **`Mascota`** (get_peso, set_peso > 0, calcular_edad_formateada, agregación HistorialClinico) | ✅ Implementado | [`models/mascotas.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/mascotas.py) |
+| **`Especie` y `Raza`** (Permiso SENASA, descripción, relaciones) | ✅ Implementado | [`models/mascotas.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/mascotas.py) |
+| **`HistorialClinico`** (id_registro, id_mascota, motivo, diagnóstico, tratamiento, firmante) | ✅ Implementado | [`models/mascotas.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/mascotas.py) |
+| **`Veterinaria`** (calcular_distancia_km Haversine en la clase, tiene_guardia_24h) | ✅ Implementado | [`models/veterinarias.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/veterinarias.py) |
+| **`ConsultaTriaje`** (ejecutar_triaje, diagnostico_preliminar, alerta_despachada) | ✅ Implementado | [`models/triaje.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/triaje.py) |
+| **`AsistenteIA`** (api_key, modelo Gemini, clasificar_urgencia, motor fallback) | ✅ Implementado | [`Services/asistente_ia.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/Services/asistente_ia.py) |
+| **`AlertaUrgencia`** (Máquina de estados EMITIDA->NOTIFICADA, tiempo arribo, transmitir) | ✅ Implementado | [`models/triaje.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/triaje.py) |
+| **`ServicioNotificacion`** (despachar_whatsapp) | ✅ Implementado | [`Services/notificador.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/Services/notificador.py) |
+| **Activación de Guardias 24h (Bug Fix)** | ✅ Corregido | [`routers/triaje.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/routers/triaje.py) |
