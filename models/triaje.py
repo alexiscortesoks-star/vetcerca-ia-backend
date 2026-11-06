@@ -41,6 +41,7 @@ class ConsultaTriaje:
         self.diagnostico_preliminar: str = ""
         self.especialidad_sugerida: str = ""
         self.primeros_auxilios: str = ""
+        self.pregunta_aclaratoria: Optional[str] = None
         self.alerta_despachada: bool = False
 
     # Alias para compatibilidad con llamadas anteriores
@@ -96,6 +97,7 @@ class ConsultaTriaje:
         self.primeros_auxilios = resultado.get(
             "primeros_auxilios", "Mantener en calma y acudir a consulta presencial."
         )
+        self.pregunta_aclaratoria = resultado.get("pregunta_aclaratoria")
 
     # Alias de compatibilidad
     def evaluar_sintomas(self) -> None:

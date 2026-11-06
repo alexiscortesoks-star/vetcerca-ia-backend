@@ -135,6 +135,16 @@
                   Buscando clínicas cercanas...
                 </p>
                 <ul id="clinicsList" class="clinics-list"></ul>
+                <button
+                  id="clinicsMoreButton"
+                  class="clinics-more-button"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#clinicsModal"
+                  hidden
+                >
+                  Ver más
+                </button>
               </section>
             </div>
           </div>
@@ -219,6 +229,36 @@
         <span>Ante una emergencia grave, contactá directamente a una guardia veterinaria.</span>
       </div>
     </footer>
+
+    <div
+      id="clinicsModal"
+      class="modal fade"
+      tabindex="-1"
+      aria-labelledby="clinicsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content clinics-modal">
+          <div class="modal-header">
+            <div>
+              <span class="eyebrow">ATENCIÓN CERCANA</span>
+              <h2 id="clinicsModalLabel" class="modal-title h5 mt-2">
+                Clínicas cercanas
+              </h2>
+            </div>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <ul id="clinicsModalList" class="clinics-list clinics-list-modal"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div
       id="loginModal"

@@ -4,6 +4,9 @@ Carga, normaliza, codifica e imputa variables para el modelado supervisado.
 """
 
 import os
+import re
+import unicodedata
+from functools import lru_cache
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
@@ -24,6 +27,26 @@ def cargar_datos(path=DATA_PATH):
         raise FileNotFoundError(f"No se encontró el dataset en: {path}")
     df = pd.read_csv(path)
     return df
+
+
+def normalizar_sintoma(sintoma: str) -> str:
+    texto = unicodedata.normalize("NFKD", sintoma.casefold())
+    texto = "".join(caracter for caracter in texto if not unicodedata.combining(caracter))
+    return re.sub(r"[^a-z0-9]+", " ", texto).strip()
+
+
+@lru_cache(maxsize=1)
+def obtener_catalogo_sintomas() -> tuple[str, ...]:
+    sintomas = cargar_datos()["sintoma_principal"].dropna().astype(str)
+    return tuple(sorted(set(sintomas)))
+
+
+def sintoma_reconocido(sintoma: str) -> bool:
+    sintomas_conocidos = {
+        normalizar_sintoma(item) for item in obtener_catalogo_sintomas()
+    }
+    return normalizar_sintoma(sintoma) in sintomas_conocidos
+
 
 def crear_preprocesador():
     """

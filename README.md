@@ -308,6 +308,21 @@ uvicorn app:app --reload
 * La API estará activa en: `http://127.0.0.1:8000`
 * Documentación interactiva Swagger: `http://127.0.0.1:8000/docs`
 
+#### Configurar Gemini para interpretar descripciones libres del triaje
+
+Creá una clave en [Google AI Studio](https://aistudio.google.com/apikey) y configurala
+en la misma terminal antes de iniciar el servidor:
+
+```powershell
+$env:GEMINI_API_KEY = "TU_CLAVE"
+```
+
+Gemini recibe únicamente la especie y la descripción de síntomas para relacionarla
+con el catálogo clínico local; no recibe el nombre ni identificadores de la mascota
+o su dueño. La urgencia sigue siendo calculada por el clasificador local. Si Gemini
+no puede relacionar el texto con claridad, la API solicita una aclaración y no asigna
+una urgencia. Sin esta clave, solo se procesan frases del catálogo.
+
 ### 5. Iniciar la interfaz frontend
 En otra terminal dentro de la raíz del proyecto:
 ```bash

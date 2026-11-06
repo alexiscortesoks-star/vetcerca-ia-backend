@@ -369,6 +369,26 @@ body {
   list-style: none;
 }
 
+.clinics-more-button {
+  margin: 8px 0 0 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #0f766e;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.clinics-modal {
+  border-radius: 20px;
+}
+
+.clinics-list-modal {
+  margin-top: 0;
+}
+
 .clinics-list li {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto;

@@ -6,18 +6,22 @@ class TriajeRequest(BaseModel):
     id_cliente: Optional[int] = Field(default=1, example=1)
     nombre_mascota: str = Field(..., example="Mimi")
     sintomas: Optional[str] = Field(
-        default=None, example="Dificultad respiratoria y decaimiento severo"
+        default=None,
+        max_length=1000,
+        example="Dificultad respiratoria y decaimiento severo"
     )
     # Variables clínicas requeridas por el TPI de Ciencia de Datos
     especie: Optional[str] = Field(default="Canino", example="Felino")
     sintoma_principal: Optional[str] = Field(
-        default=None, example="Dificultad respiratoria severa / Cianosis"
+        default=None,
+        max_length=1000,
+        example="Dificultad respiratoria severa / Cianosis"
     )
-    tiempo_evolucion_hs: Optional[float] = Field(default=2.0, example=2.5)
+    tiempo_evolucion_hs: Optional[float] = Field(default=None, ge=0, example=2.5)
     estado_conciencia: Optional[str] = Field(
-        default="Alerta", example="Deprimido"
+        default=None, example="Deprimido"
     )
-    presencia_hemorragia: Optional[int] = Field(default=0, example=0)
+    presencia_hemorragia: Optional[int] = Field(default=None, ge=0, le=1, example=0)
     
     # Geolocalización y zonificación barrial en CABA
     barrio: Optional[str] = Field(default="Palermo", example="Palermo")
@@ -39,6 +43,7 @@ class TriajeResponse(BaseModel):
     diagnostico_preliminar: Optional[str] = None
     especialidad_sugerida: str
     primeros_auxilios: str
+    pregunta_aclaratoria: Optional[str] = None
     
     # Clínica asignada y geolocalización Haversine
     veterinaria_cercana: Optional[str] = None

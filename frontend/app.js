@@ -102,11 +102,12 @@ async function cargarPerfilVeterinaria() {
   }
 }
 
-async function evaluarTriaje(nombreMascota, sintomas, lat, lng) {
+async function evaluarTriaje(nombreMascota, sintomas, lat, lng, datosClinicos) {
   const idCliente = Number(localStorage.getItem("id_cliente"));
   const payload = {
     nombre_mascota: nombreMascota,
     sintomas,
+    ...datosClinicos,
     latitud_cliente: Number.isFinite(lat) ? lat : -34.6037,
     longitud_cliente: Number.isFinite(lng) ? lng : -58.3816,
   };
@@ -176,6 +177,17 @@ function crearElementoClinica(clinic) {
 
   item.append(details, phone, validation);
   return item;
+}
+
+function actualizarListadosClinicas(clinics) {
+  const summaryList = document.getElementById("clinicsList");
+  const fullList = document.getElementById("clinicsModalList");
+  const moreButton = document.getElementById("clinicsMoreButton");
+  if (!summaryList || !fullList || !moreButton) return;
+
+  summaryList.replaceChildren(...clinics.slice(0, 3).map(crearElementoClinica));
+  fullList.replaceChildren(...clinics.map(crearElementoClinica));
+  moreButton.hidden = clinics.length <= 3;
 }
 
 async function cargarClinicasCercanas() {
@@ -252,8 +264,6 @@ async function cargarClinicasCercanas() {
     );
     const data = await leerRespuesta(response);
 
-    clinicsList.replaceChildren();
-
     for (const clinic of data.veterinarias) {
       if (typeof L !== "undefined") {
         if (!nombresMarcadoresLocales.has(clinic.nombre)) {
@@ -269,9 +279,8 @@ async function cargarClinicasCercanas() {
             .bindPopup(popup);
         }
       }
-
-      clinicsList.appendChild(crearElementoClinica(clinic));
     }
+    actualizarListadosClinicas(data.veterinarias);
 
     message.textContent = data.cantidad
       ? `${data.cantidad} centros cercanos`
@@ -288,10 +297,7 @@ async function cargarClinicasCercanas() {
     }
   } catch (error) {
     console.error("Error al cargar clínicas cercanas:", error);
-    clinicsList.replaceChildren();
-    for (const clinic of candidatasLocales) {
-      clinicsList.appendChild(crearElementoClinica(clinic));
-    }
+    actualizarListadosClinicas(candidatasLocales);
     message.textContent =
       `Mostrando ${candidatasLocales.length} centros; ` +
       "no pudimos actualizar desde el servidor.";
@@ -349,11 +355,22 @@ function renderizarMapaGPS(
 function renderizarResultadoTriaje(data) {
   const resultado = document.getElementById("resultadoCard");
   const urgencia = document.getElementById("resultadoUrgencia");
-  const nivel = String(data.nivel_urgencia || "").toUpperCase();
+  const nivel = String(data.nivel_urgencia || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toUpperCase();
   const etiquetas = {
     ALTA: { texto: "Atención urgente", clase: "urgency-high" },
-    MEDIA: { texto: "Consulta recomendada", clase: "urgency-medium" },
+    MODERADA: { texto: "Consulta recomendada", clase: "urgency-medium" },
     BAJA: { texto: "Urgencia baja", clase: "urgency-low" },
+    "NO CONCLUYENTE": {
+      texto: "No se pudo determinar",
+      clase: "urgency-unknown",
+    },
+    "EMERGENCIA CRITICA": {
+      texto: "Atención veterinaria inmediata",
+      clase: "urgency-high",
+    },
   };
   const etiqueta = etiquetas[nivel] || {
     texto: "Nivel por confirmar",
@@ -367,6 +384,9 @@ function renderizarResultadoTriaje(data) {
     data.paciente || "Tu mascota";
   document.getElementById("resultadoSintomas").textContent =
     data.sintomas_ingresados || "";
+  const preguntaAclaratoria = document.getElementById("preguntaAclaratoria");
+  preguntaAclaratoria.textContent = data.pregunta_aclaratoria || "";
+  preguntaAclaratoria.hidden = !data.pregunta_aclaratoria;
   document.getElementById("resultadoEspecialidad").textContent =
     data.especialidad_sugerida || "No disponible";
   document.getElementById("resultadoPrimerosAuxilios").textContent =
@@ -822,6 +842,11 @@ document.addEventListener("DOMContentLoaded", () => {
           form.get("sintomas"),
           ubicacion.lat,
           ubicacion.lng,
+          {
+            tiempo_evolucion_hs: Number(form.get("tiempo_evolucion_hs")),
+            estado_conciencia: form.get("estado_conciencia"),
+            presencia_hemorragia: Number(form.get("presencia_hemorragia")),
+          },
         );
         renderizarResultadoTriaje(data);
         renderizarMapaGPS(

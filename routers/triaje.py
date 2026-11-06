@@ -64,17 +64,17 @@ def evaluar_triaje(datos: TriajeRequest) -> TriajeResponse:
         mascota=paciente,
         asistente_ia=asistente_ia,
         especie=especie_nombre,
-        tiempo_evolucion_hs=datos.tiempo_evolucion_hs or 2.0,
-        estado_conciencia=datos.estado_conciencia or "Alerta",
-        presencia_hemorragia=datos.presencia_hemorragia or 0
+        tiempo_evolucion_hs=datos.tiempo_evolucion_hs,
+        estado_conciencia=datos.estado_conciencia,
+        presencia_hemorragia=datos.presencia_hemorragia
     )
     
     # Ejecutar inferencia predictiva con Machine Learning + Prompt estructurado
     consulta.ejecutar_triaje(
         asistente_ia,
-        tiempo_evolucion_hs=datos.tiempo_evolucion_hs or 2.0,
-        estado_conciencia=datos.estado_conciencia or "Alerta",
-        presencia_hemorragia=datos.presencia_hemorragia or 0
+        tiempo_evolucion_hs=datos.tiempo_evolucion_hs,
+        estado_conciencia=datos.estado_conciencia,
+        presencia_hemorragia=datos.presencia_hemorragia
     )
 
     es_urgencia_critica = consulta.nivel_urgencia in ["Alta", "Emergencia Crítica"]
@@ -140,6 +140,7 @@ def evaluar_triaje(datos: TriajeRequest) -> TriajeResponse:
         diagnostico_preliminar=consulta.diagnostico_preliminar,
         especialidad_sugerida=consulta.especialidad_sugerida,
         primeros_auxilios=consulta.primeros_auxilios,
+        pregunta_aclaratoria=consulta.pregunta_aclaratoria,
         veterinaria_cercana=vet_info["nombre_centro"] if vet_info else "No disponible",
         direccion_veterinaria=vet_info["direccion"] if vet_info else None,
         telefono_veterinaria=vet_info["telefono"] if vet_info else None,
