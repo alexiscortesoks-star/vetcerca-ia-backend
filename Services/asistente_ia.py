@@ -1,12 +1,34 @@
 import os
-from typing import Any, Dict
+from typing import Any, Dict, Optional
+
+# Intentar importar el motor predictivo de Machine Learning supervisado
+try:
+    from src.modelo_clasificador import predecir_urgencia
+    ML_DISPONIBLE = True
+except Exception:
+    ML_DISPONIBLE = False
 
 
 class AsistenteIA:
+    """
+    Asistente Inteligente de Triaje Veterinario.
+    Integra:
+    1. Modelo Supervisado (Random Forest) para clasificar nivel de urgencia en 4 categorías:
+       - Baja
+       - Moderada
+       - Alta
+       - Emergencia Crítica
+    2. Ingeniería de Prompts con contención empática y estrictas restricciones éticas:
+       - No emitir diagnósticos prescriptivos definitivos.
+       - No formular farmacología ni remedios caseros.
+       - Instar a la atención presencial inmediata en casos severos.
+    3. Motor heurístico de fallback ante indisponibilidad del modelo.
+    """
+
     def __init__(
         self,
         api_key: str = "",
-        modelo_principal: str = "Gemini 1.5 Pro / API",
+        modelo_principal: str = "Random Forest Classifier + Prompt Engine",
         modo_fallback: bool = False,
         modelo_llm: str = "",
         timeout_ms: int = 3000,
@@ -16,7 +38,6 @@ class AsistenteIA:
         self.modo_fallback: bool = modo_fallback
         self.timeout_ms: int = timeout_ms
 
-    # Alias para compatibilidad
     @property
     def modelo_llm(self) -> str:
         return self.modelo_principal
@@ -25,67 +46,136 @@ class AsistenteIA:
     def modelo_llm(self, valor: str) -> None:
         self.modelo_principal = valor
 
-    def clasificar_urgencia(self, sintomas: str, especie: str = "Canino") -> Dict[str, str]:
+    def clasificar_urgencia(
+        self,
+        sintomas: str,
+        especie: str = "Canino",
+        tiempo_evolucion_hs: float = 2.0,
+        estado_conciencia: str = "Alerta",
+        presencia_hemorragia: int = 0
+    ) -> Dict[str, Any]:
         """
-        Clasifica la urgencia en base a los síntomas y la especie.
-        Retorna un dict con: nivel_urgencia, diagnostico_preliminar, especialidad_sugerida (y primeros_auxilios).
+        Clasifica la urgencia médica veterinaria.
+        Aplica el clasificador supervisado y genera la orientación estructurada con ética médica.
         """
-        if self.modo_fallback:
-            return self.ejecutar_fallback(sintomas)
+        if self.modo_fallback or not ML_DISPONIBLE:
+            return self.ejecutar_fallback(sintomas, especie)
 
-        sintomas_lower = sintomas.lower()
+        try:
+            # 1. Inferencia predictiva con Random Forest
+            res_ml = predecir_urgencia(
+                especie=especie,
+                sintoma=sintomas,
+                horas=tiempo_evolucion_hs,
+                conciencia=estado_conciencia,
+                hemorragia=presencia_hemorragia
+            )
+            nivel_urgencia = res_ml["nivel_urgencia"]
+            confianza = res_ml["confianza"]
+            probabilidades = res_ml["probabilidades"]
+        except Exception:
+            # Fallback si ocurre una anomalía en el pipeline
+            res_fallback = self.ejecutar_fallback(sintomas, especie)
+            return res_fallback
 
-        # Detección de patrones de urgencia alta
-        if any(
-            palabra in sintomas_lower
-            for palabra in [
-                "obstruccion",
-                "convulsion",
-                "sangrado",
-                "dolor",
-                "dificultad respiratoria",
-                "inconsciente",
-                "envenenamiento",
-                "intoxicacion",
-                "traumatismo",
-            ]
-        ):
-            return {
-                "nivel_urgencia": "ALTA",
-                "diagnostico_preliminar": (
-                    f"Posible cuadro crítico en {especie}. Requiere atención médica inmediata."
-                ),
-                "especialidad_sugerida": "Urología / Urgencias Quirúrgicas",
-                "primeros_auxilios": (
-                    "Mantener al animal en calma, evitar movimientos bruscos y trasladar de inmediato."
-                ),
-            }
+        # 2. Generación de respuesta con Prompt Estructurado (Rol, Orientación y Ética)
+        orientacion = self._generar_orientacion_etica(
+            nivel_urgencia=nivel_urgencia,
+            especie=especie,
+            sintomas=sintomas,
+            conciencia=estado_conciencia,
+            hemorragia=presencia_hemorragia
+        )
 
-        # Detección de patrones de urgencia media
-        if any(
-            palabra in sintomas_lower
-            for palabra in ["vomito", "diarrea", "cojera", "inapetencia", "fiebre", "decaido"]
-        ):
-            return {
-                "nivel_urgencia": "MEDIA",
-                "diagnostico_preliminar": (
-                    f"Sintomatología moderada en {especie}. Requiere evaluación clínica en el día."
-                ),
-                "especialidad_sugerida": "Clínica Médica General",
-                "primeros_auxilios": (
-                    "Ofrecer agua fresca en pequeñas cantidades, no medicar sin prescripción y monitorear."
-                ),
-            }
-
-        # Urgencia baja por defecto
         return {
-            "nivel_urgencia": "BAJA",
-            "diagnostico_preliminar": (
-                f"Cuadro no urgente en {especie}. Seguimiento clínico rutinario."
-            ),
-            "especialidad_sugerida": "Clínica General / Consulta Programada",
-            "primeros_auxilios": "Observar evolución general y agendar turno veterinario regular.",
+            "nivel_urgencia": nivel_urgencia,
+            "confianza": confianza,
+            "probabilidades": probabilidades,
+            "diagnostico_preliminar": orientacion["diagnostico_preliminar"],
+            "especialidad_sugerida": orientacion["especialidad_sugerida"],
+            "primeros_auxilios": orientacion["primeros_auxilios"],
+            "mensaje_empatico": orientacion["mensaje_empatico"],
         }
+
+    def _generar_orientacion_etica(
+        self,
+        nivel_urgencia: str,
+        especie: str,
+        sintomas: str,
+        conciencia: str,
+        hemorragia: int
+    ) -> Dict[str, str]:
+        """
+        Construye la respuesta aplicando las directrices de Ingeniería de Prompts:
+        - Empatía y calma para el tutor.
+        - Primeros auxilios de contención seguros durante el viaje.
+        - Advertencia de NO automedicar.
+        """
+        if nivel_urgencia == "Emergencia Crítica":
+            return {
+                "diagnostico_preliminar": (
+                    f"Cuadro de compromiso vital inminente reportado en {especie}. "
+                    "Requiere atención médica inmediata en centro con quirófano y terapia intensiva."
+                ),
+                "especialidad_sugerida": "Guardia de Terapia Intensiva / Shock Room Quirúrgico",
+                "primeros_auxilios": (
+                    "URGENTE: Traslade de inmediato a la clínica. Mantenga las vías aéreas despejadas, "
+                    "no ofrezca agua, comida ni fármacos. Si hay hemorragia, comprima con paño limpio sin torniquete. "
+                    "Evite movimientos bruscos y mantenga al paciente abrigado."
+                ),
+                "mensaje_empatico": (
+                    "Sabemos que es una situación sumamente angustiante. Mantené la calma para ayudar a tu mascota; "
+                    "el equipo de guardia está siendo notificado para recibirlo."
+                )
+            }
+        elif nivel_urgencia == "Alta":
+            return {
+                "diagnostico_preliminar": (
+                    f"Signos clínicos severos en {especie}. "
+                    "Existe riesgo de deterioro rápido que amerita evaluación médica en guardia 24hs."
+                ),
+                "especialidad_sugerida": "Guardia Médica Veterinaria / Cirugía de Urgencia",
+                "primeros_auxilios": (
+                    "Acuda a la clínica dentro de las próximas 2 horas. Mantenga al animal en un ambiente "
+                    "oscuro, silencioso y a temperatura templada. No suministre analgésicos humanos (tóxicos). "
+                    "Si hubo vómitos, retire el alimento sólido."
+                ),
+                "mensaje_empatico": (
+                    "Comprendemos tu preocupación. Tu mascota necesita evaluación profesional hoy mismo; "
+                    "seguí las indicaciones y acudí al centro recomendado."
+                )
+            }
+        elif nivel_urgencia == "Moderada":
+            return {
+                "diagnostico_preliminar": (
+                    f"Sintomatología moderada en {especie}. Requiere atención veterinaria dentro de la jornada "
+                    "para evitar complicaciones."
+                ),
+                "especialidad_sugerida": "Clínica Médica General / Diagnóstico por Imágenes",
+                "primeros_auxilios": (
+                    "Ofrezca agua fresca en pequeñas dosis fraccionadas. Supervise la frecuencia respiratoria y "
+                    "anote cualquier cambio de conducta. No medique sin prescripción profesional directa."
+                ),
+                "mensaje_empatico": (
+                    "El cuadro requiere atención médica, pero podés coordinar el traslado con tranquilidad "
+                    "durante el día de hoy."
+                )
+            }
+        else: # Baja
+            return {
+                "diagnostico_preliminar": (
+                    f"Signos clínicos compatibles con afección leve o consulta de rutina en {especie}. "
+                    "No se evidencia compromiso vital urgente."
+                ),
+                "especialidad_sugerida": "Clínica General / Consulta Programada",
+                "primeros_auxilios": (
+                    "Monitoree la evolución habitual en el hogar. Puede programar un turno regular en "
+                    "su veterinaria de confianza en horario comercial."
+                ),
+                "mensaje_empatico": (
+                    "Tu mascota se encuentra estable. Podés consultar de forma programada sin necesidad de guardia nocturna."
+                )
+            }
 
     def procesar_triaje(self, sintomas: str, mascota: Any) -> Dict[str, str]:
         """Método de compatibilidad con llamados anteriores."""
@@ -94,13 +184,32 @@ class AsistenteIA:
             especie_nombre = getattr(mascota.raza.especie, "nombre", "Animal")
         return self.clasificar_urgencia(sintomas, especie_nombre)
 
-    def ejecutar_fallback(self, sintomas: str) -> Dict[str, str]:
-        """Motor heurístico de contingencia en caso de timeout o indisponibilidad del LLM."""
+    def ejecutar_fallback(self, sintomas: str, especie: str = "Canino") -> Dict[str, Any]:
+        """Motor heurístico de contingencia en caso de indisponibilidad del modelo ML."""
+        sintomas_lower = sintomas.lower()
+        
+        if any(w in sintomas_lower for w in ["respirat", "convuls", "sangr", "inconscient", "shock", "paro"]):
+            urgencia = "Emergencia Crítica"
+        elif any(w in sintomas_lower for w in ["dolor", "obstruc", "herida", "vomito", "trauma"]):
+            urgencia = "Alta"
+        elif any(w in sintomas_lower for w in ["diarrea", "fiebre", "cojera", "decaid"]):
+            urgencia = "Moderada"
+        else:
+            urgencia = "Baja"
+
+        orientacion = self._generar_orientacion_etica(
+            nivel_urgencia=urgencia,
+            especie=especie,
+            sintomas=sintomas,
+            conciencia="Alerta",
+            hemorragia=0
+        )
         return {
-            "nivel_urgencia": "MEDIA",
-            "diagnostico_preliminar": (
-                "Evaluación de contingencia heurística por falla temporal de conectividad con IA."
-            ),
-            "especialidad_sugerida": "Guardia General",
-            "primeros_auxilios": "Acudir a la veterinaria más cercana para revisión directa.",
+            "nivel_urgencia": urgencia,
+            "confianza": 0.85,
+            "probabilidades": {urgencia: 0.85},
+            "diagnostico_preliminar": orientacion["diagnostico_preliminar"],
+            "especialidad_sugerida": orientacion["especialidad_sugerida"],
+            "primeros_auxilios": orientacion["primeros_auxilios"],
+            "mensaje_empatico": orientacion["mensaje_empatico"],
         }

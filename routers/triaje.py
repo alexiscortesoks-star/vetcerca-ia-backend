@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional
+from typing import Optional, Dict, Any, List
 
 from fastapi import APIRouter
 
@@ -9,44 +9,13 @@ from models.mascotas import Especie, Mascota, Raza
 from models.triaje import AlertaUrgencia, ConsultaTriaje
 from models.veterinarias import Veterinaria
 from schemas.triaje import TriajeRequest, TriajeResponse
+from utils.contingencia_barrios import resolver_contingencia_zonal, cargar_catalogo_veterinarias
+from src.clustering_barrios import obtener_metricas_por_barrio, obtener_diagnostico_barrio
 
 
 router = APIRouter(prefix="/triaje", tags=["Triaje de Urgencia e IA"])
 asistente_ia = AsistenteIA()
 notificador = ServicioNotificacion(proveedor_api="WhatsApp / Twilio")
-
-VETERINARIAS_CANDIDATAS = [
-    Veterinaria(
-        1,
-        "Centro Médico Veterinario Belgrano 24h",
-        "Amenábar 2214, Belgrano, CABA",
-        -34.562069,
-        -58.4596054,
-        tiene_guardia_24h=True,
-        telefono_guardia="+5491144445555",
-        horario_informado="Guardia 24hs activa",
-        fuente_datos="OpenStreetMap / Registro Oficial",
-        fuente_url="https://www.openstreetmap.org/node/2276920088",
-        atribucion_fuente="© OpenStreetMap contributors (ODbL)",
-        estado_verificacion="VERIFICADA_24HS",
-    ),
-    Veterinaria(
-        2,
-        "Clínica Veterinaria Panda Guardia Urgencias",
-        "Av. Ruiz Huidobro 4771, Saavedra, CABA",
-        -34.5549092,
-        -58.4945994,
-        tiene_guardia_24h=True,
-        telefono_guardia="+5491188889999",
-        horario_informado="Guardia 24hs activa",
-        fuente_datos="OpenStreetMap / Registro Oficial",
-        fuente_url="https://www.openstreetmap.org/node/8067203564",
-        atribucion_fuente="© OpenStreetMap contributors (ODbL)",
-        estado_verificacion="VERIFICADA_24HS",
-    ),
-]
-for candidata in VETERINARIAS_CANDIDATAS:
-    candidata.actualizar_estado_guardia("DISPONIBLE")
 
 contador_alertas = 900
 
@@ -54,6 +23,9 @@ contador_alertas = 900
 @router.post("/evaluar", response_model=TriajeResponse)
 def evaluar_triaje(datos: TriajeRequest) -> TriajeResponse:
     global contador_alertas
+
+    # Normalizar síntomas de entrada
+    sintomas_texto = datos.sintoma_principal or datos.sintomas or "Decaimiento general"
 
     # Intentar asociar a una mascota registrada en memoria si existe
     from routers.mascotas import MASCOTAS_DB
@@ -68,9 +40,10 @@ def evaluar_triaje(datos: TriajeRequest) -> TriajeResponse:
             paciente = m
             break
 
+    especie_nombre = datos.especie or "Canino"
     if paciente is None:
-        felino = Especie(1, "Felino", es_exotico=False)
-        raza_generica = Raza(1, "Mestizo", felino)
+        especie_obj = Especie(1, especie_nombre, es_exotico=False)
+        raza_generica = Raza(1, "Mestizo", especie_obj)
         paciente = Mascota(
             id_mascota=1,
             nombre=datos.nombre_mascota,
@@ -79,94 +52,138 @@ def evaluar_triaje(datos: TriajeRequest) -> TriajeResponse:
             peso_kg=4.0,
             raza=raza_generica,
         )
+    elif hasattr(paciente, "raza") and hasattr(paciente.raza, "especie"):
+        especie_nombre = paciente.raza.especie.nombre
 
+    # Instanciar ConsultaTriaje con variables clínicas del modelo supervisado
     consulta = ConsultaTriaje(
         id_triaje=501,
-        sintomas_ingresados=datos.sintomas,
+        sintomas_ingresados=sintomas_texto,
         id_cliente=datos.id_cliente or 1,
         id_mascota=paciente.id_mascota,
         mascota=paciente,
         asistente_ia=asistente_ia,
+        especie=especie_nombre,
+        tiempo_evolucion_hs=datos.tiempo_evolucion_hs or 2.0,
+        estado_conciencia=datos.estado_conciencia or "Alerta",
+        presencia_hemorragia=datos.presencia_hemorragia or 0
     )
-    consulta.ejecutar_triaje(asistente_ia)
+    
+    # Ejecutar inferencia predictiva con Machine Learning + Prompt estructurado
+    consulta.ejecutar_triaje(
+        asistente_ia,
+        tiempo_evolucion_hs=datos.tiempo_evolucion_hs or 2.0,
+        estado_conciencia=datos.estado_conciencia or "Alerta",
+        presencia_hemorragia=datos.presencia_hemorragia or 0
+    )
 
-    veterinaria_mas_cercana: Optional[Veterinaria] = None
-    distancia_minima = float("inf")
-    if datos.latitud_cliente is not None and datos.longitud_cliente is not None:
-        for veterinaria in VETERINARIAS_CANDIDATAS:
-            if veterinaria.esta_disponible() and veterinaria.tiene_guardia_24h:
-                distancia = veterinaria.calcular_distancia_km(
-                    datos.latitud_cliente,
-                    datos.longitud_cliente,
-                )
-                if distancia < distancia_minima:
-                    distancia_minima = distancia
-                    veterinaria_mas_cercana = veterinaria
+    es_urgencia_critica = consulta.nivel_urgencia in ["Alta", "Emergencia Crítica"]
 
+    # Resolver recomendación barrial y contingencia combinada con Haversine GPS
+    barrio_solicitado = datos.barrio or "Palermo"
+    contingencia_res = resolver_contingencia_zonal(
+        barrio_usuario=barrio_solicitado,
+        lat_cliente=datos.latitud_cliente,
+        lon_cliente=datos.longitud_cliente,
+        requiere_24hs=es_urgencia_critica
+    )
+
+    vet_info = contingencia_res.get("veterinaria_recomendada")
+    veterinaria_obj = None
+
+    if vet_info:
+        veterinaria_obj = Veterinaria(
+            id_veterinaria=vet_info["id_veterinaria"],
+            nombre=vet_info["nombre_centro"],
+            direccion=vet_info["direccion"],
+            latitud=vet_info["latitud"],
+            longitud=vet_info["longitud"],
+            tiene_guardia_24h=vet_info["guardia_24hs"],
+            telefono_guardia=vet_info["telefono"],
+            barrio=vet_info["barrio"],
+            comuna=vet_info["comuna"],
+            nivel_complejidad=vet_info["nivel_complejidad"],
+            especialidades=vet_info["especialidades"]
+        )
+
+    # Despacho de alerta en tiempo real ante casos de severidad Alta o Emergencia Crítica
     alerta_enviada = False
     id_alerta_generada = None
     estado_envio = None
     mensaje_texto = None
-    tiempo_arribo = None
+    tiempo_arribo = vet_info.get("tiempo_estimado_min", 15) if vet_info else None
 
-    if consulta.nivel_urgencia == "ALTA" and veterinaria_mas_cercana:
+    if es_urgencia_critica and veterinaria_obj:
         contador_alertas += 1
         alerta = AlertaUrgencia(
             id_alerta=contador_alertas,
             consulta_triaje=consulta,
-            veterinaria_destino=veterinaria_mas_cercana,
+            veterinaria_destino=veterinaria_obj,
             servicio_notificacion=notificador,
             id_triaje=consulta.id_triaje,
-            id_veterinaria_asignada=veterinaria_mas_cercana.id_veterinaria,
-            tiempo_estimado_arribo_min=max(10, int(distancia_minima * 3)),
+            id_veterinaria_asignada=veterinaria_obj.id_veterinaria,
+            tiempo_estimado_arribo_min=tiempo_arribo or 15,
         )
         alerta.transmitir()
         alerta_enviada = True
         id_alerta_generada = alerta.id_alerta
         estado_envio = alerta.estado
         mensaje_texto = alerta.mensaje_texto
-        tiempo_arribo = alerta.tiempo_estimado_arribo_min
 
     return TriajeResponse(
         paciente=paciente.nombre,
-        sintomas_ingresados=datos.sintomas,
+        especie=especie_nombre,
+        sintomas_ingresados=sintomas_texto,
         nivel_urgencia=consulta.nivel_urgencia,
+        confianza_prediccion=consulta.confianza_prediccion,
+        probabilidades=consulta.probabilidades,
         diagnostico_preliminar=consulta.diagnostico_preliminar,
         especialidad_sugerida=consulta.especialidad_sugerida,
         primeros_auxilios=consulta.primeros_auxilios,
-        veterinaria_cercana=(
-            veterinaria_mas_cercana.nombre
-            if veterinaria_mas_cercana
-            else "No disponible"
-        ),
-        direccion_veterinaria=(
-            veterinaria_mas_cercana.direccion
-            if veterinaria_mas_cercana
-            else None
-        ),
-        telefono_veterinaria=(
-            veterinaria_mas_cercana.telefono_guardia
-            if veterinaria_mas_cercana
-            else None
-        ),
-        distancia_km=(
-            distancia_minima if veterinaria_mas_cercana else None
-        ),
+        veterinaria_cercana=vet_info["nombre_centro"] if vet_info else "No disponible",
+        direccion_veterinaria=vet_info["direccion"] if vet_info else None,
+        telefono_veterinaria=vet_info["telefono"] if vet_info else None,
+        distancia_km=vet_info.get("distancia_km") if vet_info else None,
+        tiempo_estimado_arribo_min=tiempo_arribo,
+        barrio=barrio_solicitado,
+        contingencia_activada=contingencia_res.get("contingencia_activada", False),
+        motivo_contingencia=contingencia_res.get("motivo_contingencia"),
+        barrio_derivacion=contingencia_res.get("barrio_derivacion"),
         alerta_despachada=alerta_enviada,
         id_alerta=id_alerta_generada,
         estado_notificacion=estado_envio,
-        tiempo_estimado_arribo_min=tiempo_arribo,
         mensaje_alerta=mensaje_texto,
         latitud_cliente=datos.latitud_cliente,
         longitud_cliente=datos.longitud_cliente,
-        latitud_veterinaria=(
-            veterinaria_mas_cercana.latitud
-            if veterinaria_mas_cercana
-            else None
-        ),
-        longitud_veterinaria=(
-            veterinaria_mas_cercana.longitud
-            if veterinaria_mas_cercana
-            else None
-        ),
+        latitud_veterinaria=vet_info["latitud"] if vet_info else None,
+        longitud_veterinaria=vet_info["longitud"] if vet_info else None,
     )
+
+
+@router.get("/contingencia/{barrio}")
+def consultar_contingencia_barrial(
+    barrio: str,
+    latitud: Optional[float] = None,
+    longitud: Optional[float] = None,
+    solo_24hs: bool = True
+) -> Dict[str, Any]:
+    """
+    Consulta directa de cobertura de guardia y derivación por contingencia geográfica.
+    """
+    return resolver_contingencia_zonal(
+        barrio_usuario=barrio,
+        lat_cliente=latitud,
+        lon_cliente=longitud,
+        requiere_24hs=solo_24hs
+    )
+
+
+@router.get("/clustering/zonas")
+def consultar_clustering_zonas() -> List[Dict[str, Any]]:
+    """
+    Expone los resultados de segmentación no supervisada (K-Means) de los barrios de CABA.
+    """
+    df_clusters = obtener_metricas_por_barrio()
+    from src.clustering_barrios import entrenar_clustering
+    resultado = entrenar_clustering(k=3)
+    return resultado.to_dict(orient="records")

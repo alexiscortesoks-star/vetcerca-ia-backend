@@ -1,0 +1,1501 @@
+id_caso,especie,sintoma_principal,tiempo_evolucion_hs,estado_conciencia,presencia_hemorragia,nivel_urgencia
+1,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,28.8,Alerta,1,Moderada
+2,Felino,Prurito y rascado auricular leve,142.5,Alerta,0,Baja
+3,Felino,Herida profunda penetrante o mordedura,9.5,Deprimido,0,Alta
+4,Canino,Quemadura grave por calor o cáusticos,8.5,Alerta,0,Alta
+5,Canino,Reacción anafiláctica aguda / Angioedema facial severo,8.0,Deprimido,0,Alta
+6,Canino,Secreción ocular purulenta y blefaroespasmo,53.0,Estuporoso/Comatoso,0,Moderada
+7,Canino,Tos paroxística frecuente,18.6,Alerta,0,Moderada
+8,Felino,Reacción anafiláctica aguda / Angioedema facial severo,11.0,Deprimido,0,Alta
+9,Felino,Estornudos aislados sin secreción mucopurulenta,84.3,Alerta,0,Baja
+10,Felino,Hemorragia arterial profusa no controlada,1.0,Deprimido,1,Emergencia Crítica
+11,Felino,Tos paroxística frecuente,45.4,Estuporoso/Comatoso,0,Moderada
+12,Felino,Alopecia focalizada sin prurito intenso,96.7,Alerta,0,Baja
+13,Felino,Quemadura grave por calor o cáusticos,8.7,Deprimido,0,Alta
+14,Canino,Halitosis y sarro dental sin dificultad de masticación,132.4,Alerta,0,Baja
+15,Canino,Traumatismo agudo por atropello con shock,3.2,Estuporoso/Comatoso,1,Emergencia Crítica
+16,Felino,Control de peso y chequeo preventivo,42.3,Alerta,0,Baja
+17,Felino,Alopecia focalizada sin prurito intenso,127.1,Alerta,0,Baja
+18,Canino,Herida profunda penetrante o mordedura,2.7,Estuporoso/Comatoso,0,Alta
+19,Canino,Herida profunda penetrante o mordedura,11.6,Deprimido,0,Alta
+20,Felino,Convulsiones continuas / Status epiléptico,3.2,Estuporoso/Comatoso,1,Emergencia Crítica
+21,Felino,Prurito y rascado auricular leve,130.8,Alerta,0,Baja
+22,Canino,Prurito y rascado auricular leve,68.8,Alerta,0,Baja
+23,Felino,Halitosis y sarro dental sin dificultad de masticación,31.6,Alerta,0,Baja
+24,Felino,Prurito y rascado auricular leve,29.3,Alerta,0,Baja
+25,Canino,Control de peso y chequeo preventivo,157.2,Alerta,0,Baja
+26,Felino,Letargo extremo post-traumatismo,11.5,Deprimido,0,Alta
+27,Canino,Lagrimeo leve transparente,94.3,Alerta,0,Baja
+28,Canino,Control de peso y chequeo preventivo,53.3,Alerta,0,Baja
+29,Canino,Control de peso y chequeo preventivo,116.2,Alerta,0,Baja
+30,Canino,Consulta de rutina / Plan de vacunación,137.1,Alerta,0,Baja
+31,Felino,Fiebre persistente con decaimiento notable,36.6,Alerta,1,Moderada
+32,Felino,Dificultad marcada para orinar con dolor intenso,8.3,Estuporoso/Comatoso,1,Alta
+33,Felino,Consulta de rutina / Plan de vacunación,136.2,Alerta,0,Baja
+34,Canino,Fiebre persistente con decaimiento notable,26.4,Deprimido,0,Moderada
+35,Felino,Paro cardiorrespiratorio inminente,1.4,Estuporoso/Comatoso,0,Emergencia Crítica
+36,Felino,Pérdida de conciencia / Estado comatoso,0.4,Deprimido,1,Emergencia Crítica
+37,Felino,Dificultad marcada para orinar con dolor intenso,7.1,Deprimido,1,Alta
+38,Canino,Dolor abdominal agudo / Abdomen distendido y duro,2.9,Alerta,0,Alta
+39,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,50.4,Deprimido,0,Moderada
+40,Canino,Traumatismo agudo por atropello con shock,1.9,Estuporoso/Comatoso,0,Emergencia Crítica
+41,Felino,Consulta de rutina / Plan de vacunación,141.7,Deprimido,0,Baja
+42,Felino,Prolapso o traumatismo ocular grave,11.4,Deprimido,1,Alta
+43,Felino,Estornudos aislados sin secreción mucopurulenta,89.7,Alerta,0,Baja
+44,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,58.7,Alerta,0,Moderada
+45,Canino,Fiebre persistente con decaimiento notable,30.5,Alerta,0,Moderada
+46,Felino,Dificultad respiratoria severa / Cianosis,0.9,Estuporoso/Comatoso,0,Emergencia Crítica
+47,Canino,Obstrucción uretral completa con dilatación vesical,1.4,Estuporoso/Comatoso,1,Emergencia Crítica
+48,Canino,Hemorragia arterial profusa no controlada,3.1,Estuporoso/Comatoso,0,Emergencia Crítica
+49,Canino,Reacción anafiláctica aguda / Angioedema facial severo,6.7,Alerta,0,Alta
+50,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,58.8,Deprimido,0,Moderada
+51,Felino,Letargo extremo post-traumatismo,3.9,Alerta,1,Alta
+52,Felino,Letargo extremo post-traumatismo,2.5,Deprimido,1,Alta
+53,Felino,Halitosis y sarro dental sin dificultad de masticación,75.2,Alerta,0,Baja
+54,Canino,Halitosis y sarro dental sin dificultad de masticación,92.2,Alerta,0,Baja
+55,Felino,Letargo extremo post-traumatismo,8.9,Alerta,1,Alta
+56,Canino,Dificultad marcada para orinar con dolor intenso,5.3,Alerta,0,Alta
+57,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.9,Estuporoso/Comatoso,1,Emergencia Crítica
+58,Canino,Reacción anafiláctica aguda / Angioedema facial severo,3.1,Deprimido,1,Alta
+59,Felino,Hemorragia arterial profusa no controlada,3.4,Estuporoso/Comatoso,1,Emergencia Crítica
+60,Felino,Tos paroxística frecuente,57.9,Estuporoso/Comatoso,0,Moderada
+61,Canino,Reacción anafiláctica aguda / Angioedema facial severo,6.6,Estuporoso/Comatoso,0,Alta
+62,Canino,Dificultad marcada para orinar con dolor intenso,4.5,Alerta,0,Alta
+63,Felino,Herida profunda penetrante o mordedura,4.7,Deprimido,1,Alta
+64,Canino,Hemorragia arterial profusa no controlada,0.5,Estuporoso/Comatoso,0,Emergencia Crítica
+65,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,55.5,Estuporoso/Comatoso,0,Moderada
+66,Canino,Reacción anafiláctica aguda / Angioedema facial severo,1.3,Alerta,0,Alta
+67,Canino,Traumatismo agudo por atropello con shock,1.1,Estuporoso/Comatoso,0,Emergencia Crítica
+68,Canino,Tos paroxística frecuente,15.5,Alerta,0,Moderada
+69,Canino,Alopecia focalizada sin prurito intenso,80.0,Alerta,0,Baja
+70,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,1.5,Estuporoso/Comatoso,1,Emergencia Crítica
+71,Canino,Hemorragia arterial profusa no controlada,1.0,Estuporoso/Comatoso,1,Emergencia Crítica
+72,Felino,Tos paroxística frecuente,60.8,Deprimido,0,Moderada
+73,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,70.8,Alerta,0,Moderada
+74,Canino,Paro cardiorrespiratorio inminente,0.8,Estuporoso/Comatoso,0,Emergencia Crítica
+75,Canino,Prolapso o traumatismo ocular grave,0.5,Deprimido,0,Alta
+76,Canino,Estornudos aislados sin secreción mucopurulenta,51.2,Alerta,0,Baja
+77,Canino,Dificultad marcada para orinar con dolor intenso,4.7,Alerta,0,Alta
+78,Canino,Dolor abdominal agudo / Abdomen distendido y duro,10.9,Alerta,0,Alta
+79,Canino,Herida profunda penetrante o mordedura,9.2,Estuporoso/Comatoso,0,Alta
+80,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,12.9,Deprimido,0,Moderada
+81,Felino,Fiebre persistente con decaimiento notable,35.6,Alerta,0,Moderada
+82,Canino,Dificultad respiratoria severa / Cianosis,1.4,Estuporoso/Comatoso,1,Emergencia Crítica
+83,Felino,Traumatismo agudo por atropello con shock,2.5,Deprimido,1,Emergencia Crítica
+84,Canino,Tos paroxística frecuente,64.9,Deprimido,0,Moderada
+85,Canino,Herida superficial lacerante,52.7,Alerta,0,Moderada
+86,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,0.5,Estuporoso/Comatoso,1,Emergencia Crítica
+87,Canino,Dolor abdominal agudo / Abdomen distendido y duro,2.0,Alerta,0,Alta
+88,Felino,Fiebre persistente con decaimiento notable,23.3,Alerta,1,Moderada
+89,Canino,Inapetencia y letargo de más de 48 horas,67.7,Alerta,0,Moderada
+90,Felino,Inapetencia y letargo de más de 48 horas,54.0,Alerta,0,Moderada
+91,Canino,Secreción ocular purulenta y blefaroespasmo,29.4,Deprimido,0,Moderada
+92,Canino,Obstrucción uretral completa con dilatación vesical,2.8,Estuporoso/Comatoso,1,Emergencia Crítica
+93,Canino,Paro cardiorrespiratorio inminente,3.9,Estuporoso/Comatoso,1,Emergencia Crítica
+94,Felino,Halitosis y sarro dental sin dificultad de masticación,74.1,Alerta,0,Baja
+95,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,29.5,Alerta,0,Moderada
+96,Canino,Prolapso o traumatismo ocular grave,7.5,Estuporoso/Comatoso,1,Alta
+97,Canino,Letargo extremo post-traumatismo,10.6,Deprimido,1,Alta
+98,Canino,Traumatismo agudo por atropello con shock,2.0,Estuporoso/Comatoso,1,Emergencia Crítica
+99,Felino,Halitosis y sarro dental sin dificultad de masticación,163.4,Alerta,0,Baja
+100,Canino,Prolapso o traumatismo ocular grave,4.8,Estuporoso/Comatoso,0,Alta
+101,Canino,Fiebre persistente con decaimiento notable,57.9,Deprimido,0,Moderada
+102,Canino,Quemadura grave por calor o cáusticos,8.7,Deprimido,0,Alta
+103,Canino,Consulta de rutina / Plan de vacunación,102.1,Deprimido,0,Baja
+104,Canino,Tos paroxística frecuente,65.0,Alerta,0,Moderada
+105,Felino,Dolor abdominal agudo / Abdomen distendido y duro,8.9,Deprimido,0,Alta
+106,Canino,Traumatismo agudo por atropello con shock,3.2,Alerta,1,Emergencia Crítica
+107,Felino,Pérdida de conciencia / Estado comatoso,2.7,Deprimido,0,Emergencia Crítica
+108,Felino,Estornudos aislados sin secreción mucopurulenta,95.2,Alerta,0,Baja
+109,Canino,Convulsiones continuas / Status epiléptico,2.0,Estuporoso/Comatoso,0,Emergencia Crítica
+110,Canino,Fiebre persistente con decaimiento notable,46.9,Estuporoso/Comatoso,0,Moderada
+111,Canino,Herida profunda penetrante o mordedura,6.2,Deprimido,1,Alta
+112,Canino,Alopecia focalizada sin prurito intenso,153.3,Alerta,0,Baja
+113,Canino,Vómitos reiterados con contenido hemorrágico,7.7,Alerta,1,Alta
+114,Felino,Paro cardiorrespiratorio inminente,3.6,Estuporoso/Comatoso,0,Emergencia Crítica
+115,Felino,Traumatismo agudo por atropello con shock,0.5,Estuporoso/Comatoso,0,Emergencia Crítica
+116,Felino,Quemadura grave por calor o cáusticos,10.4,Deprimido,1,Alta
+117,Felino,Inapetencia y letargo de más de 48 horas,64.5,Deprimido,0,Moderada
+118,Canino,Obstrucción uretral completa con dilatación vesical,3.5,Deprimido,1,Emergencia Crítica
+119,Canino,Convulsiones continuas / Status epiléptico,2.2,Estuporoso/Comatoso,1,Emergencia Crítica
+120,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,20.7,Alerta,1,Moderada
+121,Felino,Inapetencia y letargo de más de 48 horas,69.7,Alerta,0,Moderada
+122,Canino,Alopecia focalizada sin prurito intenso,123.5,Alerta,0,Baja
+123,Felino,Estornudos aislados sin secreción mucopurulenta,92.5,Alerta,0,Baja
+124,Felino,Herida profunda penetrante o mordedura,6.9,Estuporoso/Comatoso,0,Alta
+125,Canino,Pérdida de conciencia / Estado comatoso,3.8,Estuporoso/Comatoso,1,Emergencia Crítica
+126,Felino,Lagrimeo leve transparente,88.2,Alerta,0,Baja
+127,Felino,Halitosis y sarro dental sin dificultad de masticación,46.6,Alerta,0,Baja
+128,Canino,Inapetencia y letargo de más de 48 horas,24.6,Alerta,0,Moderada
+129,Canino,Control de peso y chequeo preventivo,62.1,Alerta,0,Baja
+130,Felino,Quemadura grave por calor o cáusticos,11.6,Deprimido,1,Alta
+131,Canino,Consulta de rutina / Plan de vacunación,103.8,Alerta,0,Baja
+132,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.9,Estuporoso/Comatoso,1,Emergencia Crítica
+133,Canino,Secreción ocular purulenta y blefaroespasmo,55.9,Alerta,0,Moderada
+134,Canino,Estornudos aislados sin secreción mucopurulenta,150.6,Alerta,0,Baja
+135,Canino,Reacción anafiláctica aguda / Angioedema facial severo,8.5,Deprimido,0,Alta
+136,Felino,Paro cardiorrespiratorio inminente,1.9,Deprimido,1,Emergencia Crítica
+137,Felino,Letargo extremo post-traumatismo,4.3,Alerta,0,Alta
+138,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.4,Estuporoso/Comatoso,1,Emergencia Crítica
+139,Felino,Inapetencia y letargo de más de 48 horas,64.8,Alerta,0,Moderada
+140,Felino,Paro cardiorrespiratorio inminente,0.3,Estuporoso/Comatoso,1,Emergencia Crítica
+141,Canino,Alopecia focalizada sin prurito intenso,89.4,Alerta,0,Baja
+142,Canino,Pérdida de conciencia / Estado comatoso,1.3,Estuporoso/Comatoso,0,Emergencia Crítica
+143,Canino,Consulta de rutina / Plan de vacunación,138.8,Alerta,0,Baja
+144,Felino,Dificultad respiratoria severa / Cianosis,0.4,Estuporoso/Comatoso,1,Emergencia Crítica
+145,Felino,Dificultad marcada para orinar con dolor intenso,5.0,Estuporoso/Comatoso,0,Alta
+146,Canino,Lagrimeo leve transparente,122.6,Deprimido,0,Baja
+147,Felino,Reacción anafiláctica aguda / Angioedema facial severo,0.9,Deprimido,0,Alta
+148,Canino,Secreción ocular purulenta y blefaroespasmo,58.6,Alerta,0,Moderada
+149,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,1.0,Estuporoso/Comatoso,0,Emergencia Crítica
+150,Felino,Tos paroxística frecuente,65.6,Alerta,0,Moderada
+151,Felino,Estornudos aislados sin secreción mucopurulenta,79.6,Alerta,0,Baja
+152,Canino,Lagrimeo leve transparente,95.4,Alerta,0,Baja
+153,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,51.3,Alerta,0,Moderada
+154,Felino,Estornudos aislados sin secreción mucopurulenta,159.0,Alerta,0,Baja
+155,Canino,Reacción anafiláctica aguda / Angioedema facial severo,8.4,Alerta,1,Alta
+156,Felino,Alopecia focalizada sin prurito intenso,97.6,Alerta,0,Baja
+157,Felino,Prurito y rascado auricular leve,148.0,Deprimido,0,Baja
+158,Canino,Dificultad respiratoria severa / Cianosis,1.4,Estuporoso/Comatoso,1,Emergencia Crítica
+159,Canino,Pérdida de conciencia / Estado comatoso,0.4,Estuporoso/Comatoso,1,Emergencia Crítica
+160,Felino,Paro cardiorrespiratorio inminente,2.6,Estuporoso/Comatoso,0,Emergencia Crítica
+161,Canino,Herida profunda penetrante o mordedura,4.1,Alerta,0,Alta
+162,Canino,Hemorragia arterial profusa no controlada,0.9,Estuporoso/Comatoso,1,Emergencia Crítica
+163,Canino,Inapetencia y letargo de más de 48 horas,22.2,Alerta,0,Moderada
+164,Canino,Control de peso y chequeo preventivo,74.6,Alerta,0,Baja
+165,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,1.8,Estuporoso/Comatoso,1,Emergencia Crítica
+166,Canino,Pérdida de conciencia / Estado comatoso,0.5,Estuporoso/Comatoso,0,Emergencia Crítica
+167,Canino,Estornudos aislados sin secreción mucopurulenta,102.6,Alerta,0,Baja
+168,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,57.7,Alerta,0,Moderada
+169,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,17.8,Alerta,0,Moderada
+170,Felino,Letargo extremo post-traumatismo,9.0,Deprimido,0,Alta
+171,Canino,Dificultad respiratoria severa / Cianosis,2.4,Estuporoso/Comatoso,1,Emergencia Crítica
+172,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,48.9,Deprimido,0,Moderada
+173,Canino,Quemadura grave por calor o cáusticos,0.5,Deprimido,0,Alta
+174,Felino,Quemadura grave por calor o cáusticos,8.6,Alerta,1,Alta
+175,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,0.6,Estuporoso/Comatoso,0,Emergencia Crítica
+176,Canino,Pérdida de conciencia / Estado comatoso,3.7,Deprimido,1,Emergencia Crítica
+177,Felino,Tos paroxística frecuente,44.2,Alerta,0,Moderada
+178,Felino,Prolapso o traumatismo ocular grave,1.0,Alerta,1,Alta
+179,Felino,Herida profunda penetrante o mordedura,4.8,Alerta,0,Alta
+180,Canino,Prurito y rascado auricular leve,93.1,Alerta,0,Baja
+181,Felino,Hemorragia arterial profusa no controlada,0.9,Estuporoso/Comatoso,0,Emergencia Crítica
+182,Canino,Quemadura grave por calor o cáusticos,9.8,Deprimido,0,Alta
+183,Canino,Convulsiones continuas / Status epiléptico,0.4,Estuporoso/Comatoso,1,Emergencia Crítica
+184,Felino,Hemorragia arterial profusa no controlada,2.1,Estuporoso/Comatoso,1,Emergencia Crítica
+185,Felino,Estornudos aislados sin secreción mucopurulenta,96.5,Alerta,0,Baja
+186,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,18.5,Alerta,0,Moderada
+187,Canino,Tos paroxística frecuente,50.5,Deprimido,1,Moderada
+188,Canino,Quemadura grave por calor o cáusticos,4.8,Estuporoso/Comatoso,0,Alta
+189,Canino,Fiebre persistente con decaimiento notable,17.4,Alerta,0,Moderada
+190,Canino,Lagrimeo leve transparente,105.4,Alerta,0,Baja
+191,Canino,Reacción anafiláctica aguda / Angioedema facial severo,2.6,Deprimido,0,Alta
+192,Canino,Fiebre persistente con decaimiento notable,56.7,Alerta,0,Moderada
+193,Canino,Prurito y rascado auricular leve,47.7,Alerta,0,Baja
+194,Canino,Alopecia focalizada sin prurito intenso,45.7,Alerta,0,Baja
+195,Canino,Inapetencia y letargo de más de 48 horas,40.9,Alerta,0,Moderada
+196,Canino,Dificultad respiratoria severa / Cianosis,1.1,Estuporoso/Comatoso,1,Emergencia Crítica
+197,Felino,Herida superficial lacerante,40.6,Alerta,0,Moderada
+198,Felino,Dificultad respiratoria severa / Cianosis,1.3,Deprimido,1,Emergencia Crítica
+199,Felino,Tos paroxística frecuente,17.2,Alerta,0,Moderada
+200,Felino,Reacción anafiláctica aguda / Angioedema facial severo,5.0,Deprimido,0,Alta
+201,Felino,Tos paroxística frecuente,49.4,Alerta,0,Moderada
+202,Canino,Herida profunda penetrante o mordedura,1.3,Deprimido,0,Alta
+203,Felino,Prolapso o traumatismo ocular grave,2.4,Alerta,0,Alta
+204,Felino,Vómitos reiterados con contenido hemorrágico,10.3,Alerta,0,Alta
+205,Felino,Alopecia focalizada sin prurito intenso,98.4,Alerta,0,Baja
+206,Canino,Fiebre persistente con decaimiento notable,35.3,Alerta,0,Moderada
+207,Felino,Hemorragia arterial profusa no controlada,3.8,Estuporoso/Comatoso,1,Emergencia Crítica
+208,Canino,Quemadura grave por calor o cáusticos,4.6,Alerta,0,Alta
+209,Felino,Convulsiones continuas / Status epiléptico,3.6,Estuporoso/Comatoso,0,Emergencia Crítica
+210,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,29.2,Alerta,0,Moderada
+211,Felino,Convulsiones continuas / Status epiléptico,3.9,Estuporoso/Comatoso,1,Emergencia Crítica
+212,Canino,Control de peso y chequeo preventivo,49.0,Alerta,0,Baja
+213,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,18.9,Alerta,0,Moderada
+214,Canino,Alopecia focalizada sin prurito intenso,61.9,Alerta,0,Baja
+215,Canino,Hemorragia arterial profusa no controlada,0.4,Estuporoso/Comatoso,0,Emergencia Crítica
+216,Felino,Dificultad respiratoria severa / Cianosis,2.1,Deprimido,0,Emergencia Crítica
+217,Canino,Prurito y rascado auricular leve,27.4,Alerta,0,Baja
+218,Canino,Vómitos reiterados con contenido hemorrágico,7.3,Estuporoso/Comatoso,1,Alta
+219,Felino,Consulta de rutina / Plan de vacunación,137.7,Alerta,0,Baja
+220,Felino,Pérdida de conciencia / Estado comatoso,2.9,Estuporoso/Comatoso,1,Emergencia Crítica
+221,Canino,Halitosis y sarro dental sin dificultad de masticación,116.6,Alerta,0,Baja
+222,Felino,Herida superficial lacerante,40.6,Deprimido,1,Moderada
+223,Felino,Prolapso o traumatismo ocular grave,6.1,Deprimido,1,Alta
+224,Felino,Herida profunda penetrante o mordedura,1.1,Alerta,1,Alta
+225,Felino,Traumatismo agudo por atropello con shock,1.9,Estuporoso/Comatoso,0,Emergencia Crítica
+226,Canino,Prolapso o traumatismo ocular grave,0.6,Deprimido,0,Alta
+227,Felino,Pérdida de conciencia / Estado comatoso,1.8,Estuporoso/Comatoso,1,Emergencia Crítica
+228,Felino,Traumatismo agudo por atropello con shock,2.7,Estuporoso/Comatoso,1,Emergencia Crítica
+229,Felino,Consulta de rutina / Plan de vacunación,100.4,Alerta,0,Baja
+230,Felino,Lagrimeo leve transparente,44.7,Alerta,0,Baja
+231,Canino,Tos paroxística frecuente,35.2,Alerta,0,Moderada
+232,Canino,Dolor abdominal agudo / Abdomen distendido y duro,9.8,Deprimido,0,Alta
+233,Felino,Vómitos reiterados con contenido hemorrágico,11.2,Deprimido,1,Alta
+234,Canino,Alopecia focalizada sin prurito intenso,68.7,Alerta,0,Baja
+235,Felino,Herida superficial lacerante,47.7,Deprimido,0,Moderada
+236,Felino,Inapetencia y letargo de más de 48 horas,38.6,Deprimido,0,Moderada
+237,Felino,Consulta de rutina / Plan de vacunación,24.6,Alerta,0,Baja
+238,Felino,Halitosis y sarro dental sin dificultad de masticación,24.5,Alerta,0,Baja
+239,Felino,Estornudos aislados sin secreción mucopurulenta,45.8,Alerta,0,Baja
+240,Felino,Prurito y rascado auricular leve,72.6,Alerta,0,Baja
+241,Felino,Dificultad marcada para orinar con dolor intenso,0.6,Deprimido,0,Alta
+242,Felino,Herida superficial lacerante,61.7,Alerta,0,Moderada
+243,Canino,Tos paroxística frecuente,14.3,Alerta,0,Moderada
+244,Felino,Convulsiones continuas / Status epiléptico,3.6,Deprimido,1,Emergencia Crítica
+245,Canino,Reacción anafiláctica aguda / Angioedema facial severo,9.5,Deprimido,1,Alta
+246,Canino,Vómitos reiterados con contenido hemorrágico,7.6,Alerta,0,Alta
+247,Felino,Control de peso y chequeo preventivo,125.6,Alerta,0,Baja
+248,Felino,Control de peso y chequeo preventivo,79.1,Alerta,0,Baja
+249,Canino,Consulta de rutina / Plan de vacunación,116.5,Alerta,0,Baja
+250,Felino,Quemadura grave por calor o cáusticos,6.3,Deprimido,0,Alta
+251,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,39.9,Alerta,0,Moderada
+252,Felino,Dificultad respiratoria severa / Cianosis,0.2,Alerta,1,Emergencia Crítica
+253,Canino,Consulta de rutina / Plan de vacunación,105.0,Alerta,0,Baja
+254,Canino,Prolapso o traumatismo ocular grave,12.0,Deprimido,1,Alta
+255,Felino,Tos paroxística frecuente,31.8,Deprimido,0,Moderada
+256,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,43.6,Deprimido,0,Moderada
+257,Canino,Paro cardiorrespiratorio inminente,2.8,Estuporoso/Comatoso,1,Emergencia Crítica
+258,Canino,Vómitos reiterados con contenido hemorrágico,5.4,Deprimido,0,Alta
+259,Canino,Tos paroxística frecuente,50.5,Alerta,0,Moderada
+260,Canino,Control de peso y chequeo preventivo,150.3,Alerta,0,Baja
+261,Felino,Estornudos aislados sin secreción mucopurulenta,80.5,Alerta,0,Baja
+262,Felino,Pérdida de conciencia / Estado comatoso,3.1,Deprimido,1,Emergencia Crítica
+263,Felino,Prolapso o traumatismo ocular grave,0.9,Estuporoso/Comatoso,1,Alta
+264,Canino,Tos paroxística frecuente,53.0,Alerta,0,Moderada
+265,Canino,Alopecia focalizada sin prurito intenso,73.7,Alerta,0,Baja
+266,Canino,Lagrimeo leve transparente,45.1,Alerta,0,Baja
+267,Felino,Quemadura grave por calor o cáusticos,11.0,Alerta,0,Alta
+268,Canino,Convulsiones continuas / Status epiléptico,2.2,Estuporoso/Comatoso,1,Emergencia Crítica
+269,Canino,Secreción ocular purulenta y blefaroespasmo,56.0,Alerta,0,Moderada
+270,Felino,Secreción ocular purulenta y blefaroespasmo,47.2,Alerta,0,Moderada
+271,Felino,Traumatismo agudo por atropello con shock,0.4,Estuporoso/Comatoso,1,Emergencia Crítica
+272,Canino,Hemorragia arterial profusa no controlada,3.6,Estuporoso/Comatoso,1,Emergencia Crítica
+273,Felino,Obstrucción uretral completa con dilatación vesical,3.3,Estuporoso/Comatoso,1,Emergencia Crítica
+274,Felino,Halitosis y sarro dental sin dificultad de masticación,36.2,Alerta,0,Baja
+275,Canino,Tos paroxística frecuente,22.2,Alerta,1,Moderada
+276,Canino,Halitosis y sarro dental sin dificultad de masticación,49.0,Alerta,0,Baja
+277,Felino,Halitosis y sarro dental sin dificultad de masticación,113.7,Alerta,0,Baja
+278,Canino,Alopecia focalizada sin prurito intenso,122.4,Alerta,0,Baja
+279,Canino,Paro cardiorrespiratorio inminente,0.5,Estuporoso/Comatoso,1,Emergencia Crítica
+280,Canino,Control de peso y chequeo preventivo,76.0,Alerta,0,Baja
+281,Felino,Prurito y rascado auricular leve,42.3,Alerta,0,Baja
+282,Canino,Estornudos aislados sin secreción mucopurulenta,66.6,Alerta,0,Baja
+283,Felino,Prurito y rascado auricular leve,29.0,Alerta,0,Baja
+284,Canino,Quemadura grave por calor o cáusticos,1.7,Deprimido,0,Alta
+285,Canino,Pérdida de conciencia / Estado comatoso,2.3,Deprimido,1,Emergencia Crítica
+286,Felino,Letargo extremo post-traumatismo,5.4,Alerta,1,Alta
+287,Canino,Convulsiones continuas / Status epiléptico,0.7,Estuporoso/Comatoso,1,Emergencia Crítica
+288,Felino,Estornudos aislados sin secreción mucopurulenta,41.4,Alerta,0,Baja
+289,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.1,Estuporoso/Comatoso,1,Emergencia Crítica
+290,Canino,Halitosis y sarro dental sin dificultad de masticación,55.2,Alerta,0,Baja
+291,Canino,Reacción anafiláctica aguda / Angioedema facial severo,0.9,Deprimido,0,Alta
+292,Felino,Halitosis y sarro dental sin dificultad de masticación,124.0,Alerta,0,Baja
+293,Felino,Paro cardiorrespiratorio inminente,3.2,Deprimido,1,Emergencia Crítica
+294,Felino,Prurito y rascado auricular leve,51.9,Alerta,0,Baja
+295,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,63.0,Alerta,0,Moderada
+296,Felino,Herida superficial lacerante,34.3,Deprimido,0,Moderada
+297,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,42.9,Alerta,0,Moderada
+298,Felino,Lagrimeo leve transparente,46.7,Alerta,0,Baja
+299,Felino,Halitosis y sarro dental sin dificultad de masticación,106.8,Alerta,0,Baja
+300,Canino,Tos paroxística frecuente,43.4,Deprimido,0,Moderada
+301,Felino,Quemadura grave por calor o cáusticos,1.8,Deprimido,0,Alta
+302,Felino,Vómitos reiterados con contenido hemorrágico,9.3,Deprimido,0,Alta
+303,Canino,Control de peso y chequeo preventivo,156.1,Alerta,0,Baja
+304,Felino,Herida superficial lacerante,44.2,Alerta,0,Moderada
+305,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.7,Estuporoso/Comatoso,0,Emergencia Crítica
+306,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,1.1,Deprimido,1,Emergencia Crítica
+307,Felino,Alopecia focalizada sin prurito intenso,82.8,Alerta,0,Baja
+308,Felino,Herida superficial lacerante,18.5,Alerta,0,Moderada
+309,Felino,Prolapso o traumatismo ocular grave,11.1,Deprimido,0,Alta
+310,Felino,Hemorragia arterial profusa no controlada,2.1,Estuporoso/Comatoso,0,Emergencia Crítica
+311,Felino,Reacción anafiláctica aguda / Angioedema facial severo,2.4,Deprimido,1,Alta
+312,Canino,Lagrimeo leve transparente,90.2,Alerta,0,Baja
+313,Canino,Reacción anafiláctica aguda / Angioedema facial severo,1.7,Deprimido,0,Alta
+314,Canino,Quemadura grave por calor o cáusticos,8.9,Deprimido,1,Alta
+315,Canino,Secreción ocular purulenta y blefaroespasmo,20.1,Deprimido,0,Moderada
+316,Felino,Prolapso o traumatismo ocular grave,9.7,Deprimido,0,Alta
+317,Canino,Prolapso o traumatismo ocular grave,9.1,Deprimido,1,Alta
+318,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,44.0,Alerta,0,Moderada
+319,Felino,Pérdida de conciencia / Estado comatoso,2.0,Deprimido,1,Emergencia Crítica
+320,Canino,Inapetencia y letargo de más de 48 horas,40.2,Deprimido,0,Moderada
+321,Canino,Inapetencia y letargo de más de 48 horas,29.2,Alerta,0,Moderada
+322,Canino,Halitosis y sarro dental sin dificultad de masticación,93.3,Alerta,0,Baja
+323,Canino,Dificultad marcada para orinar con dolor intenso,9.5,Estuporoso/Comatoso,1,Alta
+324,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,24.1,Deprimido,0,Moderada
+325,Canino,Tos paroxística frecuente,69.5,Alerta,0,Moderada
+326,Canino,Lagrimeo leve transparente,146.4,Alerta,0,Baja
+327,Canino,Convulsiones continuas / Status epiléptico,0.6,Estuporoso/Comatoso,1,Emergencia Crítica
+328,Felino,Prurito y rascado auricular leve,57.5,Alerta,0,Baja
+329,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.7,Estuporoso/Comatoso,0,Emergencia Crítica
+330,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.2,Estuporoso/Comatoso,1,Emergencia Crítica
+331,Felino,Alopecia focalizada sin prurito intenso,151.4,Alerta,0,Baja
+332,Felino,Herida superficial lacerante,56.2,Alerta,0,Moderada
+333,Felino,Lagrimeo leve transparente,122.7,Alerta,0,Baja
+334,Canino,Herida superficial lacerante,50.3,Deprimido,0,Moderada
+335,Felino,Letargo extremo post-traumatismo,2.6,Deprimido,1,Alta
+336,Canino,Herida superficial lacerante,58.2,Deprimido,0,Moderada
+337,Felino,Obstrucción uretral completa con dilatación vesical,0.7,Estuporoso/Comatoso,1,Emergencia Crítica
+338,Felino,Obstrucción uretral completa con dilatación vesical,2.2,Estuporoso/Comatoso,1,Emergencia Crítica
+339,Felino,Reacción anafiláctica aguda / Angioedema facial severo,9.0,Deprimido,1,Alta
+340,Canino,Vómitos reiterados con contenido hemorrágico,10.2,Deprimido,0,Alta
+341,Felino,Dificultad respiratoria severa / Cianosis,1.3,Deprimido,1,Emergencia Crítica
+342,Canino,Vómitos reiterados con contenido hemorrágico,10.8,Estuporoso/Comatoso,0,Alta
+343,Canino,Inapetencia y letargo de más de 48 horas,45.9,Alerta,0,Moderada
+344,Canino,Prurito y rascado auricular leve,34.3,Alerta,0,Baja
+345,Felino,Herida superficial lacerante,16.1,Deprimido,0,Moderada
+346,Felino,Inapetencia y letargo de más de 48 horas,66.1,Alerta,0,Moderada
+347,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.1,Estuporoso/Comatoso,0,Emergencia Crítica
+348,Felino,Inapetencia y letargo de más de 48 horas,49.2,Alerta,0,Moderada
+349,Canino,Pérdida de conciencia / Estado comatoso,1.2,Estuporoso/Comatoso,1,Emergencia Crítica
+350,Felino,Lagrimeo leve transparente,130.2,Alerta,0,Baja
+351,Felino,Paro cardiorrespiratorio inminente,0.8,Estuporoso/Comatoso,1,Emergencia Crítica
+352,Canino,Reacción anafiláctica aguda / Angioedema facial severo,9.6,Estuporoso/Comatoso,0,Alta
+353,Felino,Convulsiones continuas / Status epiléptico,1.2,Estuporoso/Comatoso,1,Emergencia Crítica
+354,Canino,Secreción ocular purulenta y blefaroespasmo,68.0,Alerta,0,Moderada
+355,Felino,Inapetencia y letargo de más de 48 horas,50.9,Deprimido,0,Moderada
+356,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,25.2,Alerta,0,Moderada
+357,Canino,Dolor abdominal agudo / Abdomen distendido y duro,3.4,Deprimido,0,Alta
+358,Felino,Fiebre persistente con decaimiento notable,53.8,Alerta,1,Moderada
+359,Felino,Prolapso o traumatismo ocular grave,3.4,Deprimido,0,Alta
+360,Felino,Dificultad respiratoria severa / Cianosis,0.7,Estuporoso/Comatoso,1,Emergencia Crítica
+361,Canino,Letargo extremo post-traumatismo,5.1,Deprimido,1,Alta
+362,Felino,Herida superficial lacerante,12.8,Deprimido,0,Moderada
+363,Felino,Lagrimeo leve transparente,42.4,Alerta,0,Baja
+364,Felino,Estornudos aislados sin secreción mucopurulenta,55.6,Alerta,0,Baja
+365,Canino,Fiebre persistente con decaimiento notable,55.4,Alerta,0,Moderada
+366,Canino,Secreción ocular purulenta y blefaroespasmo,27.1,Deprimido,0,Moderada
+367,Felino,Pérdida de conciencia / Estado comatoso,3.3,Deprimido,1,Emergencia Crítica
+368,Canino,Prolapso o traumatismo ocular grave,2.1,Alerta,0,Alta
+369,Felino,Traumatismo agudo por atropello con shock,3.0,Estuporoso/Comatoso,1,Emergencia Crítica
+370,Felino,Alopecia focalizada sin prurito intenso,52.6,Alerta,0,Baja
+371,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.6,Estuporoso/Comatoso,0,Emergencia Crítica
+372,Felino,Lagrimeo leve transparente,126.9,Alerta,0,Baja
+373,Canino,Control de peso y chequeo preventivo,133.2,Alerta,0,Baja
+374,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,68.7,Alerta,0,Moderada
+375,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,23.6,Alerta,1,Moderada
+376,Canino,Secreción ocular purulenta y blefaroespasmo,55.7,Deprimido,0,Moderada
+377,Felino,Consulta de rutina / Plan de vacunación,111.9,Alerta,0,Baja
+378,Felino,Estornudos aislados sin secreción mucopurulenta,120.7,Alerta,0,Baja
+379,Felino,Control de peso y chequeo preventivo,47.6,Alerta,0,Baja
+380,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.6,Estuporoso/Comatoso,1,Emergencia Crítica
+381,Felino,Control de peso y chequeo preventivo,120.7,Alerta,0,Baja
+382,Canino,Consulta de rutina / Plan de vacunación,29.1,Alerta,0,Baja
+383,Felino,Tos paroxística frecuente,69.6,Deprimido,0,Moderada
+384,Canino,Secreción ocular purulenta y blefaroespasmo,44.2,Deprimido,0,Moderada
+385,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,40.9,Alerta,0,Moderada
+386,Felino,Convulsiones continuas / Status epiléptico,3.1,Alerta,1,Emergencia Crítica
+387,Felino,Control de peso y chequeo preventivo,86.9,Alerta,0,Baja
+388,Felino,Estornudos aislados sin secreción mucopurulenta,43.1,Alerta,0,Baja
+389,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.3,Deprimido,0,Emergencia Crítica
+390,Felino,Tos paroxística frecuente,23.9,Alerta,0,Moderada
+391,Canino,Dolor abdominal agudo / Abdomen distendido y duro,7.9,Estuporoso/Comatoso,0,Alta
+392,Canino,Herida superficial lacerante,68.3,Deprimido,0,Moderada
+393,Canino,Prurito y rascado auricular leve,166.1,Alerta,0,Baja
+394,Felino,Dolor abdominal agudo / Abdomen distendido y duro,12.0,Estuporoso/Comatoso,0,Alta
+395,Felino,Consulta de rutina / Plan de vacunación,79.8,Alerta,0,Baja
+396,Felino,Herida profunda penetrante o mordedura,11.4,Deprimido,0,Alta
+397,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,1.2,Estuporoso/Comatoso,0,Emergencia Crítica
+398,Canino,Halitosis y sarro dental sin dificultad de masticación,131.4,Alerta,0,Baja
+399,Canino,Estornudos aislados sin secreción mucopurulenta,78.4,Alerta,0,Baja
+400,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,23.0,Alerta,0,Moderada
+401,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,55.6,Alerta,0,Moderada
+402,Canino,Letargo extremo post-traumatismo,11.1,Deprimido,0,Alta
+403,Canino,Estornudos aislados sin secreción mucopurulenta,164.4,Alerta,0,Baja
+404,Felino,Lagrimeo leve transparente,85.5,Deprimido,0,Baja
+405,Canino,Hemorragia arterial profusa no controlada,3.0,Estuporoso/Comatoso,1,Emergencia Crítica
+406,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,20.8,Alerta,0,Moderada
+407,Canino,Prolapso o traumatismo ocular grave,4.5,Alerta,1,Alta
+408,Felino,Obstrucción uretral completa con dilatación vesical,3.2,Estuporoso/Comatoso,0,Emergencia Crítica
+409,Canino,Hemorragia arterial profusa no controlada,2.0,Deprimido,1,Emergencia Crítica
+410,Canino,Lagrimeo leve transparente,126.0,Alerta,0,Baja
+411,Canino,Halitosis y sarro dental sin dificultad de masticación,95.7,Deprimido,0,Baja
+412,Canino,Obstrucción uretral completa con dilatación vesical,1.3,Estuporoso/Comatoso,1,Emergencia Crítica
+413,Felino,Herida superficial lacerante,34.7,Deprimido,0,Moderada
+414,Felino,Obstrucción uretral completa con dilatación vesical,2.4,Estuporoso/Comatoso,0,Emergencia Crítica
+415,Canino,Reacción anafiláctica aguda / Angioedema facial severo,2.2,Deprimido,0,Alta
+416,Canino,Dificultad marcada para orinar con dolor intenso,5.8,Estuporoso/Comatoso,0,Alta
+417,Canino,Convulsiones continuas / Status epiléptico,1.2,Deprimido,0,Emergencia Crítica
+418,Felino,Control de peso y chequeo preventivo,149.8,Alerta,0,Baja
+419,Canino,Letargo extremo post-traumatismo,7.9,Estuporoso/Comatoso,0,Alta
+420,Felino,Lagrimeo leve transparente,61.1,Alerta,0,Baja
+421,Felino,Pérdida de conciencia / Estado comatoso,1.3,Estuporoso/Comatoso,1,Emergencia Crítica
+422,Canino,Dificultad marcada para orinar con dolor intenso,2.0,Alerta,0,Alta
+423,Canino,Dificultad respiratoria severa / Cianosis,3.8,Estuporoso/Comatoso,1,Emergencia Crítica
+424,Felino,Prolapso o traumatismo ocular grave,5.2,Alerta,0,Alta
+425,Canino,Herida superficial lacerante,28.6,Alerta,0,Moderada
+426,Felino,Secreción ocular purulenta y blefaroespasmo,67.4,Deprimido,0,Moderada
+427,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,31.0,Deprimido,0,Moderada
+428,Felino,Prolapso o traumatismo ocular grave,4.3,Estuporoso/Comatoso,0,Alta
+429,Canino,Hemorragia arterial profusa no controlada,2.8,Alerta,1,Emergencia Crítica
+430,Felino,Control de peso y chequeo preventivo,103.7,Deprimido,0,Baja
+431,Canino,Reacción anafiláctica aguda / Angioedema facial severo,3.7,Alerta,1,Alta
+432,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.7,Estuporoso/Comatoso,1,Emergencia Crítica
+433,Felino,Traumatismo agudo por atropello con shock,1.6,Estuporoso/Comatoso,0,Emergencia Crítica
+434,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,0.7,Estuporoso/Comatoso,1,Emergencia Crítica
+435,Canino,Dificultad marcada para orinar con dolor intenso,10.2,Estuporoso/Comatoso,0,Alta
+436,Felino,Dolor abdominal agudo / Abdomen distendido y duro,9.4,Deprimido,0,Alta
+437,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,14.1,Alerta,0,Moderada
+438,Canino,Hemorragia arterial profusa no controlada,2.4,Estuporoso/Comatoso,0,Emergencia Crítica
+439,Canino,Pérdida de conciencia / Estado comatoso,1.1,Deprimido,0,Emergencia Crítica
+440,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,18.4,Deprimido,0,Moderada
+441,Canino,Consulta de rutina / Plan de vacunación,63.4,Deprimido,0,Baja
+442,Felino,Prolapso o traumatismo ocular grave,4.6,Deprimido,1,Alta
+443,Canino,Pérdida de conciencia / Estado comatoso,3.8,Deprimido,1,Emergencia Crítica
+444,Canino,Consulta de rutina / Plan de vacunación,39.5,Alerta,0,Baja
+445,Felino,Dificultad respiratoria severa / Cianosis,1.6,Estuporoso/Comatoso,1,Emergencia Crítica
+446,Canino,Fiebre persistente con decaimiento notable,41.9,Alerta,0,Moderada
+447,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,58.3,Alerta,0,Moderada
+448,Felino,Reacción anafiláctica aguda / Angioedema facial severo,10.7,Alerta,0,Alta
+449,Canino,Consulta de rutina / Plan de vacunación,92.0,Deprimido,0,Baja
+450,Canino,Estornudos aislados sin secreción mucopurulenta,54.3,Deprimido,0,Baja
+451,Canino,Prolapso o traumatismo ocular grave,5.7,Deprimido,1,Alta
+452,Canino,Herida profunda penetrante o mordedura,3.7,Deprimido,0,Alta
+453,Felino,Traumatismo agudo por atropello con shock,3.4,Estuporoso/Comatoso,0,Emergencia Crítica
+454,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,36.7,Alerta,0,Moderada
+455,Canino,Secreción ocular purulenta y blefaroespasmo,12.0,Deprimido,0,Moderada
+456,Felino,Inapetencia y letargo de más de 48 horas,48.8,Alerta,1,Moderada
+457,Canino,Consulta de rutina / Plan de vacunación,107.2,Alerta,0,Baja
+458,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,53.2,Alerta,0,Moderada
+459,Felino,Obstrucción uretral completa con dilatación vesical,3.4,Estuporoso/Comatoso,0,Emergencia Crítica
+460,Felino,Hemorragia arterial profusa no controlada,2.2,Alerta,1,Emergencia Crítica
+461,Felino,Dolor abdominal agudo / Abdomen distendido y duro,9.2,Deprimido,1,Alta
+462,Felino,Convulsiones continuas / Status epiléptico,2.6,Estuporoso/Comatoso,0,Emergencia Crítica
+463,Canino,Obstrucción uretral completa con dilatación vesical,1.6,Estuporoso/Comatoso,0,Emergencia Crítica
+464,Canino,Letargo extremo post-traumatismo,0.8,Estuporoso/Comatoso,1,Alta
+465,Felino,Convulsiones continuas / Status epiléptico,3.6,Estuporoso/Comatoso,1,Emergencia Crítica
+466,Felino,Prolapso o traumatismo ocular grave,8.9,Deprimido,0,Alta
+467,Felino,Dolor abdominal agudo / Abdomen distendido y duro,1.1,Deprimido,0,Alta
+468,Canino,Secreción ocular purulenta y blefaroespasmo,20.3,Deprimido,0,Moderada
+469,Felino,Herida profunda penetrante o mordedura,8.6,Deprimido,0,Alta
+470,Canino,Estornudos aislados sin secreción mucopurulenta,86.5,Alerta,0,Baja
+471,Felino,Convulsiones continuas / Status epiléptico,2.1,Deprimido,1,Emergencia Crítica
+472,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,37.7,Deprimido,0,Moderada
+473,Felino,Traumatismo agudo por atropello con shock,0.8,Estuporoso/Comatoso,1,Emergencia Crítica
+474,Felino,Dificultad respiratoria severa / Cianosis,1.0,Estuporoso/Comatoso,1,Emergencia Crítica
+475,Felino,Herida profunda penetrante o mordedura,7.5,Alerta,0,Alta
+476,Canino,Vómitos reiterados con contenido hemorrágico,3.3,Estuporoso/Comatoso,0,Alta
+477,Canino,Vómitos reiterados con contenido hemorrágico,4.9,Deprimido,0,Alta
+478,Canino,Pérdida de conciencia / Estado comatoso,0.5,Alerta,0,Emergencia Crítica
+479,Canino,Reacción anafiláctica aguda / Angioedema facial severo,8.1,Deprimido,1,Alta
+480,Canino,Dificultad marcada para orinar con dolor intenso,2.3,Deprimido,0,Alta
+481,Felino,Prurito y rascado auricular leve,118.1,Alerta,0,Baja
+482,Canino,Dolor abdominal agudo / Abdomen distendido y duro,2.2,Deprimido,1,Alta
+483,Felino,Inapetencia y letargo de más de 48 horas,53.4,Alerta,1,Moderada
+484,Felino,Consulta de rutina / Plan de vacunación,83.7,Alerta,0,Baja
+485,Canino,Tos paroxística frecuente,12.4,Alerta,0,Moderada
+486,Canino,Prolapso o traumatismo ocular grave,11.0,Deprimido,0,Alta
+487,Canino,Pérdida de conciencia / Estado comatoso,3.2,Estuporoso/Comatoso,1,Emergencia Crítica
+488,Canino,Alopecia focalizada sin prurito intenso,154.6,Alerta,0,Baja
+489,Felino,Consulta de rutina / Plan de vacunación,133.5,Alerta,0,Baja
+490,Felino,Dolor abdominal agudo / Abdomen distendido y duro,1.6,Alerta,1,Alta
+491,Canino,Hemorragia arterial profusa no controlada,3.6,Estuporoso/Comatoso,0,Emergencia Crítica
+492,Canino,Fiebre persistente con decaimiento notable,58.3,Alerta,0,Moderada
+493,Canino,Alopecia focalizada sin prurito intenso,147.4,Alerta,0,Baja
+494,Felino,Consulta de rutina / Plan de vacunación,126.2,Alerta,0,Baja
+495,Canino,Prurito y rascado auricular leve,166.7,Alerta,0,Baja
+496,Canino,Dificultad marcada para orinar con dolor intenso,5.0,Deprimido,1,Alta
+497,Canino,Quemadura grave por calor o cáusticos,8.6,Deprimido,1,Alta
+498,Canino,Traumatismo agudo por atropello con shock,2.8,Estuporoso/Comatoso,0,Emergencia Crítica
+499,Felino,Estornudos aislados sin secreción mucopurulenta,122.2,Deprimido,0,Baja
+500,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,31.1,Deprimido,0,Moderada
+501,Canino,Reacción anafiláctica aguda / Angioedema facial severo,6.4,Deprimido,1,Alta
+502,Felino,Alopecia focalizada sin prurito intenso,29.2,Alerta,0,Baja
+503,Felino,Reacción anafiláctica aguda / Angioedema facial severo,11.6,Estuporoso/Comatoso,1,Alta
+504,Canino,Obstrucción uretral completa con dilatación vesical,0.5,Estuporoso/Comatoso,0,Emergencia Crítica
+505,Felino,Prolapso o traumatismo ocular grave,7.1,Alerta,1,Alta
+506,Felino,Estornudos aislados sin secreción mucopurulenta,62.5,Alerta,0,Baja
+507,Felino,Dificultad respiratoria severa / Cianosis,1.7,Alerta,1,Emergencia Crítica
+508,Felino,Reacción anafiláctica aguda / Angioedema facial severo,8.4,Deprimido,0,Alta
+509,Canino,Quemadura grave por calor o cáusticos,4.5,Alerta,0,Alta
+510,Canino,Prurito y rascado auricular leve,147.3,Alerta,0,Baja
+511,Canino,Letargo extremo post-traumatismo,8.5,Deprimido,0,Alta
+512,Canino,Dolor abdominal agudo / Abdomen distendido y duro,10.1,Deprimido,1,Alta
+513,Canino,Consulta de rutina / Plan de vacunación,130.2,Alerta,0,Baja
+514,Canino,Estornudos aislados sin secreción mucopurulenta,95.5,Alerta,0,Baja
+515,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,47.7,Alerta,0,Moderada
+516,Felino,Vómitos reiterados con contenido hemorrágico,11.9,Deprimido,0,Alta
+517,Felino,Traumatismo agudo por atropello con shock,0.7,Estuporoso/Comatoso,1,Emergencia Crítica
+518,Canino,Dificultad marcada para orinar con dolor intenso,9.3,Alerta,0,Alta
+519,Canino,Control de peso y chequeo preventivo,75.6,Alerta,0,Baja
+520,Felino,Alopecia focalizada sin prurito intenso,135.1,Alerta,0,Baja
+521,Felino,Alopecia focalizada sin prurito intenso,49.2,Alerta,0,Baja
+522,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,45.4,Alerta,0,Moderada
+523,Canino,Lagrimeo leve transparente,134.1,Alerta,0,Baja
+524,Felino,Letargo extremo post-traumatismo,5.8,Deprimido,1,Alta
+525,Canino,Secreción ocular purulenta y blefaroespasmo,69.3,Deprimido,0,Moderada
+526,Canino,Tos paroxística frecuente,68.9,Alerta,0,Moderada
+527,Canino,Quemadura grave por calor o cáusticos,6.4,Alerta,0,Alta
+528,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,45.3,Alerta,0,Moderada
+529,Canino,Obstrucción uretral completa con dilatación vesical,1.2,Estuporoso/Comatoso,1,Emergencia Crítica
+530,Canino,Dolor abdominal agudo / Abdomen distendido y duro,7.4,Alerta,1,Alta
+531,Felino,Control de peso y chequeo preventivo,153.1,Alerta,0,Baja
+532,Felino,Convulsiones continuas / Status epiléptico,1.8,Estuporoso/Comatoso,0,Emergencia Crítica
+533,Canino,Inapetencia y letargo de más de 48 horas,41.1,Alerta,0,Moderada
+534,Felino,Estornudos aislados sin secreción mucopurulenta,84.4,Alerta,0,Baja
+535,Felino,Dificultad marcada para orinar con dolor intenso,5.9,Alerta,1,Alta
+536,Felino,Inapetencia y letargo de más de 48 horas,25.8,Alerta,0,Moderada
+537,Canino,Prurito y rascado auricular leve,55.4,Alerta,0,Baja
+538,Canino,Fiebre persistente con decaimiento notable,57.0,Alerta,0,Moderada
+539,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,50.0,Alerta,0,Moderada
+540,Felino,Convulsiones continuas / Status epiléptico,2.8,Estuporoso/Comatoso,0,Emergencia Crítica
+541,Canino,Prurito y rascado auricular leve,44.6,Alerta,0,Baja
+542,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,53.1,Alerta,0,Moderada
+543,Canino,Convulsiones continuas / Status epiléptico,1.7,Estuporoso/Comatoso,1,Emergencia Crítica
+544,Canino,Dificultad marcada para orinar con dolor intenso,6.8,Estuporoso/Comatoso,0,Alta
+545,Canino,Prurito y rascado auricular leve,71.2,Alerta,0,Baja
+546,Canino,Inapetencia y letargo de más de 48 horas,69.0,Alerta,0,Moderada
+547,Felino,Quemadura grave por calor o cáusticos,0.7,Estuporoso/Comatoso,0,Alta
+548,Canino,Vómitos reiterados con contenido hemorrágico,7.5,Deprimido,1,Alta
+549,Felino,Dolor abdominal agudo / Abdomen distendido y duro,5.8,Estuporoso/Comatoso,1,Alta
+550,Felino,Traumatismo agudo por atropello con shock,3.1,Estuporoso/Comatoso,1,Emergencia Crítica
+551,Felino,Fiebre persistente con decaimiento notable,35.7,Alerta,0,Moderada
+552,Canino,Consulta de rutina / Plan de vacunación,152.4,Alerta,0,Baja
+553,Felino,Prolapso o traumatismo ocular grave,9.8,Deprimido,1,Alta
+554,Canino,Alopecia focalizada sin prurito intenso,90.3,Alerta,0,Baja
+555,Canino,Dificultad marcada para orinar con dolor intenso,4.4,Deprimido,0,Alta
+556,Felino,Convulsiones continuas / Status epiléptico,3.3,Deprimido,0,Emergencia Crítica
+557,Felino,Paro cardiorrespiratorio inminente,1.7,Estuporoso/Comatoso,1,Emergencia Crítica
+558,Canino,Alopecia focalizada sin prurito intenso,95.3,Alerta,0,Baja
+559,Canino,Secreción ocular purulenta y blefaroespasmo,34.7,Alerta,0,Moderada
+560,Canino,Convulsiones continuas / Status epiléptico,1.2,Estuporoso/Comatoso,0,Emergencia Crítica
+561,Canino,Pérdida de conciencia / Estado comatoso,0.7,Alerta,1,Emergencia Crítica
+562,Felino,Paro cardiorrespiratorio inminente,0.6,Deprimido,0,Emergencia Crítica
+563,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,68.3,Alerta,0,Moderada
+564,Felino,Halitosis y sarro dental sin dificultad de masticación,79.4,Alerta,0,Baja
+565,Canino,Tos paroxística frecuente,36.4,Deprimido,0,Moderada
+566,Felino,Obstrucción uretral completa con dilatación vesical,2.6,Estuporoso/Comatoso,1,Emergencia Crítica
+567,Canino,Quemadura grave por calor o cáusticos,8.6,Deprimido,0,Alta
+568,Felino,Reacción anafiláctica aguda / Angioedema facial severo,6.4,Deprimido,0,Alta
+569,Felino,Herida superficial lacerante,36.0,Alerta,0,Moderada
+570,Felino,Fiebre persistente con decaimiento notable,45.1,Alerta,0,Moderada
+571,Canino,Dolor abdominal agudo / Abdomen distendido y duro,4.5,Estuporoso/Comatoso,1,Alta
+572,Canino,Convulsiones continuas / Status epiléptico,2.7,Deprimido,1,Emergencia Crítica
+573,Felino,Control de peso y chequeo preventivo,115.2,Alerta,0,Baja
+574,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,44.8,Deprimido,0,Moderada
+575,Felino,Obstrucción uretral completa con dilatación vesical,1.1,Deprimido,0,Emergencia Crítica
+576,Canino,Tos paroxística frecuente,29.0,Deprimido,0,Moderada
+577,Felino,Quemadura grave por calor o cáusticos,7.4,Deprimido,0,Alta
+578,Canino,Obstrucción uretral completa con dilatación vesical,3.7,Estuporoso/Comatoso,1,Emergencia Crítica
+579,Felino,Obstrucción uretral completa con dilatación vesical,1.6,Estuporoso/Comatoso,0,Emergencia Crítica
+580,Canino,Inapetencia y letargo de más de 48 horas,34.0,Alerta,0,Moderada
+581,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,23.9,Alerta,0,Moderada
+582,Felino,Letargo extremo post-traumatismo,5.8,Deprimido,1,Alta
+583,Canino,Estornudos aislados sin secreción mucopurulenta,110.6,Alerta,0,Baja
+584,Felino,Secreción ocular purulenta y blefaroespasmo,47.8,Deprimido,0,Moderada
+585,Felino,Halitosis y sarro dental sin dificultad de masticación,88.9,Alerta,0,Baja
+586,Felino,Prolapso o traumatismo ocular grave,2.3,Deprimido,1,Alta
+587,Canino,Letargo extremo post-traumatismo,1.6,Alerta,0,Alta
+588,Felino,Fiebre persistente con decaimiento notable,65.4,Alerta,0,Moderada
+589,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.1,Estuporoso/Comatoso,1,Emergencia Crítica
+590,Canino,Estornudos aislados sin secreción mucopurulenta,90.6,Alerta,0,Baja
+591,Canino,Prolapso o traumatismo ocular grave,4.9,Alerta,1,Alta
+592,Canino,Convulsiones continuas / Status epiléptico,0.9,Estuporoso/Comatoso,0,Emergencia Crítica
+593,Canino,Dificultad respiratoria severa / Cianosis,3.9,Alerta,1,Emergencia Crítica
+594,Felino,Tos paroxística frecuente,14.4,Alerta,1,Moderada
+595,Felino,Vómitos reiterados con contenido hemorrágico,0.8,Deprimido,0,Alta
+596,Felino,Lagrimeo leve transparente,139.7,Alerta,0,Baja
+597,Felino,Traumatismo agudo por atropello con shock,0.3,Deprimido,0,Emergencia Crítica
+598,Canino,Dolor abdominal agudo / Abdomen distendido y duro,10.1,Deprimido,0,Alta
+599,Felino,Convulsiones continuas / Status epiléptico,3.9,Estuporoso/Comatoso,1,Emergencia Crítica
+600,Felino,Traumatismo agudo por atropello con shock,3.9,Estuporoso/Comatoso,0,Emergencia Crítica
+601,Felino,Quemadura grave por calor o cáusticos,3.6,Deprimido,0,Alta
+602,Felino,Secreción ocular purulenta y blefaroespasmo,47.1,Deprimido,0,Moderada
+603,Felino,Tos paroxística frecuente,24.0,Alerta,1,Moderada
+604,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,21.7,Alerta,0,Moderada
+605,Felino,Prurito y rascado auricular leve,25.0,Alerta,0,Baja
+606,Canino,Herida profunda penetrante o mordedura,9.2,Deprimido,0,Alta
+607,Felino,Halitosis y sarro dental sin dificultad de masticación,166.7,Alerta,0,Baja
+608,Canino,Secreción ocular purulenta y blefaroespasmo,55.9,Alerta,0,Moderada
+609,Canino,Lagrimeo leve transparente,153.2,Alerta,0,Baja
+610,Canino,Reacción anafiláctica aguda / Angioedema facial severo,4.3,Alerta,0,Alta
+611,Felino,Obstrucción uretral completa con dilatación vesical,3.2,Alerta,1,Emergencia Crítica
+612,Felino,Dolor abdominal agudo / Abdomen distendido y duro,6.2,Alerta,1,Alta
+613,Felino,Convulsiones continuas / Status epiléptico,3.7,Deprimido,0,Emergencia Crítica
+614,Felino,Lagrimeo leve transparente,26.9,Alerta,0,Baja
+615,Felino,Herida superficial lacerante,56.5,Alerta,0,Moderada
+616,Felino,Lagrimeo leve transparente,87.5,Alerta,0,Baja
+617,Felino,Vómitos reiterados con contenido hemorrágico,9.2,Deprimido,0,Alta
+618,Felino,Dolor abdominal agudo / Abdomen distendido y duro,8.2,Deprimido,0,Alta
+619,Canino,Dificultad marcada para orinar con dolor intenso,7.0,Alerta,1,Alta
+620,Felino,Tos paroxística frecuente,29.2,Alerta,0,Moderada
+621,Felino,Lagrimeo leve transparente,128.3,Deprimido,0,Baja
+622,Canino,Estornudos aislados sin secreción mucopurulenta,102.9,Alerta,0,Baja
+623,Felino,Alopecia focalizada sin prurito intenso,112.6,Alerta,0,Baja
+624,Felino,Traumatismo agudo por atropello con shock,2.1,Estuporoso/Comatoso,1,Emergencia Crítica
+625,Felino,Herida profunda penetrante o mordedura,11.8,Deprimido,0,Alta
+626,Canino,Herida superficial lacerante,47.0,Alerta,0,Moderada
+627,Felino,Secreción ocular purulenta y blefaroespasmo,51.9,Alerta,0,Moderada
+628,Felino,Secreción ocular purulenta y blefaroespasmo,33.8,Alerta,0,Moderada
+629,Canino,Dificultad respiratoria severa / Cianosis,3.2,Estuporoso/Comatoso,1,Emergencia Crítica
+630,Canino,Dificultad marcada para orinar con dolor intenso,3.5,Deprimido,0,Alta
+631,Felino,Herida profunda penetrante o mordedura,5.6,Deprimido,1,Alta
+632,Canino,Inapetencia y letargo de más de 48 horas,71.1,Deprimido,0,Moderada
+633,Felino,Paro cardiorrespiratorio inminente,2.6,Estuporoso/Comatoso,1,Emergencia Crítica
+634,Canino,Lagrimeo leve transparente,88.1,Alerta,0,Baja
+635,Felino,Herida superficial lacerante,47.4,Deprimido,0,Moderada
+636,Canino,Prolapso o traumatismo ocular grave,6.6,Deprimido,0,Alta
+637,Canino,Inapetencia y letargo de más de 48 horas,26.8,Alerta,0,Moderada
+638,Felino,Herida profunda penetrante o mordedura,5.3,Deprimido,0,Alta
+639,Felino,Paro cardiorrespiratorio inminente,2.8,Alerta,1,Emergencia Crítica
+640,Felino,Estornudos aislados sin secreción mucopurulenta,123.2,Alerta,0,Baja
+641,Canino,Halitosis y sarro dental sin dificultad de masticación,72.6,Alerta,0,Baja
+642,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,12.0,Alerta,0,Moderada
+643,Felino,Reacción anafiláctica aguda / Angioedema facial severo,8.1,Deprimido,0,Alta
+644,Canino,Consulta de rutina / Plan de vacunación,121.6,Deprimido,0,Baja
+645,Canino,Letargo extremo post-traumatismo,1.6,Alerta,1,Alta
+646,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,26.8,Alerta,0,Moderada
+647,Canino,Estornudos aislados sin secreción mucopurulenta,120.1,Alerta,0,Baja
+648,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,58.1,Alerta,0,Moderada
+649,Canino,Convulsiones continuas / Status epiléptico,1.5,Estuporoso/Comatoso,0,Emergencia Crítica
+650,Felino,Dificultad marcada para orinar con dolor intenso,7.6,Estuporoso/Comatoso,0,Alta
+651,Felino,Obstrucción uretral completa con dilatación vesical,0.9,Deprimido,1,Emergencia Crítica
+652,Canino,Quemadura grave por calor o cáusticos,11.9,Deprimido,0,Alta
+653,Felino,Dificultad respiratoria severa / Cianosis,0.9,Deprimido,1,Emergencia Crítica
+654,Canino,Paro cardiorrespiratorio inminente,1.4,Deprimido,1,Emergencia Crítica
+655,Felino,Pérdida de conciencia / Estado comatoso,1.1,Estuporoso/Comatoso,0,Emergencia Crítica
+656,Canino,Halitosis y sarro dental sin dificultad de masticación,25.2,Alerta,0,Baja
+657,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,39.7,Alerta,0,Moderada
+658,Canino,Control de peso y chequeo preventivo,146.8,Alerta,0,Baja
+659,Felino,Hemorragia arterial profusa no controlada,3.1,Estuporoso/Comatoso,1,Emergencia Crítica
+660,Canino,Prurito y rascado auricular leve,77.7,Alerta,0,Baja
+661,Felino,Hemorragia arterial profusa no controlada,3.0,Estuporoso/Comatoso,1,Emergencia Crítica
+662,Felino,Consulta de rutina / Plan de vacunación,119.2,Alerta,0,Baja
+663,Felino,Tos paroxística frecuente,55.8,Alerta,0,Moderada
+664,Felino,Inapetencia y letargo de más de 48 horas,42.1,Alerta,0,Moderada
+665,Felino,Herida profunda penetrante o mordedura,4.1,Deprimido,0,Alta
+666,Canino,Fiebre persistente con decaimiento notable,45.1,Deprimido,0,Moderada
+667,Felino,Inapetencia y letargo de más de 48 horas,18.4,Deprimido,0,Moderada
+668,Felino,Dolor abdominal agudo / Abdomen distendido y duro,2.2,Deprimido,0,Alta
+669,Canino,Fiebre persistente con decaimiento notable,67.8,Alerta,0,Moderada
+670,Felino,Obstrucción uretral completa con dilatación vesical,3.3,Alerta,0,Emergencia Crítica
+671,Felino,Pérdida de conciencia / Estado comatoso,2.6,Deprimido,0,Emergencia Crítica
+672,Canino,Dificultad respiratoria severa / Cianosis,3.4,Estuporoso/Comatoso,1,Emergencia Crítica
+673,Felino,Letargo extremo post-traumatismo,3.9,Alerta,1,Alta
+674,Felino,Traumatismo agudo por atropello con shock,3.4,Estuporoso/Comatoso,1,Emergencia Crítica
+675,Felino,Obstrucción uretral completa con dilatación vesical,0.9,Estuporoso/Comatoso,1,Emergencia Crítica
+676,Felino,Dificultad respiratoria severa / Cianosis,2.6,Estuporoso/Comatoso,0,Emergencia Crítica
+677,Felino,Hemorragia arterial profusa no controlada,2.7,Estuporoso/Comatoso,1,Emergencia Crítica
+678,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,39.0,Alerta,0,Moderada
+679,Canino,Pérdida de conciencia / Estado comatoso,3.4,Estuporoso/Comatoso,1,Emergencia Crítica
+680,Felino,Pérdida de conciencia / Estado comatoso,3.5,Estuporoso/Comatoso,1,Emergencia Crítica
+681,Felino,Fiebre persistente con decaimiento notable,25.3,Alerta,0,Moderada
+682,Canino,Fiebre persistente con decaimiento notable,19.0,Alerta,1,Moderada
+683,Canino,Pérdida de conciencia / Estado comatoso,0.3,Estuporoso/Comatoso,1,Emergencia Crítica
+684,Felino,Prurito y rascado auricular leve,65.7,Alerta,0,Baja
+685,Felino,Letargo extremo post-traumatismo,2.2,Estuporoso/Comatoso,1,Alta
+686,Felino,Paro cardiorrespiratorio inminente,0.5,Estuporoso/Comatoso,1,Emergencia Crítica
+687,Felino,Halitosis y sarro dental sin dificultad de masticación,47.8,Alerta,0,Baja
+688,Canino,Dificultad marcada para orinar con dolor intenso,10.9,Deprimido,0,Alta
+689,Felino,Fiebre persistente con decaimiento notable,23.0,Alerta,0,Moderada
+690,Felino,Herida superficial lacerante,12.4,Deprimido,0,Moderada
+691,Felino,Lagrimeo leve transparente,133.6,Alerta,0,Baja
+692,Canino,Fiebre persistente con decaimiento notable,52.5,Deprimido,0,Moderada
+693,Felino,Quemadura grave por calor o cáusticos,11.0,Deprimido,0,Alta
+694,Felino,Halitosis y sarro dental sin dificultad de masticación,87.9,Alerta,0,Baja
+695,Canino,Dolor abdominal agudo / Abdomen distendido y duro,5.6,Deprimido,0,Alta
+696,Felino,Dolor abdominal agudo / Abdomen distendido y duro,6.5,Alerta,0,Alta
+697,Canino,Estornudos aislados sin secreción mucopurulenta,165.7,Alerta,0,Baja
+698,Felino,Alopecia focalizada sin prurito intenso,49.4,Alerta,0,Baja
+699,Canino,Lagrimeo leve transparente,76.8,Alerta,0,Baja
+700,Canino,Tos paroxística frecuente,20.1,Alerta,0,Moderada
+701,Felino,Paro cardiorrespiratorio inminente,3.6,Estuporoso/Comatoso,0,Emergencia Crítica
+702,Canino,Fiebre persistente con decaimiento notable,17.9,Alerta,0,Moderada
+703,Felino,Convulsiones continuas / Status epiléptico,3.1,Estuporoso/Comatoso,1,Emergencia Crítica
+704,Felino,Quemadura grave por calor o cáusticos,3.2,Alerta,1,Alta
+705,Canino,Prolapso o traumatismo ocular grave,5.8,Estuporoso/Comatoso,0,Alta
+706,Canino,Traumatismo agudo por atropello con shock,3.1,Estuporoso/Comatoso,0,Emergencia Crítica
+707,Canino,Traumatismo agudo por atropello con shock,2.7,Estuporoso/Comatoso,0,Emergencia Crítica
+708,Canino,Letargo extremo post-traumatismo,10.7,Alerta,0,Alta
+709,Canino,Pérdida de conciencia / Estado comatoso,2.5,Estuporoso/Comatoso,1,Emergencia Crítica
+710,Canino,Dificultad marcada para orinar con dolor intenso,0.6,Deprimido,0,Alta
+711,Felino,Tos paroxística frecuente,47.4,Deprimido,0,Moderada
+712,Felino,Secreción ocular purulenta y blefaroespasmo,45.0,Alerta,0,Moderada
+713,Canino,Traumatismo agudo por atropello con shock,1.4,Estuporoso/Comatoso,1,Emergencia Crítica
+714,Felino,Consulta de rutina / Plan de vacunación,44.8,Alerta,0,Baja
+715,Felino,Traumatismo agudo por atropello con shock,0.6,Estuporoso/Comatoso,1,Emergencia Crítica
+716,Canino,Pérdida de conciencia / Estado comatoso,1.0,Estuporoso/Comatoso,1,Emergencia Crítica
+717,Canino,Fiebre persistente con decaimiento notable,29.4,Alerta,0,Moderada
+718,Felino,Obstrucción uretral completa con dilatación vesical,3.1,Estuporoso/Comatoso,0,Emergencia Crítica
+719,Felino,Inapetencia y letargo de más de 48 horas,47.3,Alerta,0,Moderada
+720,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,1.6,Estuporoso/Comatoso,0,Emergencia Crítica
+721,Felino,Vómitos reiterados con contenido hemorrágico,4.3,Estuporoso/Comatoso,0,Alta
+722,Canino,Estornudos aislados sin secreción mucopurulenta,52.9,Alerta,0,Baja
+723,Canino,Control de peso y chequeo preventivo,158.0,Alerta,0,Baja
+724,Felino,Halitosis y sarro dental sin dificultad de masticación,128.6,Alerta,0,Baja
+725,Felino,Tos paroxística frecuente,38.7,Deprimido,0,Moderada
+726,Felino,Traumatismo agudo por atropello con shock,1.9,Estuporoso/Comatoso,0,Emergencia Crítica
+727,Felino,Paro cardiorrespiratorio inminente,2.5,Estuporoso/Comatoso,0,Emergencia Crítica
+728,Felino,Alopecia focalizada sin prurito intenso,145.8,Alerta,0,Baja
+729,Felino,Pérdida de conciencia / Estado comatoso,1.6,Estuporoso/Comatoso,1,Emergencia Crítica
+730,Canino,Prurito y rascado auricular leve,156.2,Alerta,0,Baja
+731,Canino,Traumatismo agudo por atropello con shock,1.3,Estuporoso/Comatoso,1,Emergencia Crítica
+732,Felino,Vómitos reiterados con contenido hemorrágico,8.6,Deprimido,1,Alta
+733,Felino,Control de peso y chequeo preventivo,158.2,Alerta,0,Baja
+734,Canino,Dificultad marcada para orinar con dolor intenso,0.6,Deprimido,1,Alta
+735,Canino,Hemorragia arterial profusa no controlada,2.9,Estuporoso/Comatoso,1,Emergencia Crítica
+736,Felino,Dificultad respiratoria severa / Cianosis,2.9,Estuporoso/Comatoso,1,Emergencia Crítica
+737,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.5,Estuporoso/Comatoso,0,Emergencia Crítica
+738,Canino,Dificultad marcada para orinar con dolor intenso,11.2,Deprimido,1,Alta
+739,Canino,Reacción anafiláctica aguda / Angioedema facial severo,10.1,Alerta,1,Alta
+740,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,0.8,Estuporoso/Comatoso,0,Emergencia Crítica
+741,Canino,Convulsiones continuas / Status epiléptico,3.0,Deprimido,1,Emergencia Crítica
+742,Canino,Inapetencia y letargo de más de 48 horas,52.6,Deprimido,0,Moderada
+743,Felino,Dolor abdominal agudo / Abdomen distendido y duro,10.7,Estuporoso/Comatoso,0,Alta
+744,Canino,Herida superficial lacerante,20.7,Alerta,0,Moderada
+745,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,63.8,Alerta,0,Moderada
+746,Canino,Pérdida de conciencia / Estado comatoso,1.8,Estuporoso/Comatoso,1,Emergencia Crítica
+747,Canino,Letargo extremo post-traumatismo,10.5,Alerta,1,Alta
+748,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.2,Estuporoso/Comatoso,1,Emergencia Crítica
+749,Felino,Halitosis y sarro dental sin dificultad de masticación,42.2,Alerta,0,Baja
+750,Felino,Tos paroxística frecuente,21.2,Deprimido,0,Moderada
+751,Felino,Estornudos aislados sin secreción mucopurulenta,68.4,Alerta,0,Baja
+752,Canino,Dificultad respiratoria severa / Cianosis,3.9,Estuporoso/Comatoso,1,Emergencia Crítica
+753,Felino,Consulta de rutina / Plan de vacunación,133.1,Alerta,0,Baja
+754,Canino,Prurito y rascado auricular leve,124.2,Alerta,0,Baja
+755,Canino,Letargo extremo post-traumatismo,6.1,Deprimido,0,Alta
+756,Felino,Reacción anafiláctica aguda / Angioedema facial severo,6.6,Alerta,0,Alta
+757,Canino,Paro cardiorrespiratorio inminente,3.9,Estuporoso/Comatoso,1,Emergencia Crítica
+758,Felino,Alopecia focalizada sin prurito intenso,36.2,Alerta,0,Baja
+759,Canino,Hemorragia arterial profusa no controlada,2.2,Estuporoso/Comatoso,0,Emergencia Crítica
+760,Canino,Dificultad respiratoria severa / Cianosis,3.3,Deprimido,1,Emergencia Crítica
+761,Canino,Hemorragia arterial profusa no controlada,0.6,Deprimido,1,Emergencia Crítica
+762,Felino,Lagrimeo leve transparente,88.6,Alerta,0,Baja
+763,Canino,Vómitos reiterados con contenido hemorrágico,10.3,Deprimido,0,Alta
+764,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.2,Deprimido,1,Emergencia Crítica
+765,Felino,Herida superficial lacerante,16.1,Alerta,0,Moderada
+766,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,64.1,Alerta,0,Moderada
+767,Canino,Paro cardiorrespiratorio inminente,0.3,Estuporoso/Comatoso,0,Emergencia Crítica
+768,Felino,Dificultad respiratoria severa / Cianosis,0.9,Deprimido,0,Emergencia Crítica
+769,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,45.0,Alerta,0,Moderada
+770,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.6,Estuporoso/Comatoso,1,Emergencia Crítica
+771,Felino,Fiebre persistente con decaimiento notable,60.5,Alerta,0,Moderada
+772,Canino,Letargo extremo post-traumatismo,2.3,Deprimido,0,Alta
+773,Canino,Dificultad marcada para orinar con dolor intenso,7.7,Estuporoso/Comatoso,0,Alta
+774,Canino,Inapetencia y letargo de más de 48 horas,41.2,Deprimido,0,Moderada
+775,Felino,Reacción anafiláctica aguda / Angioedema facial severo,8.3,Deprimido,0,Alta
+776,Canino,Herida superficial lacerante,27.3,Alerta,0,Moderada
+777,Canino,Estornudos aislados sin secreción mucopurulenta,124.2,Alerta,0,Baja
+778,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,23.0,Alerta,1,Moderada
+779,Felino,Secreción ocular purulenta y blefaroespasmo,33.1,Alerta,0,Moderada
+780,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.4,Estuporoso/Comatoso,1,Emergencia Crítica
+781,Canino,Pérdida de conciencia / Estado comatoso,1.8,Estuporoso/Comatoso,0,Emergencia Crítica
+782,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,42.5,Alerta,0,Moderada
+783,Canino,Hemorragia arterial profusa no controlada,1.8,Estuporoso/Comatoso,0,Emergencia Crítica
+784,Felino,Herida profunda penetrante o mordedura,7.9,Deprimido,0,Alta
+785,Felino,Herida superficial lacerante,29.6,Alerta,0,Moderada
+786,Canino,Reacción anafiláctica aguda / Angioedema facial severo,5.1,Deprimido,0,Alta
+787,Felino,Herida superficial lacerante,55.6,Alerta,0,Moderada
+788,Felino,Prurito y rascado auricular leve,105.7,Alerta,0,Baja
+789,Canino,Reacción anafiláctica aguda / Angioedema facial severo,6.1,Deprimido,0,Alta
+790,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,29.1,Alerta,1,Moderada
+791,Canino,Dolor abdominal agudo / Abdomen distendido y duro,8.9,Alerta,0,Alta
+792,Felino,Secreción ocular purulenta y blefaroespasmo,63.5,Alerta,0,Moderada
+793,Felino,Tos paroxística frecuente,21.3,Alerta,0,Moderada
+794,Felino,Estornudos aislados sin secreción mucopurulenta,48.1,Alerta,0,Baja
+795,Felino,Vómitos reiterados con contenido hemorrágico,9.0,Alerta,0,Alta
+796,Canino,Control de peso y chequeo preventivo,129.4,Alerta,0,Baja
+797,Canino,Herida superficial lacerante,57.0,Alerta,0,Moderada
+798,Felino,Lagrimeo leve transparente,131.8,Alerta,0,Baja
+799,Canino,Dificultad respiratoria severa / Cianosis,1.0,Estuporoso/Comatoso,0,Emergencia Crítica
+800,Felino,Dolor abdominal agudo / Abdomen distendido y duro,3.7,Alerta,0,Alta
+801,Felino,Consulta de rutina / Plan de vacunación,95.6,Alerta,0,Baja
+802,Felino,Prolapso o traumatismo ocular grave,10.5,Alerta,1,Alta
+803,Felino,Herida superficial lacerante,49.5,Deprimido,1,Moderada
+804,Felino,Inapetencia y letargo de más de 48 horas,59.1,Alerta,0,Moderada
+805,Felino,Hemorragia arterial profusa no controlada,1.9,Deprimido,0,Emergencia Crítica
+806,Canino,Convulsiones continuas / Status epiléptico,2.0,Estuporoso/Comatoso,1,Emergencia Crítica
+807,Canino,Herida superficial lacerante,28.8,Alerta,0,Moderada
+808,Canino,Consulta de rutina / Plan de vacunación,42.5,Alerta,0,Baja
+809,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.2,Estuporoso/Comatoso,1,Emergencia Crítica
+810,Felino,Hemorragia arterial profusa no controlada,0.7,Estuporoso/Comatoso,1,Emergencia Crítica
+811,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,0.4,Estuporoso/Comatoso,1,Emergencia Crítica
+812,Canino,Alopecia focalizada sin prurito intenso,41.1,Alerta,0,Baja
+813,Canino,Obstrucción uretral completa con dilatación vesical,1.2,Estuporoso/Comatoso,1,Emergencia Crítica
+814,Felino,Lagrimeo leve transparente,62.1,Alerta,0,Baja
+815,Canino,Paro cardiorrespiratorio inminente,3.1,Deprimido,0,Emergencia Crítica
+816,Felino,Alopecia focalizada sin prurito intenso,127.4,Alerta,0,Baja
+817,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.7,Estuporoso/Comatoso,1,Emergencia Crítica
+818,Canino,Lagrimeo leve transparente,152.4,Alerta,0,Baja
+819,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,31.9,Alerta,0,Moderada
+820,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.7,Deprimido,1,Emergencia Crítica
+821,Felino,Dificultad marcada para orinar con dolor intenso,8.0,Deprimido,1,Alta
+822,Canino,Fiebre persistente con decaimiento notable,60.3,Alerta,0,Moderada
+823,Canino,Herida profunda penetrante o mordedura,8.9,Deprimido,1,Alta
+824,Felino,Traumatismo agudo por atropello con shock,0.7,Estuporoso/Comatoso,0,Emergencia Crítica
+825,Canino,Reacción anafiláctica aguda / Angioedema facial severo,1.8,Deprimido,1,Alta
+826,Felino,Vómitos reiterados con contenido hemorrágico,9.6,Alerta,1,Alta
+827,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,23.1,Alerta,1,Moderada
+828,Canino,Control de peso y chequeo preventivo,88.3,Alerta,0,Baja
+829,Canino,Dificultad marcada para orinar con dolor intenso,11.3,Deprimido,1,Alta
+830,Canino,Alopecia focalizada sin prurito intenso,44.9,Alerta,0,Baja
+831,Felino,Tos paroxística frecuente,51.4,Alerta,0,Moderada
+832,Felino,Prolapso o traumatismo ocular grave,10.4,Deprimido,1,Alta
+833,Canino,Reacción anafiláctica aguda / Angioedema facial severo,3.2,Deprimido,0,Alta
+834,Canino,Halitosis y sarro dental sin dificultad de masticación,51.9,Alerta,0,Baja
+835,Canino,Obstrucción uretral completa con dilatación vesical,0.8,Estuporoso/Comatoso,1,Emergencia Crítica
+836,Felino,Dificultad marcada para orinar con dolor intenso,2.9,Alerta,0,Alta
+837,Felino,Fiebre persistente con decaimiento notable,48.5,Alerta,0,Moderada
+838,Felino,Vómitos reiterados con contenido hemorrágico,1.8,Deprimido,1,Alta
+839,Felino,Control de peso y chequeo preventivo,124.5,Deprimido,0,Baja
+840,Canino,Letargo extremo post-traumatismo,0.6,Deprimido,0,Alta
+841,Felino,Quemadura grave por calor o cáusticos,11.3,Deprimido,0,Alta
+842,Canino,Traumatismo agudo por atropello con shock,1.6,Alerta,0,Emergencia Crítica
+843,Felino,Prurito y rascado auricular leve,119.2,Alerta,0,Baja
+844,Canino,Prolapso o traumatismo ocular grave,4.3,Estuporoso/Comatoso,0,Alta
+845,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,49.7,Deprimido,1,Moderada
+846,Canino,Herida superficial lacerante,31.1,Alerta,0,Moderada
+847,Felino,Secreción ocular purulenta y blefaroespasmo,26.4,Deprimido,0,Moderada
+848,Felino,Inapetencia y letargo de más de 48 horas,65.3,Deprimido,0,Moderada
+849,Canino,Control de peso y chequeo preventivo,163.2,Alerta,0,Baja
+850,Felino,Convulsiones continuas / Status epiléptico,1.1,Estuporoso/Comatoso,0,Emergencia Crítica
+851,Felino,Secreción ocular purulenta y blefaroespasmo,24.0,Deprimido,0,Moderada
+852,Canino,Dificultad marcada para orinar con dolor intenso,10.1,Alerta,0,Alta
+853,Felino,Prurito y rascado auricular leve,110.1,Alerta,0,Baja
+854,Felino,Pérdida de conciencia / Estado comatoso,1.7,Alerta,0,Emergencia Crítica
+855,Canino,Inapetencia y letargo de más de 48 horas,35.5,Alerta,0,Moderada
+856,Canino,Herida profunda penetrante o mordedura,6.5,Deprimido,0,Alta
+857,Felino,Hemorragia arterial profusa no controlada,1.6,Estuporoso/Comatoso,1,Emergencia Crítica
+858,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,42.1,Alerta,0,Moderada
+859,Felino,Prurito y rascado auricular leve,33.4,Deprimido,0,Baja
+860,Felino,Secreción ocular purulenta y blefaroespasmo,44.1,Deprimido,0,Moderada
+861,Canino,Pérdida de conciencia / Estado comatoso,3.7,Deprimido,0,Emergencia Crítica
+862,Canino,Estornudos aislados sin secreción mucopurulenta,167.6,Alerta,0,Baja
+863,Felino,Traumatismo agudo por atropello con shock,1.2,Estuporoso/Comatoso,1,Emergencia Crítica
+864,Canino,Herida superficial lacerante,48.9,Alerta,0,Moderada
+865,Canino,Inapetencia y letargo de más de 48 horas,18.6,Alerta,0,Moderada
+866,Canino,Paro cardiorrespiratorio inminente,0.8,Deprimido,1,Emergencia Crítica
+867,Canino,Reacción anafiláctica aguda / Angioedema facial severo,9.9,Deprimido,1,Alta
+868,Felino,Control de peso y chequeo preventivo,31.3,Alerta,0,Baja
+869,Canino,Inapetencia y letargo de más de 48 horas,17.0,Alerta,0,Moderada
+870,Felino,Fiebre persistente con decaimiento notable,61.8,Alerta,0,Moderada
+871,Felino,Lagrimeo leve transparente,137.7,Deprimido,0,Baja
+872,Canino,Dificultad marcada para orinar con dolor intenso,8.9,Alerta,0,Alta
+873,Canino,Dolor abdominal agudo / Abdomen distendido y duro,7.8,Deprimido,0,Alta
+874,Felino,Lagrimeo leve transparente,124.9,Alerta,0,Baja
+875,Canino,Paro cardiorrespiratorio inminente,2.1,Estuporoso/Comatoso,1,Emergencia Crítica
+876,Canino,Tos paroxística frecuente,28.6,Deprimido,1,Moderada
+877,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.9,Estuporoso/Comatoso,1,Emergencia Crítica
+878,Felino,Estornudos aislados sin secreción mucopurulenta,72.1,Alerta,0,Baja
+879,Felino,Prurito y rascado auricular leve,90.4,Alerta,0,Baja
+880,Canino,Paro cardiorrespiratorio inminente,2.4,Estuporoso/Comatoso,1,Emergencia Crítica
+881,Canino,Pérdida de conciencia / Estado comatoso,2.5,Estuporoso/Comatoso,1,Emergencia Crítica
+882,Felino,Hemorragia arterial profusa no controlada,1.6,Estuporoso/Comatoso,0,Emergencia Crítica
+883,Felino,Herida superficial lacerante,21.0,Deprimido,0,Moderada
+884,Canino,Fiebre persistente con decaimiento notable,44.9,Deprimido,1,Moderada
+885,Felino,Tos paroxística frecuente,34.0,Deprimido,1,Moderada
+886,Canino,Vómitos reiterados con contenido hemorrágico,10.3,Deprimido,1,Alta
+887,Felino,Lagrimeo leve transparente,165.1,Alerta,0,Baja
+888,Canino,Vómitos reiterados con contenido hemorrágico,11.4,Deprimido,0,Alta
+889,Felino,Secreción ocular purulenta y blefaroespasmo,19.6,Deprimido,0,Moderada
+890,Felino,Convulsiones continuas / Status epiléptico,1.5,Deprimido,1,Emergencia Crítica
+891,Felino,Fiebre persistente con decaimiento notable,55.5,Alerta,0,Moderada
+892,Felino,Inapetencia y letargo de más de 48 horas,23.3,Deprimido,0,Moderada
+893,Felino,Quemadura grave por calor o cáusticos,2.8,Deprimido,1,Alta
+894,Felino,Convulsiones continuas / Status epiléptico,0.3,Estuporoso/Comatoso,1,Emergencia Crítica
+895,Felino,Letargo extremo post-traumatismo,10.3,Deprimido,0,Alta
+896,Felino,Alopecia focalizada sin prurito intenso,75.2,Alerta,0,Baja
+897,Felino,Quemadura grave por calor o cáusticos,5.8,Alerta,0,Alta
+898,Canino,Alopecia focalizada sin prurito intenso,100.8,Alerta,0,Baja
+899,Canino,Traumatismo agudo por atropello con shock,2.8,Estuporoso/Comatoso,0,Emergencia Crítica
+900,Felino,Dolor abdominal agudo / Abdomen distendido y duro,3.4,Alerta,1,Alta
+901,Canino,Pérdida de conciencia / Estado comatoso,1.2,Estuporoso/Comatoso,1,Emergencia Crítica
+902,Felino,Pérdida de conciencia / Estado comatoso,0.3,Estuporoso/Comatoso,1,Emergencia Crítica
+903,Canino,Herida superficial lacerante,22.1,Alerta,0,Moderada
+904,Felino,Tos paroxística frecuente,28.5,Alerta,0,Moderada
+905,Felino,Consulta de rutina / Plan de vacunación,147.4,Alerta,0,Baja
+906,Canino,Letargo extremo post-traumatismo,1.5,Estuporoso/Comatoso,1,Alta
+907,Felino,Prurito y rascado auricular leve,39.0,Alerta,0,Baja
+908,Canino,Dificultad respiratoria severa / Cianosis,1.4,Estuporoso/Comatoso,1,Emergencia Crítica
+909,Canino,Herida profunda penetrante o mordedura,11.9,Deprimido,1,Alta
+910,Canino,Lagrimeo leve transparente,160.4,Alerta,0,Baja
+911,Felino,Tos paroxística frecuente,46.0,Alerta,0,Moderada
+912,Canino,Lagrimeo leve transparente,24.4,Alerta,0,Baja
+913,Felino,Paro cardiorrespiratorio inminente,3.4,Deprimido,0,Emergencia Crítica
+914,Felino,Herida profunda penetrante o mordedura,1.1,Alerta,0,Alta
+915,Canino,Obstrucción uretral completa con dilatación vesical,2.0,Estuporoso/Comatoso,1,Emergencia Crítica
+916,Felino,Lagrimeo leve transparente,124.1,Alerta,0,Baja
+917,Canino,Dificultad marcada para orinar con dolor intenso,3.7,Alerta,1,Alta
+918,Felino,Inapetencia y letargo de más de 48 horas,43.0,Alerta,1,Moderada
+919,Canino,Dolor abdominal agudo / Abdomen distendido y duro,2.9,Deprimido,0,Alta
+920,Felino,Convulsiones continuas / Status epiléptico,2.4,Alerta,1,Emergencia Crítica
+921,Felino,Estornudos aislados sin secreción mucopurulenta,26.9,Alerta,0,Baja
+922,Felino,Convulsiones continuas / Status epiléptico,3.0,Estuporoso/Comatoso,1,Emergencia Crítica
+923,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,44.9,Alerta,0,Moderada
+924,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,70.8,Deprimido,0,Moderada
+925,Canino,Herida superficial lacerante,42.8,Alerta,0,Moderada
+926,Felino,Herida profunda penetrante o mordedura,7.1,Estuporoso/Comatoso,0,Alta
+927,Felino,Traumatismo agudo por atropello con shock,2.5,Estuporoso/Comatoso,1,Emergencia Crítica
+928,Canino,Dificultad respiratoria severa / Cianosis,1.3,Estuporoso/Comatoso,0,Emergencia Crítica
+929,Canino,Secreción ocular purulenta y blefaroespasmo,62.0,Deprimido,1,Moderada
+930,Canino,Pérdida de conciencia / Estado comatoso,1.6,Estuporoso/Comatoso,1,Emergencia Crítica
+931,Canino,Pérdida de conciencia / Estado comatoso,0.7,Estuporoso/Comatoso,0,Emergencia Crítica
+932,Canino,Alopecia focalizada sin prurito intenso,111.1,Alerta,0,Baja
+933,Felino,Obstrucción uretral completa con dilatación vesical,2.0,Estuporoso/Comatoso,1,Emergencia Crítica
+934,Canino,Control de peso y chequeo preventivo,125.3,Deprimido,0,Baja
+935,Felino,Secreción ocular purulenta y blefaroespasmo,15.4,Deprimido,0,Moderada
+936,Canino,Quemadura grave por calor o cáusticos,7.8,Deprimido,0,Alta
+937,Felino,Consulta de rutina / Plan de vacunación,107.8,Alerta,0,Baja
+938,Canino,Herida superficial lacerante,63.8,Alerta,0,Moderada
+939,Canino,Convulsiones continuas / Status epiléptico,0.5,Estuporoso/Comatoso,1,Emergencia Crítica
+940,Canino,Quemadura grave por calor o cáusticos,2.8,Deprimido,0,Alta
+941,Canino,Estornudos aislados sin secreción mucopurulenta,42.0,Alerta,0,Baja
+942,Canino,Convulsiones continuas / Status epiléptico,2.9,Estuporoso/Comatoso,1,Emergencia Crítica
+943,Canino,Letargo extremo post-traumatismo,0.9,Alerta,1,Alta
+944,Felino,Convulsiones continuas / Status epiléptico,0.6,Estuporoso/Comatoso,0,Emergencia Crítica
+945,Canino,Convulsiones continuas / Status epiléptico,1.9,Estuporoso/Comatoso,0,Emergencia Crítica
+946,Canino,Letargo extremo post-traumatismo,3.5,Deprimido,0,Alta
+947,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.2,Estuporoso/Comatoso,0,Emergencia Crítica
+948,Canino,Estornudos aislados sin secreción mucopurulenta,84.0,Alerta,0,Baja
+949,Felino,Lagrimeo leve transparente,87.7,Alerta,0,Baja
+950,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,70.1,Deprimido,0,Moderada
+951,Canino,Consulta de rutina / Plan de vacunación,128.8,Alerta,0,Baja
+952,Felino,Pérdida de conciencia / Estado comatoso,1.2,Deprimido,1,Emergencia Crítica
+953,Canino,Pérdida de conciencia / Estado comatoso,0.5,Estuporoso/Comatoso,1,Emergencia Crítica
+954,Felino,Vómitos reiterados con contenido hemorrágico,3.1,Alerta,0,Alta
+955,Felino,Paro cardiorrespiratorio inminente,3.3,Estuporoso/Comatoso,1,Emergencia Crítica
+956,Canino,Dificultad marcada para orinar con dolor intenso,5.8,Alerta,0,Alta
+957,Felino,Halitosis y sarro dental sin dificultad de masticación,156.2,Alerta,0,Baja
+958,Canino,Halitosis y sarro dental sin dificultad de masticación,53.6,Alerta,0,Baja
+959,Felino,Tos paroxística frecuente,50.4,Alerta,0,Moderada
+960,Felino,Letargo extremo post-traumatismo,10.0,Deprimido,0,Alta
+961,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,41.1,Alerta,0,Moderada
+962,Canino,Obstrucción uretral completa con dilatación vesical,2.2,Estuporoso/Comatoso,0,Emergencia Crítica
+963,Canino,Prurito y rascado auricular leve,29.3,Alerta,0,Baja
+964,Canino,Herida profunda penetrante o mordedura,11.7,Deprimido,0,Alta
+965,Canino,Inapetencia y letargo de más de 48 horas,36.5,Alerta,0,Moderada
+966,Canino,Vómitos reiterados con contenido hemorrágico,8.4,Deprimido,0,Alta
+967,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,14.0,Alerta,0,Moderada
+968,Felino,Traumatismo agudo por atropello con shock,3.3,Deprimido,1,Emergencia Crítica
+969,Canino,Vómitos reiterados con contenido hemorrágico,2.3,Estuporoso/Comatoso,1,Alta
+970,Canino,Convulsiones continuas / Status epiléptico,0.4,Estuporoso/Comatoso,1,Emergencia Crítica
+971,Felino,Convulsiones continuas / Status epiléptico,3.1,Estuporoso/Comatoso,1,Emergencia Crítica
+972,Felino,Pérdida de conciencia / Estado comatoso,2.8,Alerta,1,Emergencia Crítica
+973,Canino,Estornudos aislados sin secreción mucopurulenta,85.3,Alerta,0,Baja
+974,Canino,Pérdida de conciencia / Estado comatoso,1.1,Deprimido,1,Emergencia Crítica
+975,Canino,Alopecia focalizada sin prurito intenso,80.0,Deprimido,0,Baja
+976,Felino,Herida superficial lacerante,35.5,Alerta,0,Moderada
+977,Felino,Obstrucción uretral completa con dilatación vesical,1.2,Estuporoso/Comatoso,0,Emergencia Crítica
+978,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.4,Estuporoso/Comatoso,0,Emergencia Crítica
+979,Felino,Dificultad marcada para orinar con dolor intenso,10.4,Deprimido,0,Alta
+980,Canino,Obstrucción uretral completa con dilatación vesical,0.3,Estuporoso/Comatoso,0,Emergencia Crítica
+981,Canino,Hemorragia arterial profusa no controlada,1.6,Estuporoso/Comatoso,1,Emergencia Crítica
+982,Canino,Quemadura grave por calor o cáusticos,7.3,Deprimido,0,Alta
+983,Canino,Inapetencia y letargo de más de 48 horas,60.7,Alerta,0,Moderada
+984,Felino,Estornudos aislados sin secreción mucopurulenta,45.3,Alerta,0,Baja
+985,Felino,Halitosis y sarro dental sin dificultad de masticación,121.4,Alerta,0,Baja
+986,Felino,Dificultad marcada para orinar con dolor intenso,9.4,Deprimido,1,Alta
+987,Canino,Vómitos reiterados con contenido hemorrágico,11.8,Alerta,0,Alta
+988,Canino,Tos paroxística frecuente,46.6,Deprimido,0,Moderada
+989,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,21.5,Alerta,0,Moderada
+990,Felino,Obstrucción uretral completa con dilatación vesical,2.7,Estuporoso/Comatoso,0,Emergencia Crítica
+991,Felino,Herida superficial lacerante,53.9,Estuporoso/Comatoso,0,Moderada
+992,Felino,Alopecia focalizada sin prurito intenso,74.8,Alerta,0,Baja
+993,Canino,Hemorragia arterial profusa no controlada,3.3,Estuporoso/Comatoso,1,Emergencia Crítica
+994,Felino,Herida superficial lacerante,41.2,Deprimido,0,Moderada
+995,Felino,Consulta de rutina / Plan de vacunación,27.2,Alerta,0,Baja
+996,Canino,Traumatismo agudo por atropello con shock,1.9,Estuporoso/Comatoso,0,Emergencia Crítica
+997,Canino,Herida profunda penetrante o mordedura,7.8,Estuporoso/Comatoso,1,Alta
+998,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,36.4,Deprimido,0,Moderada
+999,Canino,Estornudos aislados sin secreción mucopurulenta,76.8,Alerta,0,Baja
+1000,Canino,Vómitos reiterados con contenido hemorrágico,11.5,Deprimido,0,Alta
+1001,Felino,Dificultad marcada para orinar con dolor intenso,9.5,Alerta,1,Alta
+1002,Felino,Reacción anafiláctica aguda / Angioedema facial severo,9.8,Estuporoso/Comatoso,0,Alta
+1003,Felino,Estornudos aislados sin secreción mucopurulenta,134.8,Alerta,0,Baja
+1004,Canino,Reacción anafiláctica aguda / Angioedema facial severo,8.5,Deprimido,0,Alta
+1005,Canino,Obstrucción uretral completa con dilatación vesical,2.7,Estuporoso/Comatoso,0,Emergencia Crítica
+1006,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.1,Estuporoso/Comatoso,0,Emergencia Crítica
+1007,Felino,Inapetencia y letargo de más de 48 horas,33.9,Alerta,0,Moderada
+1008,Felino,Pérdida de conciencia / Estado comatoso,0.4,Estuporoso/Comatoso,1,Emergencia Crítica
+1009,Felino,Quemadura grave por calor o cáusticos,10.8,Alerta,0,Alta
+1010,Canino,Quemadura grave por calor o cáusticos,12.0,Deprimido,0,Alta
+1011,Felino,Prolapso o traumatismo ocular grave,2.5,Deprimido,0,Alta
+1012,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,1.2,Estuporoso/Comatoso,0,Emergencia Crítica
+1013,Felino,Dificultad respiratoria severa / Cianosis,1.4,Estuporoso/Comatoso,1,Emergencia Crítica
+1014,Canino,Alopecia focalizada sin prurito intenso,152.7,Alerta,0,Baja
+1015,Canino,Halitosis y sarro dental sin dificultad de masticación,115.9,Alerta,0,Baja
+1016,Felino,Dificultad respiratoria severa / Cianosis,0.3,Estuporoso/Comatoso,0,Emergencia Crítica
+1017,Felino,Lagrimeo leve transparente,165.2,Alerta,0,Baja
+1018,Canino,Tos paroxística frecuente,53.2,Deprimido,0,Moderada
+1019,Felino,Quemadura grave por calor o cáusticos,10.6,Estuporoso/Comatoso,1,Alta
+1020,Felino,Obstrucción uretral completa con dilatación vesical,3.8,Estuporoso/Comatoso,1,Emergencia Crítica
+1021,Canino,Estornudos aislados sin secreción mucopurulenta,144.4,Alerta,0,Baja
+1022,Felino,Paro cardiorrespiratorio inminente,3.4,Alerta,1,Emergencia Crítica
+1023,Felino,Control de peso y chequeo preventivo,160.5,Alerta,0,Baja
+1024,Canino,Fiebre persistente con decaimiento notable,70.6,Alerta,0,Moderada
+1025,Felino,Fiebre persistente con decaimiento notable,17.2,Alerta,0,Moderada
+1026,Canino,Consulta de rutina / Plan de vacunación,156.5,Alerta,0,Baja
+1027,Canino,Dificultad respiratoria severa / Cianosis,1.2,Estuporoso/Comatoso,1,Emergencia Crítica
+1028,Felino,Obstrucción uretral completa con dilatación vesical,2.8,Estuporoso/Comatoso,1,Emergencia Crítica
+1029,Canino,Letargo extremo post-traumatismo,1.8,Deprimido,1,Alta
+1030,Canino,Alopecia focalizada sin prurito intenso,112.9,Alerta,0,Baja
+1031,Felino,Inapetencia y letargo de más de 48 horas,67.2,Alerta,1,Moderada
+1032,Canino,Tos paroxística frecuente,57.0,Alerta,0,Moderada
+1033,Felino,Quemadura grave por calor o cáusticos,3.9,Alerta,0,Alta
+1034,Canino,Paro cardiorrespiratorio inminente,2.2,Estuporoso/Comatoso,1,Emergencia Crítica
+1035,Canino,Tos paroxística frecuente,34.4,Alerta,0,Moderada
+1036,Canino,Quemadura grave por calor o cáusticos,4.7,Deprimido,1,Alta
+1037,Felino,Dificultad marcada para orinar con dolor intenso,4.8,Alerta,1,Alta
+1038,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,45.2,Alerta,0,Moderada
+1039,Felino,Prurito y rascado auricular leve,71.0,Alerta,0,Baja
+1040,Felino,Prolapso o traumatismo ocular grave,2.5,Deprimido,0,Alta
+1041,Canino,Quemadura grave por calor o cáusticos,1.9,Deprimido,1,Alta
+1042,Felino,Secreción ocular purulenta y blefaroespasmo,24.3,Alerta,0,Moderada
+1043,Canino,Prolapso o traumatismo ocular grave,11.0,Deprimido,0,Alta
+1044,Felino,Pérdida de conciencia / Estado comatoso,1.0,Estuporoso/Comatoso,0,Emergencia Crítica
+1045,Canino,Quemadura grave por calor o cáusticos,11.4,Deprimido,0,Alta
+1046,Canino,Lagrimeo leve transparente,33.8,Alerta,0,Baja
+1047,Canino,Inapetencia y letargo de más de 48 horas,25.2,Alerta,0,Moderada
+1048,Felino,Prolapso o traumatismo ocular grave,9.2,Deprimido,0,Alta
+1049,Canino,Alopecia focalizada sin prurito intenso,88.8,Alerta,0,Baja
+1050,Felino,Dificultad respiratoria severa / Cianosis,3.9,Estuporoso/Comatoso,1,Emergencia Crítica
+1051,Felino,Inapetencia y letargo de más de 48 horas,69.8,Deprimido,0,Moderada
+1052,Felino,Alopecia focalizada sin prurito intenso,57.4,Alerta,0,Baja
+1053,Canino,Lagrimeo leve transparente,28.6,Alerta,0,Baja
+1054,Canino,Herida superficial lacerante,56.8,Deprimido,1,Moderada
+1055,Canino,Herida profunda penetrante o mordedura,0.6,Alerta,0,Alta
+1056,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.3,Estuporoso/Comatoso,1,Emergencia Crítica
+1057,Felino,Reacción anafiláctica aguda / Angioedema facial severo,11.1,Deprimido,1,Alta
+1058,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.0,Estuporoso/Comatoso,1,Emergencia Crítica
+1059,Canino,Dolor abdominal agudo / Abdomen distendido y duro,6.8,Deprimido,1,Alta
+1060,Felino,Prurito y rascado auricular leve,44.7,Alerta,0,Baja
+1061,Canino,Halitosis y sarro dental sin dificultad de masticación,106.1,Alerta,0,Baja
+1062,Felino,Quemadura grave por calor o cáusticos,3.3,Alerta,0,Alta
+1063,Canino,Tos paroxística frecuente,29.7,Alerta,0,Moderada
+1064,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.8,Estuporoso/Comatoso,1,Emergencia Crítica
+1065,Felino,Fiebre persistente con decaimiento notable,49.9,Alerta,0,Moderada
+1066,Canino,Control de peso y chequeo preventivo,115.3,Alerta,0,Baja
+1067,Canino,Traumatismo agudo por atropello con shock,0.4,Estuporoso/Comatoso,0,Emergencia Crítica
+1068,Canino,Paro cardiorrespiratorio inminente,2.9,Estuporoso/Comatoso,1,Emergencia Crítica
+1069,Felino,Estornudos aislados sin secreción mucopurulenta,124.5,Alerta,0,Baja
+1070,Felino,Fiebre persistente con decaimiento notable,51.4,Alerta,0,Moderada
+1071,Canino,Dolor abdominal agudo / Abdomen distendido y duro,11.6,Estuporoso/Comatoso,1,Alta
+1072,Felino,Tos paroxística frecuente,51.3,Alerta,0,Moderada
+1073,Canino,Inapetencia y letargo de más de 48 horas,17.9,Alerta,0,Moderada
+1074,Canino,Halitosis y sarro dental sin dificultad de masticación,126.1,Alerta,0,Baja
+1075,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,12.3,Alerta,0,Moderada
+1076,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,39.9,Alerta,0,Moderada
+1077,Canino,Letargo extremo post-traumatismo,11.1,Alerta,1,Alta
+1078,Felino,Dificultad respiratoria severa / Cianosis,2.9,Deprimido,1,Emergencia Crítica
+1079,Felino,Convulsiones continuas / Status epiléptico,1.3,Deprimido,1,Emergencia Crítica
+1080,Felino,Halitosis y sarro dental sin dificultad de masticación,160.8,Alerta,0,Baja
+1081,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,0.3,Estuporoso/Comatoso,1,Emergencia Crítica
+1082,Felino,Herida profunda penetrante o mordedura,4.2,Estuporoso/Comatoso,0,Alta
+1083,Felino,Letargo extremo post-traumatismo,7.7,Deprimido,0,Alta
+1084,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,1.1,Estuporoso/Comatoso,0,Emergencia Crítica
+1085,Canino,Tos paroxística frecuente,47.9,Alerta,0,Moderada
+1086,Felino,Consulta de rutina / Plan de vacunación,119.1,Alerta,0,Baja
+1087,Canino,Tos paroxística frecuente,49.0,Alerta,0,Moderada
+1088,Canino,Halitosis y sarro dental sin dificultad de masticación,131.0,Alerta,0,Baja
+1089,Felino,Dificultad respiratoria severa / Cianosis,2.5,Estuporoso/Comatoso,0,Emergencia Crítica
+1090,Canino,Tos paroxística frecuente,36.0,Alerta,0,Moderada
+1091,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,58.7,Alerta,0,Moderada
+1092,Felino,Quemadura grave por calor o cáusticos,4.7,Deprimido,1,Alta
+1093,Felino,Herida superficial lacerante,41.0,Deprimido,0,Moderada
+1094,Canino,Traumatismo agudo por atropello con shock,0.5,Deprimido,1,Emergencia Crítica
+1095,Canino,Halitosis y sarro dental sin dificultad de masticación,153.3,Alerta,0,Baja
+1096,Felino,Estornudos aislados sin secreción mucopurulenta,67.3,Alerta,0,Baja
+1097,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,57.7,Deprimido,0,Moderada
+1098,Felino,Letargo extremo post-traumatismo,3.1,Deprimido,1,Alta
+1099,Canino,Reacción anafiláctica aguda / Angioedema facial severo,3.0,Deprimido,0,Alta
+1100,Canino,Prurito y rascado auricular leve,139.8,Alerta,0,Baja
+1101,Canino,Dificultad marcada para orinar con dolor intenso,3.1,Deprimido,0,Alta
+1102,Canino,Quemadura grave por calor o cáusticos,5.6,Deprimido,1,Alta
+1103,Canino,Secreción ocular purulenta y blefaroespasmo,25.8,Alerta,0,Moderada
+1104,Canino,Prolapso o traumatismo ocular grave,4.0,Deprimido,1,Alta
+1105,Felino,Reacción anafiláctica aguda / Angioedema facial severo,9.6,Alerta,1,Alta
+1106,Felino,Secreción ocular purulenta y blefaroespasmo,40.7,Alerta,0,Moderada
+1107,Felino,Control de peso y chequeo preventivo,47.1,Alerta,0,Baja
+1108,Felino,Inapetencia y letargo de más de 48 horas,26.0,Deprimido,0,Moderada
+1109,Felino,Pérdida de conciencia / Estado comatoso,3.0,Estuporoso/Comatoso,0,Emergencia Crítica
+1110,Canino,Dolor abdominal agudo / Abdomen distendido y duro,11.5,Deprimido,0,Alta
+1111,Felino,Inapetencia y letargo de más de 48 horas,49.6,Deprimido,0,Moderada
+1112,Canino,Inapetencia y letargo de más de 48 horas,45.5,Alerta,0,Moderada
+1113,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.0,Estuporoso/Comatoso,1,Emergencia Crítica
+1114,Canino,Vómitos reiterados con contenido hemorrágico,8.1,Alerta,0,Alta
+1115,Canino,Dificultad marcada para orinar con dolor intenso,5.9,Deprimido,1,Alta
+1116,Canino,Pérdida de conciencia / Estado comatoso,3.5,Estuporoso/Comatoso,1,Emergencia Crítica
+1117,Canino,Paro cardiorrespiratorio inminente,1.8,Deprimido,0,Emergencia Crítica
+1118,Canino,Reacción anafiláctica aguda / Angioedema facial severo,10.6,Alerta,1,Alta
+1119,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,65.7,Alerta,0,Moderada
+1120,Canino,Herida superficial lacerante,17.0,Deprimido,0,Moderada
+1121,Canino,Herida superficial lacerante,63.4,Alerta,0,Moderada
+1122,Felino,Paro cardiorrespiratorio inminente,1.0,Estuporoso/Comatoso,0,Emergencia Crítica
+1123,Felino,Consulta de rutina / Plan de vacunación,28.6,Alerta,0,Baja
+1124,Felino,Tos paroxística frecuente,42.7,Alerta,0,Moderada
+1125,Felino,Tos paroxística frecuente,32.6,Alerta,0,Moderada
+1126,Felino,Herida superficial lacerante,31.0,Alerta,0,Moderada
+1127,Felino,Control de peso y chequeo preventivo,69.7,Alerta,0,Baja
+1128,Canino,Traumatismo agudo por atropello con shock,1.9,Estuporoso/Comatoso,0,Emergencia Crítica
+1129,Canino,Inapetencia y letargo de más de 48 horas,42.1,Alerta,0,Moderada
+1130,Canino,Alopecia focalizada sin prurito intenso,100.5,Alerta,0,Baja
+1131,Felino,Convulsiones continuas / Status epiléptico,2.8,Estuporoso/Comatoso,1,Emergencia Crítica
+1132,Felino,Alopecia focalizada sin prurito intenso,67.8,Alerta,0,Baja
+1133,Felino,Estornudos aislados sin secreción mucopurulenta,32.8,Alerta,0,Baja
+1134,Felino,Quemadura grave por calor o cáusticos,6.8,Deprimido,1,Alta
+1135,Felino,Tos paroxística frecuente,14.5,Alerta,0,Moderada
+1136,Canino,Fiebre persistente con decaimiento notable,45.0,Estuporoso/Comatoso,1,Moderada
+1137,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,15.8,Deprimido,0,Moderada
+1138,Canino,Consulta de rutina / Plan de vacunación,58.3,Alerta,0,Baja
+1139,Felino,Paro cardiorrespiratorio inminente,1.2,Estuporoso/Comatoso,0,Emergencia Crítica
+1140,Felino,Lagrimeo leve transparente,157.1,Alerta,0,Baja
+1141,Canino,Obstrucción uretral completa con dilatación vesical,2.3,Estuporoso/Comatoso,1,Emergencia Crítica
+1142,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.1,Estuporoso/Comatoso,0,Emergencia Crítica
+1143,Felino,Dificultad marcada para orinar con dolor intenso,3.9,Deprimido,0,Alta
+1144,Canino,Obstrucción uretral completa con dilatación vesical,3.9,Estuporoso/Comatoso,0,Emergencia Crítica
+1145,Felino,Consulta de rutina / Plan de vacunación,103.8,Alerta,0,Baja
+1146,Felino,Dolor abdominal agudo / Abdomen distendido y duro,11.0,Deprimido,0,Alta
+1147,Canino,Fiebre persistente con decaimiento notable,59.0,Alerta,0,Moderada
+1148,Felino,Herida superficial lacerante,67.0,Alerta,0,Moderada
+1149,Felino,Herida profunda penetrante o mordedura,9.3,Alerta,0,Alta
+1150,Canino,Fiebre persistente con decaimiento notable,60.1,Estuporoso/Comatoso,1,Moderada
+1151,Canino,Dolor abdominal agudo / Abdomen distendido y duro,8.9,Estuporoso/Comatoso,0,Alta
+1152,Felino,Quemadura grave por calor o cáusticos,1.3,Alerta,1,Alta
+1153,Felino,Reacción anafiláctica aguda / Angioedema facial severo,1.9,Deprimido,1,Alta
+1154,Canino,Hemorragia arterial profusa no controlada,0.4,Estuporoso/Comatoso,1,Emergencia Crítica
+1155,Felino,Obstrucción uretral completa con dilatación vesical,4.0,Estuporoso/Comatoso,0,Emergencia Crítica
+1156,Canino,Quemadura grave por calor o cáusticos,6.5,Deprimido,0,Alta
+1157,Canino,Convulsiones continuas / Status epiléptico,1.9,Estuporoso/Comatoso,1,Emergencia Crítica
+1158,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,22.0,Deprimido,0,Moderada
+1159,Felino,Inapetencia y letargo de más de 48 horas,63.3,Deprimido,0,Moderada
+1160,Felino,Alopecia focalizada sin prurito intenso,134.7,Deprimido,0,Baja
+1161,Canino,Dificultad marcada para orinar con dolor intenso,9.7,Deprimido,0,Alta
+1162,Felino,Fiebre persistente con decaimiento notable,27.0,Deprimido,0,Moderada
+1163,Canino,Herida profunda penetrante o mordedura,1.7,Deprimido,0,Alta
+1164,Felino,Herida superficial lacerante,59.8,Alerta,0,Moderada
+1165,Felino,Secreción ocular purulenta y blefaroespasmo,30.8,Alerta,0,Moderada
+1166,Felino,Paro cardiorrespiratorio inminente,3.3,Estuporoso/Comatoso,1,Emergencia Crítica
+1167,Canino,Consulta de rutina / Plan de vacunación,128.3,Alerta,0,Baja
+1168,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,39.9,Deprimido,0,Moderada
+1169,Felino,Herida profunda penetrante o mordedura,2.6,Alerta,0,Alta
+1170,Felino,Paro cardiorrespiratorio inminente,3.4,Deprimido,1,Emergencia Crítica
+1171,Canino,Secreción ocular purulenta y blefaroespasmo,70.0,Alerta,0,Moderada
+1172,Felino,Fiebre persistente con decaimiento notable,45.8,Deprimido,0,Moderada
+1173,Canino,Reacción anafiláctica aguda / Angioedema facial severo,8.1,Estuporoso/Comatoso,0,Alta
+1174,Canino,Reacción anafiláctica aguda / Angioedema facial severo,8.1,Alerta,1,Alta
+1175,Felino,Vómitos reiterados con contenido hemorrágico,5.5,Deprimido,0,Alta
+1176,Felino,Prurito y rascado auricular leve,41.6,Alerta,0,Baja
+1177,Canino,Hemorragia arterial profusa no controlada,2.4,Estuporoso/Comatoso,1,Emergencia Crítica
+1178,Canino,Pérdida de conciencia / Estado comatoso,2.5,Estuporoso/Comatoso,1,Emergencia Crítica
+1179,Felino,Vómitos y diarrea persistente sin sangre por más de 24 horas,21.1,Alerta,0,Moderada
+1180,Canino,Herida superficial lacerante,22.8,Deprimido,0,Moderada
+1181,Felino,Lagrimeo leve transparente,86.7,Alerta,0,Baja
+1182,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.8,Estuporoso/Comatoso,1,Emergencia Crítica
+1183,Canino,Alopecia focalizada sin prurito intenso,80.4,Alerta,0,Baja
+1184,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,14.3,Alerta,0,Moderada
+1185,Felino,Control de peso y chequeo preventivo,133.9,Alerta,0,Baja
+1186,Felino,Control de peso y chequeo preventivo,149.3,Alerta,0,Baja
+1187,Felino,Herida profunda penetrante o mordedura,9.5,Estuporoso/Comatoso,0,Alta
+1188,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.8,Deprimido,1,Emergencia Crítica
+1189,Felino,Paro cardiorrespiratorio inminente,3.0,Estuporoso/Comatoso,1,Emergencia Crítica
+1190,Felino,Dolor abdominal agudo / Abdomen distendido y duro,5.8,Deprimido,0,Alta
+1191,Felino,Prurito y rascado auricular leve,40.0,Alerta,0,Baja
+1192,Canino,Estornudos aislados sin secreción mucopurulenta,142.2,Alerta,0,Baja
+1193,Felino,Alopecia focalizada sin prurito intenso,86.8,Alerta,0,Baja
+1194,Canino,Reacción anafiláctica aguda / Angioedema facial severo,10.3,Estuporoso/Comatoso,0,Alta
+1195,Canino,Fiebre persistente con decaimiento notable,61.8,Alerta,0,Moderada
+1196,Canino,Herida profunda penetrante o mordedura,6.7,Alerta,1,Alta
+1197,Felino,Convulsiones continuas / Status epiléptico,1.6,Estuporoso/Comatoso,1,Emergencia Crítica
+1198,Felino,Halitosis y sarro dental sin dificultad de masticación,48.3,Alerta,0,Baja
+1199,Felino,Obstrucción uretral completa con dilatación vesical,1.9,Estuporoso/Comatoso,1,Emergencia Crítica
+1200,Canino,Fiebre persistente con decaimiento notable,47.4,Deprimido,0,Moderada
+1201,Canino,Quemadura grave por calor o cáusticos,8.7,Deprimido,0,Alta
+1202,Felino,Dificultad marcada para orinar con dolor intenso,6.8,Deprimido,0,Alta
+1203,Felino,Estornudos aislados sin secreción mucopurulenta,47.3,Alerta,0,Baja
+1204,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,56.4,Alerta,0,Moderada
+1205,Canino,Lagrimeo leve transparente,131.3,Alerta,0,Baja
+1206,Felino,Secreción ocular purulenta y blefaroespasmo,23.1,Alerta,1,Moderada
+1207,Felino,Consulta de rutina / Plan de vacunación,98.1,Alerta,0,Baja
+1208,Felino,Hemorragia arterial profusa no controlada,1.0,Estuporoso/Comatoso,1,Emergencia Crítica
+1209,Felino,Fiebre persistente con decaimiento notable,59.6,Alerta,0,Moderada
+1210,Canino,Pérdida de conciencia / Estado comatoso,3.7,Estuporoso/Comatoso,0,Emergencia Crítica
+1211,Felino,Dificultad respiratoria severa / Cianosis,2.5,Estuporoso/Comatoso,1,Emergencia Crítica
+1212,Felino,Reacción anafiláctica aguda / Angioedema facial severo,4.8,Alerta,1,Alta
+1213,Felino,Prurito y rascado auricular leve,66.8,Alerta,0,Baja
+1214,Felino,Dificultad respiratoria severa / Cianosis,0.4,Deprimido,1,Emergencia Crítica
+1215,Felino,Hemorragia arterial profusa no controlada,4.0,Alerta,0,Emergencia Crítica
+1216,Canino,Letargo extremo post-traumatismo,6.9,Deprimido,0,Alta
+1217,Canino,Fiebre persistente con decaimiento notable,71.7,Alerta,0,Moderada
+1218,Canino,Reacción anafiláctica aguda / Angioedema facial severo,10.4,Deprimido,0,Alta
+1219,Canino,Prurito y rascado auricular leve,116.9,Alerta,0,Baja
+1220,Canino,Alopecia focalizada sin prurito intenso,58.3,Alerta,0,Baja
+1221,Canino,Vómitos reiterados con contenido hemorrágico,7.9,Alerta,1,Alta
+1222,Felino,Control de peso y chequeo preventivo,43.5,Alerta,0,Baja
+1223,Canino,Prolapso o traumatismo ocular grave,4.3,Deprimido,0,Alta
+1224,Felino,Control de peso y chequeo preventivo,76.9,Deprimido,0,Baja
+1225,Canino,Prurito y rascado auricular leve,83.2,Alerta,0,Baja
+1226,Felino,Prurito y rascado auricular leve,109.3,Alerta,0,Baja
+1227,Canino,Alopecia focalizada sin prurito intenso,41.0,Alerta,0,Baja
+1228,Felino,Alopecia focalizada sin prurito intenso,105.0,Alerta,0,Baja
+1229,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,21.4,Alerta,0,Moderada
+1230,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.5,Estuporoso/Comatoso,0,Emergencia Crítica
+1231,Felino,Herida superficial lacerante,61.9,Alerta,0,Moderada
+1232,Canino,Control de peso y chequeo preventivo,129.3,Alerta,0,Baja
+1233,Canino,Fiebre persistente con decaimiento notable,20.0,Alerta,0,Moderada
+1234,Canino,Halitosis y sarro dental sin dificultad de masticación,123.6,Alerta,0,Baja
+1235,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,37.1,Alerta,0,Moderada
+1236,Felino,Fiebre persistente con decaimiento notable,44.4,Alerta,0,Moderada
+1237,Felino,Convulsiones continuas / Status epiléptico,2.9,Estuporoso/Comatoso,1,Emergencia Crítica
+1238,Canino,Prurito y rascado auricular leve,41.2,Alerta,0,Baja
+1239,Canino,Dolor abdominal agudo / Abdomen distendido y duro,2.1,Deprimido,0,Alta
+1240,Felino,Consulta de rutina / Plan de vacunación,159.8,Alerta,0,Baja
+1241,Canino,Alopecia focalizada sin prurito intenso,126.2,Alerta,0,Baja
+1242,Felino,Traumatismo agudo por atropello con shock,0.4,Estuporoso/Comatoso,1,Emergencia Crítica
+1243,Canino,Herida profunda penetrante o mordedura,1.9,Deprimido,0,Alta
+1244,Canino,Alopecia focalizada sin prurito intenso,73.9,Alerta,0,Baja
+1245,Canino,Lagrimeo leve transparente,139.5,Alerta,0,Baja
+1246,Felino,Obstrucción uretral completa con dilatación vesical,3.3,Estuporoso/Comatoso,0,Emergencia Crítica
+1247,Canino,Traumatismo agudo por atropello con shock,0.4,Estuporoso/Comatoso,1,Emergencia Crítica
+1248,Felino,Herida profunda penetrante o mordedura,2.6,Alerta,0,Alta
+1249,Felino,Consulta de rutina / Plan de vacunación,112.5,Alerta,0,Baja
+1250,Canino,Paro cardiorrespiratorio inminente,1.8,Alerta,0,Emergencia Crítica
+1251,Felino,Control de peso y chequeo preventivo,39.1,Alerta,0,Baja
+1252,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,18.7,Deprimido,0,Moderada
+1253,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.8,Alerta,1,Emergencia Crítica
+1254,Felino,Fiebre persistente con decaimiento notable,33.9,Alerta,0,Moderada
+1255,Canino,Halitosis y sarro dental sin dificultad de masticación,67.4,Alerta,0,Baja
+1256,Felino,Herida superficial lacerante,49.0,Alerta,0,Moderada
+1257,Canino,Dolor abdominal agudo / Abdomen distendido y duro,6.0,Deprimido,1,Alta
+1258,Felino,Traumatismo agudo por atropello con shock,2.9,Estuporoso/Comatoso,0,Emergencia Crítica
+1259,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,21.7,Alerta,0,Moderada
+1260,Felino,Consulta de rutina / Plan de vacunación,137.7,Alerta,0,Baja
+1261,Felino,Herida superficial lacerante,26.1,Deprimido,0,Moderada
+1262,Canino,Control de peso y chequeo preventivo,159.7,Alerta,0,Baja
+1263,Felino,Letargo extremo post-traumatismo,8.0,Deprimido,0,Alta
+1264,Felino,Traumatismo agudo por atropello con shock,3.2,Estuporoso/Comatoso,1,Emergencia Crítica
+1265,Felino,Consulta de rutina / Plan de vacunación,34.6,Alerta,0,Baja
+1266,Canino,Hemorragia arterial profusa no controlada,0.4,Estuporoso/Comatoso,1,Emergencia Crítica
+1267,Felino,Paro cardiorrespiratorio inminente,3.3,Estuporoso/Comatoso,0,Emergencia Crítica
+1268,Canino,Vómitos reiterados con contenido hemorrágico,11.1,Alerta,0,Alta
+1269,Felino,Vómitos reiterados con contenido hemorrágico,0.6,Alerta,1,Alta
+1270,Canino,Lagrimeo leve transparente,140.2,Alerta,0,Baja
+1271,Felino,Prurito y rascado auricular leve,91.1,Alerta,0,Baja
+1272,Canino,Quemadura grave por calor o cáusticos,4.0,Alerta,1,Alta
+1273,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,70.3,Alerta,0,Moderada
+1274,Canino,Vómitos reiterados con contenido hemorrágico,3.3,Deprimido,0,Alta
+1275,Felino,Consulta de rutina / Plan de vacunación,94.6,Alerta,0,Baja
+1276,Canino,Alopecia focalizada sin prurito intenso,125.1,Alerta,0,Baja
+1277,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.5,Estuporoso/Comatoso,0,Emergencia Crítica
+1278,Felino,Reacción anafiláctica aguda / Angioedema facial severo,11.5,Alerta,1,Alta
+1279,Felino,Tos paroxística frecuente,53.8,Alerta,0,Moderada
+1280,Felino,Consulta de rutina / Plan de vacunación,153.8,Alerta,0,Baja
+1281,Canino,Dolor abdominal agudo / Abdomen distendido y duro,8.5,Alerta,0,Alta
+1282,Canino,Dolor abdominal agudo / Abdomen distendido y duro,3.7,Alerta,1,Alta
+1283,Canino,Convulsiones continuas / Status epiléptico,2.8,Estuporoso/Comatoso,1,Emergencia Crítica
+1284,Felino,Lagrimeo leve transparente,148.0,Alerta,0,Baja
+1285,Felino,Control de peso y chequeo preventivo,158.8,Deprimido,0,Baja
+1286,Canino,Dolor abdominal agudo / Abdomen distendido y duro,0.9,Deprimido,1,Alta
+1287,Canino,Dificultad respiratoria severa / Cianosis,2.7,Estuporoso/Comatoso,0,Emergencia Crítica
+1288,Felino,Fiebre persistente con decaimiento notable,31.0,Alerta,0,Moderada
+1289,Felino,Secreción ocular purulenta y blefaroespasmo,21.5,Alerta,0,Moderada
+1290,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,4.0,Estuporoso/Comatoso,0,Emergencia Crítica
+1291,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,71.7,Deprimido,0,Moderada
+1292,Felino,Pérdida de conciencia / Estado comatoso,1.3,Estuporoso/Comatoso,0,Emergencia Crítica
+1293,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.8,Deprimido,1,Emergencia Crítica
+1294,Felino,Prurito y rascado auricular leve,158.4,Alerta,0,Baja
+1295,Canino,Vómitos reiterados con contenido hemorrágico,10.3,Alerta,0,Alta
+1296,Felino,Traumatismo agudo por atropello con shock,2.4,Estuporoso/Comatoso,1,Emergencia Crítica
+1297,Canino,Consulta de rutina / Plan de vacunación,90.8,Alerta,0,Baja
+1298,Felino,Pérdida de conciencia / Estado comatoso,2.0,Estuporoso/Comatoso,0,Emergencia Crítica
+1299,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,35.3,Alerta,0,Moderada
+1300,Canino,Hemorragia arterial profusa no controlada,0.3,Estuporoso/Comatoso,1,Emergencia Crítica
+1301,Felino,Estornudos aislados sin secreción mucopurulenta,134.1,Alerta,0,Baja
+1302,Canino,Consulta de rutina / Plan de vacunación,144.2,Alerta,0,Baja
+1303,Felino,Consulta de rutina / Plan de vacunación,113.4,Alerta,0,Baja
+1304,Canino,Prolapso o traumatismo ocular grave,9.7,Deprimido,0,Alta
+1305,Felino,Alopecia focalizada sin prurito intenso,113.4,Alerta,0,Baja
+1306,Felino,Herida superficial lacerante,39.5,Estuporoso/Comatoso,0,Moderada
+1307,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,1.8,Estuporoso/Comatoso,1,Emergencia Crítica
+1308,Canino,Herida profunda penetrante o mordedura,6.1,Deprimido,0,Alta
+1309,Felino,Dificultad respiratoria severa / Cianosis,2.7,Deprimido,1,Emergencia Crítica
+1310,Felino,Convulsiones continuas / Status epiléptico,1.9,Alerta,1,Emergencia Crítica
+1311,Felino,Quemadura grave por calor o cáusticos,8.7,Alerta,1,Alta
+1312,Felino,Lagrimeo leve transparente,91.1,Alerta,0,Baja
+1313,Felino,Herida superficial lacerante,65.5,Deprimido,0,Moderada
+1314,Felino,Consulta de rutina / Plan de vacunación,101.7,Alerta,0,Baja
+1315,Felino,Consulta de rutina / Plan de vacunación,40.0,Alerta,0,Baja
+1316,Canino,Halitosis y sarro dental sin dificultad de masticación,99.8,Alerta,0,Baja
+1317,Felino,Dificultad marcada para orinar con dolor intenso,9.7,Deprimido,1,Alta
+1318,Canino,Consulta de rutina / Plan de vacunación,34.3,Alerta,0,Baja
+1319,Canino,Lagrimeo leve transparente,109.1,Alerta,0,Baja
+1320,Canino,Dolor abdominal agudo / Abdomen distendido y duro,9.4,Deprimido,0,Alta
+1321,Felino,Consulta de rutina / Plan de vacunación,94.8,Alerta,0,Baja
+1322,Canino,Prurito y rascado auricular leve,95.6,Alerta,0,Baja
+1323,Felino,Halitosis y sarro dental sin dificultad de masticación,73.4,Alerta,0,Baja
+1324,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.7,Estuporoso/Comatoso,1,Emergencia Crítica
+1325,Canino,Dificultad marcada para orinar con dolor intenso,10.0,Deprimido,1,Alta
+1326,Felino,Quemadura grave por calor o cáusticos,6.3,Deprimido,1,Alta
+1327,Canino,Prurito y rascado auricular leve,152.9,Alerta,0,Baja
+1328,Felino,Herida superficial lacerante,34.1,Alerta,0,Moderada
+1329,Felino,Reacción anafiláctica aguda / Angioedema facial severo,5.0,Deprimido,1,Alta
+1330,Canino,Dolor abdominal agudo / Abdomen distendido y duro,4.6,Alerta,0,Alta
+1331,Felino,Lagrimeo leve transparente,106.1,Alerta,0,Baja
+1332,Felino,Alopecia focalizada sin prurito intenso,100.9,Alerta,0,Baja
+1333,Felino,Halitosis y sarro dental sin dificultad de masticación,139.8,Alerta,0,Baja
+1334,Canino,Control de peso y chequeo preventivo,117.4,Alerta,0,Baja
+1335,Felino,Lagrimeo leve transparente,145.7,Alerta,0,Baja
+1336,Canino,Tos paroxística frecuente,27.1,Alerta,0,Moderada
+1337,Felino,Dolor abdominal agudo / Abdomen distendido y duro,0.7,Deprimido,1,Alta
+1338,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,16.3,Alerta,0,Moderada
+1339,Felino,Vómitos reiterados con contenido hemorrágico,2.6,Deprimido,1,Alta
+1340,Canino,Herida profunda penetrante o mordedura,6.1,Deprimido,0,Alta
+1341,Felino,Prolapso o traumatismo ocular grave,6.1,Deprimido,0,Alta
+1342,Canino,Herida superficial lacerante,22.5,Deprimido,0,Moderada
+1343,Canino,Prurito y rascado auricular leve,25.0,Deprimido,0,Baja
+1344,Felino,Alopecia focalizada sin prurito intenso,157.4,Alerta,0,Baja
+1345,Felino,Dificultad marcada para orinar con dolor intenso,1.0,Deprimido,0,Alta
+1346,Canino,Herida superficial lacerante,24.3,Alerta,0,Moderada
+1347,Canino,Herida profunda penetrante o mordedura,3.2,Deprimido,1,Alta
+1348,Felino,Control de peso y chequeo preventivo,137.0,Alerta,0,Baja
+1349,Felino,Quemadura grave por calor o cáusticos,0.9,Estuporoso/Comatoso,1,Alta
+1350,Felino,Estornudos aislados sin secreción mucopurulenta,136.1,Alerta,0,Baja
+1351,Felino,Letargo extremo post-traumatismo,6.5,Estuporoso/Comatoso,1,Alta
+1352,Felino,Pérdida de conciencia / Estado comatoso,1.5,Estuporoso/Comatoso,1,Emergencia Crítica
+1353,Canino,Herida superficial lacerante,61.9,Deprimido,0,Moderada
+1354,Felino,Dificultad marcada para orinar con dolor intenso,10.0,Deprimido,0,Alta
+1355,Canino,Consulta de rutina / Plan de vacunación,38.4,Deprimido,0,Baja
+1356,Felino,Letargo extremo post-traumatismo,6.7,Deprimido,1,Alta
+1357,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,25.8,Alerta,0,Moderada
+1358,Canino,Herida superficial lacerante,29.1,Alerta,0,Moderada
+1359,Canino,Tos paroxística frecuente,68.9,Deprimido,0,Moderada
+1360,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,2.8,Estuporoso/Comatoso,1,Emergencia Crítica
+1361,Felino,Quemadura grave por calor o cáusticos,11.6,Alerta,0,Alta
+1362,Canino,Fiebre persistente con decaimiento notable,51.2,Alerta,0,Moderada
+1363,Canino,Tos paroxística frecuente,60.0,Alerta,0,Moderada
+1364,Canino,Quemadura grave por calor o cáusticos,4.1,Alerta,0,Alta
+1365,Canino,Herida superficial lacerante,57.1,Deprimido,0,Moderada
+1366,Canino,Estornudos aislados sin secreción mucopurulenta,97.8,Alerta,0,Baja
+1367,Canino,Estornudos aislados sin secreción mucopurulenta,101.0,Alerta,0,Baja
+1368,Canino,Fiebre persistente con decaimiento notable,51.6,Estuporoso/Comatoso,0,Moderada
+1369,Canino,Herida profunda penetrante o mordedura,7.6,Alerta,0,Alta
+1370,Felino,Quemadura grave por calor o cáusticos,2.4,Alerta,0,Alta
+1371,Felino,Herida superficial lacerante,49.2,Deprimido,0,Moderada
+1372,Felino,Vómitos reiterados con contenido hemorrágico,0.6,Alerta,1,Alta
+1373,Felino,Vómitos reiterados con contenido hemorrágico,8.6,Alerta,0,Alta
+1374,Felino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,1.5,Estuporoso/Comatoso,1,Emergencia Crítica
+1375,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,46.4,Deprimido,0,Moderada
+1376,Canino,Letargo extremo post-traumatismo,9.2,Alerta,0,Alta
+1377,Felino,Prolapso o traumatismo ocular grave,11.6,Deprimido,0,Alta
+1378,Canino,Fiebre persistente con decaimiento notable,36.8,Deprimido,0,Moderada
+1379,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,63.1,Alerta,0,Moderada
+1380,Canino,Secreción ocular purulenta y blefaroespasmo,38.3,Alerta,1,Moderada
+1381,Canino,Inapetencia y letargo de más de 48 horas,56.0,Alerta,0,Moderada
+1382,Canino,Pérdida de conciencia / Estado comatoso,2.1,Deprimido,1,Emergencia Crítica
+1383,Felino,Traumatismo agudo por atropello con shock,1.2,Alerta,0,Emergencia Crítica
+1384,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,58.7,Alerta,0,Moderada
+1385,Felino,Traumatismo agudo por atropello con shock,0.2,Estuporoso/Comatoso,0,Emergencia Crítica
+1386,Felino,Tos paroxística frecuente,20.7,Alerta,1,Moderada
+1387,Felino,Traumatismo agudo por atropello con shock,2.2,Deprimido,0,Emergencia Crítica
+1388,Canino,Letargo extremo post-traumatismo,4.2,Deprimido,0,Alta
+1389,Canino,Dificultad respiratoria severa / Cianosis,3.3,Estuporoso/Comatoso,0,Emergencia Crítica
+1390,Canino,Reacción anafiláctica aguda / Angioedema facial severo,11.6,Deprimido,0,Alta
+1391,Felino,Herida profunda penetrante o mordedura,7.9,Deprimido,1,Alta
+1392,Felino,Letargo extremo post-traumatismo,6.5,Deprimido,0,Alta
+1393,Canino,Consulta de rutina / Plan de vacunación,141.7,Alerta,0,Baja
+1394,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,64.9,Alerta,0,Moderada
+1395,Canino,Dificultad marcada para orinar con dolor intenso,4.9,Estuporoso/Comatoso,0,Alta
+1396,Canino,Lagrimeo leve transparente,67.5,Alerta,0,Baja
+1397,Canino,Consulta de rutina / Plan de vacunación,50.8,Alerta,0,Baja
+1398,Canino,Herida profunda penetrante o mordedura,2.8,Estuporoso/Comatoso,0,Alta
+1399,Felino,Dificultad respiratoria severa / Cianosis,1.7,Estuporoso/Comatoso,1,Emergencia Crítica
+1400,Canino,Traumatismo agudo por atropello con shock,3.0,Estuporoso/Comatoso,0,Emergencia Crítica
+1401,Canino,Alopecia focalizada sin prurito intenso,97.4,Alerta,0,Baja
+1402,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,43.1,Alerta,0,Moderada
+1403,Canino,Vómitos reiterados con contenido hemorrágico,2.6,Deprimido,0,Alta
+1404,Canino,Prolapso o traumatismo ocular grave,4.1,Deprimido,0,Alta
+1405,Canino,Dificultad respiratoria severa / Cianosis,0.7,Deprimido,1,Emergencia Crítica
+1406,Felino,Cojera severa / Claudicación aguda sin fractura expuesta,36.8,Alerta,0,Moderada
+1407,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.6,Estuporoso/Comatoso,1,Emergencia Crítica
+1408,Felino,Fiebre persistente con decaimiento notable,40.2,Alerta,0,Moderada
+1409,Felino,Secreción ocular purulenta y blefaroespasmo,59.5,Alerta,0,Moderada
+1410,Felino,Herida superficial lacerante,36.0,Alerta,0,Moderada
+1411,Canino,Dificultad respiratoria severa / Cianosis,1.8,Deprimido,0,Emergencia Crítica
+1412,Canino,Letargo extremo post-traumatismo,9.1,Alerta,1,Alta
+1413,Canino,Convulsiones continuas / Status epiléptico,0.4,Estuporoso/Comatoso,1,Emergencia Crítica
+1414,Canino,Inapetencia y letargo de más de 48 horas,49.0,Alerta,0,Moderada
+1415,Canino,Alopecia focalizada sin prurito intenso,134.9,Alerta,0,Baja
+1416,Canino,Reacción anafiláctica aguda / Angioedema facial severo,1.5,Alerta,0,Alta
+1417,Canino,Lagrimeo leve transparente,87.7,Alerta,0,Baja
+1418,Felino,Tos paroxística frecuente,48.0,Deprimido,0,Moderada
+1419,Canino,Obstrucción uretral completa con dilatación vesical,3.2,Estuporoso/Comatoso,1,Emergencia Crítica
+1420,Felino,Tos paroxística frecuente,67.1,Deprimido,0,Moderada
+1421,Canino,Paro cardiorrespiratorio inminente,1.1,Estuporoso/Comatoso,1,Emergencia Crítica
+1422,Canino,Traumatismo agudo por atropello con shock,1.0,Estuporoso/Comatoso,1,Emergencia Crítica
+1423,Canino,Herida profunda penetrante o mordedura,9.0,Deprimido,1,Alta
+1424,Canino,Dolor abdominal agudo / Abdomen distendido y duro,6.4,Deprimido,0,Alta
+1425,Felino,Dificultad marcada para orinar con dolor intenso,3.4,Alerta,1,Alta
+1426,Canino,Estornudos aislados sin secreción mucopurulenta,91.2,Alerta,0,Baja
+1427,Canino,Letargo extremo post-traumatismo,0.7,Deprimido,1,Alta
+1428,Felino,Alopecia focalizada sin prurito intenso,110.5,Alerta,0,Baja
+1429,Felino,Secreción ocular purulenta y blefaroespasmo,60.3,Alerta,0,Moderada
+1430,Canino,Fiebre persistente con decaimiento notable,47.0,Alerta,0,Moderada
+1431,Felino,Lagrimeo leve transparente,76.0,Alerta,0,Baja
+1432,Canino,Inapetencia y letargo de más de 48 horas,33.0,Deprimido,0,Moderada
+1433,Canino,Paro cardiorrespiratorio inminente,3.9,Estuporoso/Comatoso,1,Emergencia Crítica
+1434,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.6,Deprimido,0,Emergencia Crítica
+1435,Felino,Inapetencia y letargo de más de 48 horas,62.4,Alerta,0,Moderada
+1436,Felino,Quemadura grave por calor o cáusticos,4.2,Deprimido,1,Alta
+1437,Canino,Consulta de rutina / Plan de vacunación,46.9,Alerta,0,Baja
+1438,Canino,Prurito y rascado auricular leve,93.1,Alerta,0,Baja
+1439,Felino,Hemorragia arterial profusa no controlada,3.4,Alerta,1,Emergencia Crítica
+1440,Canino,Consulta de rutina / Plan de vacunación,53.9,Alerta,0,Baja
+1441,Felino,Secreción ocular purulenta y blefaroespasmo,29.5,Alerta,0,Moderada
+1442,Canino,Herida profunda penetrante o mordedura,5.7,Alerta,0,Alta
+1443,Felino,Alopecia focalizada sin prurito intenso,104.5,Alerta,0,Baja
+1444,Felino,Fiebre persistente con decaimiento notable,39.8,Alerta,0,Moderada
+1445,Felino,Traumatismo agudo por atropello con shock,2.0,Estuporoso/Comatoso,1,Emergencia Crítica
+1446,Felino,Pérdida de conciencia / Estado comatoso,3.8,Deprimido,1,Emergencia Crítica
+1447,Felino,Obstrucción uretral completa con dilatación vesical,0.8,Alerta,1,Emergencia Crítica
+1448,Felino,Letargo extremo post-traumatismo,3.7,Deprimido,0,Alta
+1449,Felino,Reacción anafiláctica aguda / Angioedema facial severo,1.4,Alerta,0,Alta
+1450,Canino,Control de peso y chequeo preventivo,85.6,Alerta,0,Baja
+1451,Canino,Pérdida de conciencia / Estado comatoso,1.1,Estuporoso/Comatoso,1,Emergencia Crítica
+1452,Canino,Herida superficial lacerante,61.2,Alerta,0,Moderada
+1453,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,3.9,Estuporoso/Comatoso,1,Emergencia Crítica
+1454,Canino,Dolor abdominal agudo / Abdomen distendido y duro,8.5,Alerta,1,Alta
+1455,Felino,Alopecia focalizada sin prurito intenso,33.5,Alerta,0,Baja
+1456,Felino,Tos paroxística frecuente,32.7,Alerta,0,Moderada
+1457,Felino,Alopecia focalizada sin prurito intenso,123.9,Alerta,0,Baja
+1458,Canino,Reacción anafiláctica aguda / Angioedema facial severo,6.2,Alerta,1,Alta
+1459,Felino,Alopecia focalizada sin prurito intenso,54.2,Alerta,0,Baja
+1460,Felino,Reacción anafiláctica aguda / Angioedema facial severo,2.2,Deprimido,0,Alta
+1461,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,43.9,Deprimido,0,Moderada
+1462,Felino,Pérdida de conciencia / Estado comatoso,1.7,Estuporoso/Comatoso,1,Emergencia Crítica
+1463,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,55.5,Alerta,0,Moderada
+1464,Canino,Vómitos reiterados con contenido hemorrágico,4.4,Alerta,0,Alta
+1465,Canino,Herida profunda penetrante o mordedura,1.7,Deprimido,0,Alta
+1466,Canino,Cojera severa / Claudicación aguda sin fractura expuesta,12.2,Alerta,0,Moderada
+1467,Felino,Reacción anafiláctica aguda / Angioedema facial severo,8.6,Deprimido,1,Alta
+1468,Canino,Secreción ocular purulenta y blefaroespasmo,54.1,Deprimido,0,Moderada
+1469,Felino,Dificultad marcada para orinar con dolor intenso,9.1,Estuporoso/Comatoso,1,Alta
+1470,Canino,Traumatismo agudo por atropello con shock,2.3,Estuporoso/Comatoso,1,Emergencia Crítica
+1471,Felino,Convulsiones continuas / Status epiléptico,3.5,Estuporoso/Comatoso,1,Emergencia Crítica
+1472,Canino,Control de peso y chequeo preventivo,101.1,Alerta,0,Baja
+1473,Felino,Dolor abdominal agudo / Abdomen distendido y duro,7.7,Deprimido,1,Alta
+1474,Canino,Prurito y rascado auricular leve,105.8,Alerta,0,Baja
+1475,Felino,Obstrucción uretral completa con dilatación vesical,2.2,Deprimido,1,Emergencia Crítica
+1476,Canino,Tos paroxística frecuente,32.9,Deprimido,0,Moderada
+1477,Felino,Alopecia focalizada sin prurito intenso,135.3,Alerta,0,Baja
+1478,Canino,Reacción anafiláctica aguda / Angioedema facial severo,8.2,Alerta,1,Alta
+1479,Canino,Tos paroxística frecuente,20.8,Alerta,0,Moderada
+1480,Felino,Control de peso y chequeo preventivo,80.0,Alerta,0,Baja
+1481,Felino,Paro cardiorrespiratorio inminente,0.6,Estuporoso/Comatoso,1,Emergencia Crítica
+1482,Felino,Inapetencia y letargo de más de 48 horas,33.4,Alerta,0,Moderada
+1483,Felino,Alopecia focalizada sin prurito intenso,109.4,Alerta,0,Baja
+1484,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,4.0,Estuporoso/Comatoso,1,Emergencia Crítica
+1485,Canino,Tos paroxística frecuente,32.8,Alerta,0,Moderada
+1486,Canino,Vómitos y diarrea persistente sin sangre por más de 24 horas,38.6,Alerta,1,Moderada
+1487,Canino,Prurito y rascado auricular leve,135.6,Alerta,0,Baja
+1488,Felino,Paro cardiorrespiratorio inminente,2.3,Estuporoso/Comatoso,1,Emergencia Crítica
+1489,Canino,Halitosis y sarro dental sin dificultad de masticación,129.8,Alerta,0,Baja
+1490,Canino,Paro cardiorrespiratorio inminente,0.3,Estuporoso/Comatoso,1,Emergencia Crítica
+1491,Canino,Halitosis y sarro dental sin dificultad de masticación,56.5,Alerta,0,Baja
+1492,Felino,Letargo extremo post-traumatismo,7.9,Alerta,0,Alta
+1493,Canino,Intoxicación sobreaguda por rodenticidas / Sangrado activo,0.5,Estuporoso/Comatoso,1,Emergencia Crítica
+1494,Canino,Herida superficial lacerante,20.3,Deprimido,0,Moderada
+1495,Felino,Inapetencia y letargo de más de 48 horas,43.6,Alerta,0,Moderada
+1496,Felino,Prurito y rascado auricular leve,107.2,Alerta,0,Baja
+1497,Canino,Halitosis y sarro dental sin dificultad de masticación,163.7,Alerta,0,Baja
+1498,Felino,Inapetencia y letargo de más de 48 horas,25.1,Deprimido,0,Moderada
+1499,Canino,Halitosis y sarro dental sin dificultad de masticación,72.5,Alerta,0,Baja
+1500,Felino,Consulta de rutina / Plan de vacunación,134.8,Alerta,0,Baja

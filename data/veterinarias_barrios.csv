@@ -1,0 +1,101 @@
+id_veterinaria,nombre_centro,barrio,comuna,latitud,longitud,guardia_24hs,nivel_complejidad,especialidades,direccion,telefono_urgencias
+1,Hospital Veterinario Central Recoleta,Recoleta,2,-34.592007,-58.387789,1,Intermedio,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Av. San Martín 2106, Recoleta, CABA",+54 9 11 8467-2424
+2,Veterinaria San Martín Chacarita,Chacarita,15,-34.584288,-58.453421,1,Intermedio,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Av. Santa Fe 344, Chacarita, CABA",+54 9 11 8931-1434
+3,Consultorio Veterinario del Sol Mataderos,Mataderos,9,-34.665504,-58.505504,0,Intermedio,"Clínica Médica, Vacunación, Cirugía Menor","Juramento 1905, Mataderos, CABA",+54 11 4777-3615
+4,Hospital Veterinario Buenos Aires San Telmo,San Telmo,1,-34.627071,-58.364141,0,Intermedio,"Clínica Médica, Vacunación, Cirugía Menor","Av. San Martín 1373, San Telmo, CABA",+54 11 4094-7224
+5,Clínica de Pequeños Animales Recoleta,Recoleta,2,-34.588382,-58.391671,1,Intermedio,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Guatemala 5045, Recoleta, CABA",+54 9 11 7763-9785
+6,Centro Quirúrgico Veterinario Recoleta,Recoleta,2,-34.597671,-58.387481,1,Alta Complejidad/Quirófano,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Av. Rivadavia 4622, Recoleta, CABA",+54 9 11 5575-2139
+7,Centro Veterinario CABA Belgrano,Belgrano,13,-34.556681,-58.460603,0,Básico,"Clínica Médica, Dermatología, Odontología","Av. Directorio 753, Belgrano, CABA",+54 11 4284-8428
+8,Hospital Veterinario Integral Núñez,Núñez,13,-34.550091,-58.470066,1,Alta Complejidad/Quirófano,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Guatemala 3010, Núñez, CABA",+54 9 11 9599-2169
+9,Hospital Veterinario Integral Boedo,Boedo,5,-34.633132,-58.414604,0,Intermedio,"Clínica Médica, Ecografía, Guardia General","Av. Triunvirato 1438, Boedo, CABA",+54 11 4704-4598
+10,Clínica Veterinaria San Francisco Colegiales,Colegiales,13,-34.576089,-58.45334,0,Intermedio,"Clínica Médica, Dermatología, Odontología","Av. Triunvirato 362, Colegiales, CABA",+54 11 4067-4456
+11,Hospital Veterinario Buenos Aires Chacarita,Chacarita,15,-34.58621,-58.460768,0,Intermedio,"Clínica Médica, Vacunación, Cirugía Menor","Av. Montes de Oca 5469, Chacarita, CABA",+54 11 4271-3287
+12,Clínica Médica Animal Saavedra,Saavedra,12,-34.553326,-58.492138,0,Intermedio,"Clínica Médica, Dermatología, Odontología","Av. San Martín 4888, Saavedra, CABA",+54 11 4224-3266
+13,Consultorio Dr. Mascotas Villa Lugano,Villa Lugano,8,-34.675703,-58.465437,0,Básico,"Clínica Médica, Ecografía, Guardia General","Av. Rivadavia 485, Villa Lugano, CABA",+54 11 4163-7916
+14,Centro Médico Veterinario Boedo,Boedo,5,-34.634805,-58.414772,0,Intermedio,"Clínica Médica, Ecografía, Guardia General","Av. Ruiz Huidobro 3226, Boedo, CABA",+54 11 4257-1188
+15,Clínica Médica Animal Recoleta,Recoleta,2,-34.588521,-58.402257,1,Alta Complejidad/Quirófano,"Cirugía Compleja, Terapia Intensiva, Cardiología","Av. San Martín 5350, Recoleta, CABA",+54 9 11 5295-8433
+16,Veterinaria San Roque Palermo,Palermo,14,-34.578279,-58.425272,0,Intermedio,"Clínica Médica, Ecografía, Guardia General","Av. Belgrano 4258, Palermo, CABA",+54 11 4519-4258
+17,Clínica de Pequeños Animales Flores,Flores,7,-34.636959,-58.452818,0,Básico,"Clínica Médica, Ecografía, Guardia General","Av. Belgrano 4518, Flores, CABA",+54 11 4331-9005
+18,Veterinaria Panda Guardia Palermo,Palermo,14,-34.57255,-58.415066,1,Intermedio,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Guatemala 2619, Palermo, CABA",+54 9 11 4645-2403
+19,Centro Médico Veterinario Parque Patricios,Parque Patricios,4,-34.638126,-58.411437,0,Básico,"Clínica Médica, Dermatología, Odontología","Av. Córdoba 1151, Parque Patricios, CABA",+54 11 4540-7932
+20,Clínica Médica Animal Almagro,Almagro,5,-34.607052,-58.420958,0,Intermedio,"Clínica Médica, Dermatología, Odontología","Av. Montes de Oca 2653, Almagro, CABA",+54 11 4921-9479
+21,Veterinaria Panda Guardia Barracas,Barracas,4,-34.651047,-58.380077,1,Intermedio,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Av. Triunvirato 1940, Barracas, CABA",+54 9 11 8537-4770
+22,Centro Veterinario CABA Chacarita,Chacarita,15,-34.59545,-58.448451,0,Básico,"Clínica Médica, Vacunación, Cirugía Menor","Av. Cabildo 681, Chacarita, CABA",+54 11 4069-1514
+23,Centro Médico Veterinario Colegiales,Colegiales,13,-34.57886,-58.4474,0,Básico,"Clínica Médica, Ecografía, Guardia General","Av. Triunvirato 2381, Colegiales, CABA",+54 11 4135-8744
+24,Consultorio Dr. Mascotas Saavedra,Saavedra,12,-34.553013,-58.489679,1,Alta Complejidad/Quirófano,"Cirugía Compleja, Terapia Intensiva, Cardiología","Juramento 1659, Saavedra, CABA",+54 9 11 7469-7735
+25,Clínica Veterinaria San Francisco Barracas,Barracas,4,-34.644253,-58.385042,0,Intermedio,"Clínica Médica, Vacunación, Cirugía Menor","Av. Corrientes 596, Barracas, CABA",+54 11 4254-4139
+26,Clínica Médica Animal Almagro,Almagro,5,-34.602487,-58.415598,0,Intermedio,"Clínica Médica, Dermatología, Odontología","Riobamba 1248, Almagro, CABA",+54 11 4255-2235
+27,Clínica Médica Animal Barracas,Barracas,4,-34.637968,-58.373683,0,Básico,"Clínica Médica, Vacunación, Cirugía Menor","Av. Corrientes 514, Barracas, CABA",+54 11 4948-4872
+28,Veterinaria San Martín Villa Urquiza,Villa Urquiza,12,-34.573434,-58.47825,1,Alta Complejidad/Quirófano,"Guardia General, Cirugía, Terapia Intensiva","Malabia 4043, Villa Urquiza, CABA",+54 9 11 5348-7209
+29,Centro Quirúrgico Veterinario Palermo,Palermo,14,-34.586584,-58.424864,1,Alta Complejidad/Quirófano,"Guardia General, Cirugía, Terapia Intensiva","Av. San Martín 3827, Palermo, CABA",+54 9 11 5555-5861
+30,Clínica Veterinaria San Francisco Almagro,Almagro,5,-34.617276,-58.422795,1,Alta Complejidad/Quirófano,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Av. Santa Fe 2669, Almagro, CABA",+54 9 11 8350-3579
+31,Centro Veterinario 24 Horas Belgrano,Belgrano,13,-34.563781,-58.459658,1,Intermedio,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Av. Rivadavia 1622, Belgrano, CABA",+54 9 11 5926-7615
+32,Hospital Veterinario Metropolitano Recoleta,Recoleta,2,-34.58474,-58.397292,0,Básico,"Clínica Médica, Dermatología, Odontología","Av. Triunvirato 4842, Recoleta, CABA",+54 11 4673-9565
+33,Veterinaria San Roque Colegiales,Colegiales,13,-34.578505,-58.449317,0,Básico,"Clínica Médica, Dermatología, Odontología","Av. Montes de Oca 5586, Colegiales, CABA",+54 11 4405-3144
+34,Clínica Veterinaria Sur Balvanera,Balvanera,3,-34.615745,-58.395165,1,Intermedio,"Guardia General, Cirugía, Terapia Intensiva","Amenábar 694, Balvanera, CABA",+54 9 11 8404-4492
+35,Veterinaria San Roque Villa Lugano,Villa Lugano,8,-34.681807,-58.46221,0,Básico,"Clínica Médica, Dermatología, Odontología","Av. Córdoba 2959, Villa Lugano, CABA",+54 11 4291-3584
+36,Clínica Médica Animal Barracas,Barracas,4,-34.640644,-58.384821,0,Básico,"Clínica Médica, Ecografía, Guardia General","Av. Directorio 5110, Barracas, CABA",+54 11 4836-5905
+37,Clínica Veterinaria Las Mascotas Recoleta,Recoleta,2,-34.597912,-58.389953,0,Básico,"Clínica Médica, Dermatología, Odontología","Av. San Martín 1045, Recoleta, CABA",+54 11 4288-4450
+38,Consultorio Veterinario del Sol Colegiales,Colegiales,13,-34.57169,-58.446336,0,Básico,"Clínica Médica, Vacunación, Cirugía Menor","Av. San Martín 4240, Colegiales, CABA",+54 11 4649-7939
+39,Clínica Veterinaria San Francisco Villa Devoto,Villa Devoto,11,-34.59566,-58.516815,0,Intermedio,"Clínica Médica, Vacunación, Cirugía Menor","Av. Cabildo 2832, Villa Devoto, CABA",+54 11 4759-8239
+40,Veterinaria San Martín Mataderos,Mataderos,9,-34.662265,-58.506146,1,Intermedio,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Av. Cabildo 1016, Mataderos, CABA",+54 9 11 4295-7049
+41,Clínica Médica Animal Chacarita,Chacarita,15,-34.58219,-58.453027,1,Alta Complejidad/Quirófano,"Cirugía Compleja, Terapia Intensiva, Cardiología","Av. Córdoba 3620, Chacarita, CABA",+54 9 11 4326-6862
+42,Centro Veterinario CABA Almagro,Almagro,5,-34.612706,-58.426983,0,Intermedio,"Clínica Médica, Ecografía, Guardia General","Av. Corrientes 2997, Almagro, CABA",+54 11 4767-3532
+43,Hospital Veterinario Integral Saavedra,Saavedra,12,-34.553024,-58.492797,1,Alta Complejidad/Quirófano,"Cirugía Compleja, Terapia Intensiva, Cardiología","Av. Belgrano 3477, Saavedra, CABA",+54 9 11 9487-5065
+44,Hospital Veterinario Integral Villa Devoto,Villa Devoto,11,-34.596326,-58.507799,0,Intermedio,"Clínica Médica, Vacunación, Cirugía Menor","Av. Corrientes 3233, Villa Devoto, CABA",+54 11 4204-8541
+45,Clínica Veterinaria Norte Núñez,Núñez,13,-34.538805,-58.465445,1,Intermedio,"Cirugía Compleja, Terapia Intensiva, Cardiología","Av. Triunvirato 1926, Núñez, CABA",+54 9 11 6689-5564
+46,Veterinaria San Roque Caballito,Caballito,6,-34.626086,-58.441588,0,Intermedio,"Clínica Médica, Vacunación, Cirugía Menor","Guatemala 5355, Caballito, CABA",+54 11 4118-5279
+47,Hospital Veterinario Metropolitano Villa Urquiza,Villa Urquiza,12,-34.570827,-58.48402,1,Alta Complejidad/Quirófano,"Cirugía Compleja, Terapia Intensiva, Cardiología","Av. San Martín 413, Villa Urquiza, CABA",+54 9 11 9968-6139
+48,Veterinaria La Huella San Telmo,San Telmo,1,-34.615665,-58.370099,0,Básico,"Clínica Médica, Dermatología, Odontología","Av. Corrientes 3255, San Telmo, CABA",+54 11 4045-8144
+49,Centro Veterinario 24 Horas Palermo,Palermo,14,-34.579636,-58.421159,1,Alta Complejidad/Quirófano,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Av. Montes de Oca 3083, Palermo, CABA",+54 9 11 6571-3041
+50,Centro Veterinario 24 Horas Balvanera,Balvanera,3,-34.617593,-58.406274,0,Intermedio,"Clínica Médica, Ecografía, Guardia General","Av. Directorio 5563, Balvanera, CABA",+54 11 4302-3085
+51,Veterinaria San Martín Almagro,Almagro,5,-34.617497,-58.417817,0,Básico,"Clínica Médica, Ecografía, Guardia General","Av. Ruiz Huidobro 5648, Almagro, CABA",+54 11 4582-5930
+52,Clínica Médica Animal Villa Crespo,Villa Crespo,15,-34.59797,-58.439863,0,Intermedio,"Clínica Médica, Ecografía, Guardia General","Av. Cabildo 2589, Villa Crespo, CABA",+54 11 4621-6279
+53,Clínica Veterinaria Sur Barracas,Barracas,4,-34.638479,-58.384011,0,Intermedio,"Clínica Médica, Ecografía, Guardia General","Riobamba 5634, Barracas, CABA",+54 11 4173-2389
+54,Centro Veterinario 24 Horas Balvanera,Balvanera,3,-34.611434,-58.395911,0,Básico,"Clínica Médica, Ecografía, Guardia General","Amenábar 865, Balvanera, CABA",+54 11 4317-4680
+55,Clínica Veterinaria Las Mascotas Almagro,Almagro,5,-34.614339,-58.426768,1,Alta Complejidad/Quirófano,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Av. Cabildo 478, Almagro, CABA",+54 9 11 4596-8461
+56,Hospital Veterinario Metropolitano San Telmo,San Telmo,1,-34.623364,-58.37542,0,Básico,"Clínica Médica, Vacunación, Cirugía Menor","Av. Montes de Oca 3245, San Telmo, CABA",+54 11 4671-1090
+57,Veterinaria San Martín Recoleta,Recoleta,2,-34.583125,-58.39007,0,Intermedio,"Clínica Médica, Vacunación, Cirugía Menor","Av. Triunvirato 1540, Recoleta, CABA",+54 11 4570-5082
+58,Clínica Veterinaria Sur Recoleta,Recoleta,2,-34.587866,-58.389057,0,Intermedio,"Clínica Médica, Dermatología, Odontología","Av. Córdoba 3906, Recoleta, CABA",+54 11 4627-9270
+59,Clínica Médica Animal San Telmo,San Telmo,1,-34.615141,-58.375015,0,Intermedio,"Clínica Médica, Dermatología, Odontología","Riobamba 1403, San Telmo, CABA",+54 11 4265-5050
+60,Centro Veterinario 24 Horas Villa Devoto,Villa Devoto,11,-34.593719,-58.509371,0,Intermedio,"Clínica Médica, Vacunación, Cirugía Menor","Malabia 5234, Villa Devoto, CABA",+54 11 4730-5681
+61,Veterinaria San Roque Saavedra,Saavedra,12,-34.545081,-58.483663,0,Básico,"Clínica Médica, Vacunación, Cirugía Menor","Amenábar 2719, Saavedra, CABA",+54 11 4154-4788
+62,Clínica Veterinaria Las Mascotas Villa Crespo,Villa Crespo,15,-34.597912,-58.446239,0,Intermedio,"Clínica Médica, Ecografía, Guardia General","Av. Montes de Oca 626, Villa Crespo, CABA",+54 11 4477-7812
+63,Consultorio Veterinario del Sol Belgrano,Belgrano,13,-34.566353,-58.457166,0,Básico,"Clínica Médica, Ecografía, Guardia General","Juramento 3290, Belgrano, CABA",+54 11 4389-8814
+64,Clínica de Pequeños Animales Palermo,Palermo,14,-34.574912,-58.414228,0,Intermedio,"Clínica Médica, Ecografía, Guardia General","Av. Directorio 3294, Palermo, CABA",+54 11 4765-9947
+65,Centro Veterinario CABA Boedo,Boedo,5,-34.637889,-58.414828,0,Intermedio,"Clínica Médica, Vacunación, Cirugía Menor","Malabia 1897, Boedo, CABA",+54 11 4398-6507
+66,Hospital Veterinario Integral Villa Crespo,Villa Crespo,15,-34.596321,-58.444446,0,Básico,"Clínica Médica, Dermatología, Odontología","Riobamba 1145, Villa Crespo, CABA",+54 11 4606-1444
+67,Veterinaria San Martín Caballito,Caballito,6,-34.626082,-58.447598,1,Alta Complejidad/Quirófano,"Cirugía Compleja, Terapia Intensiva, Cardiología","Av. Córdoba 3882, Caballito, CABA",+54 9 11 6681-4467
+68,Hospital Veterinario Buenos Aires Barracas,Barracas,4,-34.637913,-58.382829,0,Intermedio,"Clínica Médica, Dermatología, Odontología","Amenábar 3205, Barracas, CABA",+54 11 4854-2341
+69,Hospital Veterinario Central Parque Patricios,Parque Patricios,4,-34.634699,-58.401752,0,Básico,"Clínica Médica, Ecografía, Guardia General","Av. Santa Fe 2966, Parque Patricios, CABA",+54 11 4041-1508
+70,Consultorio Veterinario del Sol Saavedra,Saavedra,12,-34.552182,-58.482451,1,Intermedio,"Cirugía Compleja, Terapia Intensiva, Cardiología","Av. Cabildo 5189, Saavedra, CABA",+54 9 11 9484-2874
+71,Consultorio Veterinario del Sol Chacarita,Chacarita,15,-34.580601,-58.458971,0,Básico,"Clínica Médica, Ecografía, Guardia General","Riobamba 2199, Chacarita, CABA",+54 11 4621-2876
+72,Clínica Veterinaria Norte Villa Urquiza,Villa Urquiza,12,-34.575044,-58.488186,1,Alta Complejidad/Quirófano,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Av. Corrientes 4840, Villa Urquiza, CABA",+54 9 11 9548-7149
+73,Consultorio Veterinario del Sol Villa Crespo,Villa Crespo,15,-34.598443,-58.44741,0,Básico,"Clínica Médica, Vacunación, Cirugía Menor","Av. Rivadavia 4950, Villa Crespo, CABA",+54 11 4713-5941
+74,Veterinaria Panda Guardia Boedo,Boedo,5,-34.628247,-58.414957,0,Intermedio,"Clínica Médica, Vacunación, Cirugía Menor","Av. Santa Fe 2944, Boedo, CABA",+54 11 4518-6590
+75,Veterinaria San Martín Palermo,Palermo,14,-34.587176,-58.423542,1,Alta Complejidad/Quirófano,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Malabia 964, Palermo, CABA",+54 9 11 7766-3506
+76,Hospital Veterinario Integral San Telmo,San Telmo,1,-34.613468,-58.374167,0,Intermedio,"Clínica Médica, Dermatología, Odontología","Av. San Martín 5145, San Telmo, CABA",+54 11 4446-5397
+77,Centro Veterinario CABA Colegiales,Colegiales,13,-34.580682,-58.450169,0,Básico,"Clínica Médica, Dermatología, Odontología","Av. Rivadavia 2384, Colegiales, CABA",+54 11 4583-7209
+78,Hospital Veterinario Central Colegiales,Colegiales,13,-34.56723,-58.454127,1,Intermedio,"Cirugía Compleja, Terapia Intensiva, Cardiología","Malabia 2762, Colegiales, CABA",+54 9 11 6116-6576
+79,Veterinaria La Huella Villa Devoto,Villa Devoto,11,-34.597246,-58.505814,1,Intermedio,"Guardia General, Cirugía, Terapia Intensiva","Av. San Martín 4653, Villa Devoto, CABA",+54 9 11 5977-7658
+80,Clínica Médica Animal Parque Patricios,Parque Patricios,4,-34.639198,-58.401349,0,Intermedio,"Clínica Médica, Dermatología, Odontología","Av. Triunvirato 5757, Parque Patricios, CABA",+54 11 4811-1282
+81,Clínica Veterinaria Norte Caballito,Caballito,6,-34.622115,-58.442883,0,Intermedio,"Clínica Médica, Ecografía, Guardia General","Av. Triunvirato 3412, Caballito, CABA",+54 11 4595-7046
+82,Clínica Médica Animal Parque Patricios,Parque Patricios,4,-34.632864,-58.404428,0,Intermedio,"Clínica Médica, Dermatología, Odontología","Guatemala 3585, Parque Patricios, CABA",+54 11 4719-8434
+83,Clínica Veterinaria Norte Villa Devoto,Villa Devoto,11,-34.606555,-58.504635,1,Intermedio,"Cirugía Compleja, Terapia Intensiva, Cardiología","Av. San Martín 1988, Villa Devoto, CABA",+54 9 11 4979-9779
+84,Consultorio Veterinario del Sol Villa Urquiza,Villa Urquiza,12,-34.577868,-58.490016,0,Intermedio,"Clínica Médica, Vacunación, Cirugía Menor","Av. Montes de Oca 4066, Villa Urquiza, CABA",+54 11 4852-4180
+85,Centro Veterinario CABA Balvanera,Balvanera,3,-34.617348,-58.398546,0,Básico,"Clínica Médica, Dermatología, Odontología","Guatemala 1569, Balvanera, CABA",+54 11 4046-1893
+86,Clínica Veterinaria Norte Mataderos,Mataderos,9,-34.657159,-58.507735,0,Intermedio,"Clínica Médica, Vacunación, Cirugía Menor","Av. Córdoba 5325, Mataderos, CABA",+54 11 4893-1200
+87,Clínica Veterinaria Norte Chacarita,Chacarita,15,-34.587807,-58.459376,0,Básico,"Clínica Médica, Vacunación, Cirugía Menor","Malabia 4021, Chacarita, CABA",+54 11 4258-8827
+88,Centro Médico Veterinario Recoleta,Recoleta,2,-34.587677,-58.40021,1,Intermedio,"Guardia General, Cirugía, Terapia Intensiva","Av. Ruiz Huidobro 4128, Recoleta, CABA",+54 9 11 5222-5978
+89,Centro Veterinario CABA Caballito,Caballito,6,-34.616945,-58.446812,0,Básico,"Clínica Médica, Ecografía, Guardia General","Av. Corrientes 4671, Caballito, CABA",+54 11 4389-8381
+90,Clínica Veterinaria Norte Barracas,Barracas,4,-34.638012,-58.3858,0,Básico,"Clínica Médica, Ecografía, Guardia General","Juramento 2601, Barracas, CABA",+54 11 4983-2625
+91,Consultorio Veterinario del Sol Almagro,Almagro,5,-34.612543,-58.426184,1,Intermedio,"Guardia General, Cirugía, Terapia Intensiva","Av. San Martín 5510, Almagro, CABA",+54 9 11 8521-2229
+92,Hospital Veterinario Central Villa Urquiza,Villa Urquiza,12,-34.568205,-58.478963,0,Intermedio,"Clínica Médica, Dermatología, Odontología","Juramento 3790, Villa Urquiza, CABA",+54 11 4033-4792
+93,Clínica Veterinaria Norte Balvanera,Balvanera,3,-34.613873,-58.39744,0,Intermedio,"Clínica Médica, Ecografía, Guardia General","Riobamba 683, Balvanera, CABA",+54 11 4603-4241
+94,Veterinaria Panda Guardia San Telmo,San Telmo,1,-34.614924,-58.369117,1,Alta Complejidad/Quirófano,"Guardia General, Cirugía, Terapia Intensiva","Av. Triunvirato 5405, San Telmo, CABA",+54 9 11 4584-1977
+95,Clínica Veterinaria Norte Villa Urquiza,Villa Urquiza,12,-34.574526,-58.48913,1,Alta Complejidad/Quirófano,"Terapia Intensiva, Cirugía, Ecografía, Traumatología","Av. Directorio 3697, Villa Urquiza, CABA",+54 9 11 7297-5460
+96,Clínica Médica Animal Villa Lugano,Villa Lugano,8,-34.68151,-58.463645,0,Básico,"Clínica Médica, Dermatología, Odontología","Malabia 3686, Villa Lugano, CABA",+54 11 4752-6280
+97,Veterinaria San Roque Boedo,Boedo,5,-34.623593,-58.41287,0,Básico,"Clínica Médica, Ecografía, Guardia General","Av. Cabildo 848, Boedo, CABA",+54 11 4841-5415
+98,Clínica Veterinaria San Francisco Chacarita,Chacarita,15,-34.590576,-58.457413,0,Intermedio,"Clínica Médica, Dermatología, Odontología","Av. Belgrano 3954, Chacarita, CABA",+54 11 4185-8141
+99,Centro Médico Veterinario Parque Patricios,Parque Patricios,4,-34.631385,-58.398646,0,Intermedio,"Clínica Médica, Ecografía, Guardia General","Malabia 2950, Parque Patricios, CABA",+54 11 4107-3634
+100,Veterinaria San Martín Colegiales,Colegiales,13,-34.568807,-58.445522,0,Intermedio,"Clínica Médica, Ecografía, Guardia General","Malabia 2461, Colegiales, CABA",+54 11 4037-8451

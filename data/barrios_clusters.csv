@@ -1,0 +1,21 @@
+barrio,comuna,total_clinicas,guardias_24hs,alta_complejidad,latitud_media,longitud_media,ratio_24hs,ratio_alta_complejidad,cluster_id,etiqueta_cobertura
+Almagro,5,7,3,2,-34.611985714285716,-58.42244328571429,0.429,0.286,0,Alta Cobertura Zonal
+Balvanera,3,5,1,0,-34.6151986,-58.3986672,0.2,0.0,1,Zonas Críticas / Cobertura Deficitaria
+Barracas,4,7,1,0,-34.641188,-58.382323285714286,0.143,0.0,1,Zonas Críticas / Cobertura Deficitaria
+Belgrano,13,3,1,0,-34.56227166666667,-58.45914233333334,0.333,0.0,1,Zonas Críticas / Cobertura Deficitaria
+Boedo,5,5,0,0,-34.6315332,-58.414406199999995,0.0,0.0,1,Zonas Críticas / Cobertura Deficitaria
+Caballito,6,4,1,1,-34.622807,-58.44472025,0.25,0.25,1,Zonas Críticas / Cobertura Deficitaria
+Chacarita,15,7,2,1,-34.58673171428571,-58.455918142857136,0.286,0.143,0,Alta Cobertura Zonal
+Colegiales,13,7,1,0,-34.57455185714286,-58.44945871428571,0.143,0.0,1,Zonas Críticas / Cobertura Deficitaria
+Flores,7,1,0,0,-34.636959,-58.452818,0.0,0.0,1,Zonas Críticas / Cobertura Deficitaria
+Mataderos,9,3,1,0,-34.661642666666665,-58.50646166666667,0.333,0.0,1,Zonas Críticas / Cobertura Deficitaria
+Núñez,13,2,2,1,-34.544448,-58.4677555,1.0,0.5,2,Cobertura Intermedia
+Palermo,14,6,4,3,-34.579856166666666,-58.420688500000004,0.667,0.5,0,Alta Cobertura Zonal
+Parque Patricios,4,5,0,0,-34.635254399999994,-58.4035224,0.0,0.0,1,Zonas Críticas / Cobertura Deficitaria
+Recoleta,2,9,5,2,-34.58976677777778,-58.39286444444445,0.556,0.222,0,Alta Cobertura Zonal
+Saavedra,12,5,3,2,-34.5513252,-58.488145599999996,0.6,0.4,0,Alta Cobertura Zonal
+San Telmo,1,6,1,1,-34.618272166666664,-58.3713265,0.167,0.167,1,Zonas Críticas / Cobertura Deficitaria
+Villa Crespo,15,4,0,0,-34.5976615,-58.4444895,0.0,0.0,1,Zonas Críticas / Cobertura Deficitaria
+Villa Devoto,11,5,2,0,-34.5979012,-58.508886800000006,0.4,0.0,1,Zonas Críticas / Cobertura Deficitaria
+Villa Lugano,8,3,0,0,-34.679673333333334,-58.463764,0.0,0.0,1,Zonas Críticas / Cobertura Deficitaria
+Villa Urquiza,12,6,4,4,-34.573317333333335,-58.48476083333333,0.667,0.667,0,Alta Cobertura Zonal

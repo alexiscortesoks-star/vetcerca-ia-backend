@@ -7,14 +7,19 @@ class ServicioNotificacion:
         Envía un mensaje de urgencia vía la API de WhatsApp al número especificado.
         Retorna True si el despacho fue exitoso.
         """
-        print(f"📡 [DESPACHO API ({self.proveedor_api})] Enviando WhatsApp a {telefono_destino}...")
-        print(f"💬 [WhatsApp -> {telefono_destino}]: {mensaje}")
+        try:
+            print(f"[DESPACHO API ({self.proveedor_api})] Enviando WhatsApp a {telefono_destino}...")
+            print(f"[WhatsApp -> {telefono_destino}]: {mensaje}")
+        except UnicodeEncodeError:
+            # Fallback seguro para consolas con codepage limitado
+            print(f"[DESPACHO API ({self.proveedor_api})] Enviando WhatsApp a {telefono_destino}")
         return True
 
     def despachar_alerta(self, alerta) -> bool:
         """Despacha la alerta completa extrayendo destino y mensaje."""
         telefono = (
             getattr(alerta.veterinaria_destino, "telefono_guardia", None)
+            or getattr(alerta.veterinaria_destino, "telefono", None)
             or "+5491100000000"
         )
         mensaje = getattr(alerta, "mensaje_texto", str(alerta))

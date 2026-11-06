@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Dict, Any
 
 
 class ConsultaTriaje:
@@ -13,6 +13,10 @@ class ConsultaTriaje:
         asistente_ia=None,
         id_consulta: Optional[int] = None,
         descripcion_sintomas: Optional[str] = None,
+        especie: str = "Canino",
+        tiempo_evolucion_hs: float = 2.0,
+        estado_conciencia: str = "Alerta",
+        presencia_hemorragia: int = 0
     ) -> None:
         self.id_triaje: int = id_consulta if id_consulta is not None else id_triaje
         self.id_cliente: int = id_cliente
@@ -25,7 +29,15 @@ class ConsultaTriaje:
         )
         self.mascota = mascota
         self.asistente_ia = asistente_ia
-        self.nivel_urgencia: str = "PENDIENTE"
+        self.especie: str = especie
+        self.tiempo_evolucion_hs: float = tiempo_evolucion_hs
+        self.estado_conciencia: str = estado_conciencia
+        self.presencia_hemorragia: int = presencia_hemorragia
+        
+        # Resultados de la evaluación del modelo
+        self.nivel_urgencia: str = "Pendiente"
+        self.confianza_prediccion: float = 0.0
+        self.probabilidades: Dict[str, float] = {}
         self.diagnostico_preliminar: str = ""
         self.especialidad_sugerida: str = ""
         self.primeros_auxilios: str = ""
@@ -48,29 +60,41 @@ class ConsultaTriaje:
     def descripcion_sintomas(self, valor: str) -> None:
         self.sintomas_ingresados = valor
 
-    def ejecutar_triaje(self, asistente_ia=None) -> None:
+    def ejecutar_triaje(self, asistente_ia=None, **kwargs) -> None:
         """
-        Ejecuta el triaje mediante el asistente de IA especificado o el preconfigurado.
+        Ejecuta el triaje mediante el asistente de IA (Machine Learning + Prompt estructurado).
         Actualiza nivel_urgencia, diagnostico_preliminar, especialidad_sugerida y primeros_auxilios.
         """
         ia = asistente_ia or self.asistente_ia
         if not ia:
             raise ValueError("Se requiere un AsistenteIA para ejecutar el triaje.")
 
-        especie_nombre = "Desconocida"
+        especie_nombre = self.especie
         if self.mascota and hasattr(self.mascota, "raza") and hasattr(self.mascota.raza, "especie"):
-            especie_nombre = self.mascota.raza.especie.nombre
+            especie_nombre = getattr(self.mascota.raza.especie, "nombre", self.especie)
 
-        resultado = ia.clasificar_urgencia(self.sintomas_ingresados, especie_nombre)
-        self.nivel_urgencia = resultado.get("nivel_urgencia", "MEDIA")
+        tiempo_hs = kwargs.get("tiempo_evolucion_hs", self.tiempo_evolucion_hs)
+        conciencia = kwargs.get("estado_conciencia", self.estado_conciencia)
+        hemorragia = kwargs.get("presencia_hemorragia", self.presencia_hemorragia)
+
+        resultado = ia.clasificar_urgencia(
+            sintomas=self.sintomas_ingresados,
+            especie=especie_nombre,
+            tiempo_evolucion_hs=tiempo_hs,
+            estado_conciencia=conciencia,
+            presencia_hemorragia=hemorragia
+        )
+        self.nivel_urgencia = resultado.get("nivel_urgencia", "Moderada")
+        self.confianza_prediccion = resultado.get("confianza", 0.0)
+        self.probabilidades = resultado.get("probabilidades", {})
         self.diagnostico_preliminar = resultado.get(
-            "diagnostico_preliminar", "Evaluación orientativa no concluyente"
+            "diagnostico_preliminar", "Evaluación orientativa no concluyente."
         )
         self.especialidad_sugerida = resultado.get(
             "especialidad_sugerida", "Guardia General"
         )
         self.primeros_auxilios = resultado.get(
-            "primeros_auxilios", "Mantener en observación y acudir a consulta."
+            "primeros_auxilios", "Mantener en calma y acudir a consulta presencial."
         )
 
     # Alias de compatibilidad
@@ -114,8 +138,9 @@ class AlertaUrgencia:
             else f"Mascota #{consulta_triaje.id_mascota}"
         )
         self.mensaje_texto: str = (
-            f"URGENCIA {consulta_triaje.nivel_urgencia}: Paciente "
-            f"{nombre_paciente} ({consulta_triaje.sintomas_ingresados})"
+            f"URGENCIA {consulta_triaje.nivel_urgencia.upper()}: Paciente "
+            f"{nombre_paciente} ({consulta_triaje.sintomas_ingresados}) - "
+            f"Arribo estimado en {tiempo_estimado_arribo_min} min."
         )
 
     @property

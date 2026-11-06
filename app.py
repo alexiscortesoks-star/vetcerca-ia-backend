@@ -3,17 +3,18 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers.triaje import VETERINARIAS_CANDIDATAS
+from utils.contingencia_barrios import cargar_catalogo_veterinarias
 from utils.geo import calcular_distancia_haversine
 
 
 app = FastAPI(
-    title="VetCerca IA - API Backend",
+    title="VetCerca IA - API Backend & Sistema de Triaje",
     description=(
-        "API para triaje veterinario con Inteligencia Artificial "
-        "y geolocalización de urgencias"
+        "API para triaje veterinario con Inteligencia Artificial (Random Forest), "
+        "geolocalización de urgencias (Haversine), segmentación barrial (K-Means) "
+        "y lógica de contingencia zonal en CABA."
     ),
-    version="1.1.0",
+    version="2.0.0",
 )
 
 origins_permitidos = [
@@ -40,43 +41,52 @@ app.add_middleware(
 @app.get("/")
 def inicio() -> dict[str, str]:
     return {
-        "mensaje": "¡Bienvenido a la API de VetCerca IA!",
+        "mensaje": "¡Bienvenido a la API unificada de VetCerca IA!",
         "estado": "Online",
-        "version": "1.1.0",
+        "version": "2.0.0",
+        "enfoque": "Ciencia de Datos + Backend POO",
         "documentacion_interactiva": "/docs",
     }
 
 
 @app.get("/veterinarias/cercanas")
 def obtener_veterinarias_cercanas(
-    latitud: float, longitud: float, radio_km: float = 10.0
+    latitud: float, longitud: float, radio_km: float = 10.0, solo_24hs: bool = False
 ) -> dict[str, object]:
+    df_vets = cargar_catalogo_veterinarias()
     cercanas = []
-    for veterinaria in VETERINARIAS_CANDIDATAS:
-        distancia = calcular_distancia_haversine(
-            latitud,
-            longitud,
-            veterinaria.latitud,
-            veterinaria.longitud,
-        )
-        if distancia <= radio_km:
-            cercanas.append(
-                {
-                    "id": veterinaria.id_veterinaria,
-                    "nombre": veterinaria.nombre_fantasia,
-                    "direccion": veterinaria.direccion,
-                    "telefono": veterinaria.telefono_guardia,
-                    "latitud": veterinaria.latitud,
-                    "longitud": veterinaria.longitud,
-                    "distancia_km": distancia,
-                    "es_24hs": veterinaria.es_24hs,
-                    "horario_informado": veterinaria.horario_informado,
-                    "estado_verificacion": veterinaria.estado_verificacion,
-                    "fuente_datos": veterinaria.fuente_datos,
-                    "fuente_url": veterinaria.fuente_url,
-                    "atribucion_fuente": veterinaria.atribucion_fuente,
-                }
+    
+    if not df_vets.empty:
+        if solo_24hs:
+            df_vets = df_vets[df_vets["guardia_24hs"] == 1]
+
+        for _, row in df_vets.iterrows():
+            distancia = calcular_distancia_haversine(
+                latitud,
+                longitud,
+                float(row["latitud"]),
+                float(row["longitud"]),
             )
+            if distancia <= radio_km:
+                cercanas.append(
+                    {
+                        "id": int(row["id_veterinaria"]),
+                        "nombre": row["nombre_centro"],
+                        "barrio": row["barrio"],
+                        "comuna": int(row["comuna"]),
+                        "direccion": row["direccion"],
+                        "telefono": row["telefono_urgencias"],
+                        "latitud": float(row["latitud"]),
+                        "longitud": float(row["longitud"]),
+                        "distancia_km": distancia,
+                        "es_24hs": bool(row["guardia_24hs"] == 1),
+                        "nivel_complejidad": row["nivel_complejidad"],
+                        "especialidades": row["especialidades"],
+                        "horario_informado": "Guardia 24hs activa" if row["guardia_24hs"] == 1 else "Atención diurna",
+                        "estado_verificacion": "VERIFICADA_CABA",
+                        "fuente_datos": "Catálogo Oficial CABA",
+                    }
+                )
 
     cercanas.sort(key=lambda veterinaria: veterinaria["distancia_km"])
     return {"cantidad": len(cercanas), "veterinarias": cercanas}

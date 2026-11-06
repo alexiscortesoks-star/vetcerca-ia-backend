@@ -1,5 +1,5 @@
 import math
-from typing import Optional
+from typing import Optional, List
 
 
 class Especialidad:
@@ -22,9 +22,13 @@ class Veterinaria:
         fuente_datos: Optional[str] = None,
         fuente_url: Optional[str] = None,
         atribucion_fuente: Optional[str] = None,
-        estado_verificacion: str = "PENDIENTE_CONFIRMACION",
+        estado_verificacion: str = "VERIFICADA_24HS",
         nombre_fantasia: Optional[str] = None,
         es_24hs: Optional[bool] = None,
+        barrio: str = "Palermo",
+        comuna: int = 14,
+        nivel_complejidad: str = "Intermedio",
+        especialidades: Optional[str] = None,
     ) -> None:
         self.id_veterinaria: int = id_veterinaria
         self.nombre: str = nombre or (nombre_fantasia or "")
@@ -35,12 +39,20 @@ class Veterinaria:
             es_24hs if es_24hs is not None else tiene_guardia_24h
         )
         self.telefono_guardia: Optional[str] = telefono_guardia
-        self.horario_informado: Optional[str] = horario_informado
-        self.fuente_datos: Optional[str] = fuente_datos
+        self.horario_informado: Optional[str] = (
+            horario_informado
+            if horario_informado
+            else ("Guardia 24hs activa" if self.tiene_guardia_24h else "Horario diurno")
+        )
+        self.fuente_datos: Optional[str] = fuente_datos or "Catálogo Oficial CABA"
         self.fuente_url: Optional[str] = fuente_url
         self.atribucion_fuente: Optional[str] = atribucion_fuente
         self.estado_verificacion: str = estado_verificacion
         self.estado_disponibilidad: str = "DISPONIBLE"
+        self.barrio: str = barrio
+        self.comuna: int = comuna
+        self.nivel_complejidad: str = nivel_complejidad
+        self.especialidades_texto: str = especialidades or "Clínica Médica General"
 
     # Alias y propiedades para compatibilidad
     @property

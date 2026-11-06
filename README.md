@@ -1,422 +1,321 @@
-# 🐾 VetCerca IA - Backend &amp; Sistema de Triaje Veterinario
-
-**VetCerca IA** es una plataforma backend desarrollada en Python y FastAPI que optimiza la atención veterinaria de urgencia. Combina evaluación de síntomas mediante **Inteligencia Artificial (LLM con sistema de contingencia/fallback)**, geolocalización precisa mediante la **fórmula de Haversine**, autenticación de usuarios y un módulo de **despacho automático de alertas de urgencia a clínicas de guardia** vía notificaciones en tiempo real.
-
----
-
-## 🚀 Funcionalidades Principales
-
-* 🩺 **Triaje Automatizado con IA (`AsistenteIA`)**:
-
-  * Procesa los síntomas reportados por el cliente y determina el nivel de riesgo (`ALTA`, `MEDIA`, `BAJA`), sugiriendo la especialidad veterinaria y primeros auxilios.
-  * Incluye mecanismo de **fallback determinista** en caso de timeout o falla en la API del LLM.
-* 📍 **Geolocalización GPS (`Haversine`)**:
-
-  * Calcula la distancia exacta en kilómetros entre la posición GPS actual del cliente y las veterinarias de guardia disponibles.
-  * Ordena y filtra las clínicas más cercanas dentro de un radio configurable.
-* 🚨 **Despacho de Alertas de Urgencia en Tiempo Real**:
-
-  * Ante diagnósticos con urgencia **ALTA**, el sistema instancia `AlertaUrgencia` y ejecuta `ServicioNotificacion` para alertar inmediatamente a la guardia médica por WhatsApp/Push, evitando saturar clínicas con casos leves.
-* 🔐 **Autenticación y Seguridad de Sesiones**:
-
-  * Control de acceso basado en roles (`Cliente` y `UsuarioVeterinario`).
-  * Bloqueo de seguridad (`401 Unauthorized`) que impide a usuarios no autenticados registrar o visualizar mascotas.
-* 🐾 **Gestión de Pacientes e Historial Médico**:
-
-  * Mapeo completo de especies (incluyendo especies exóticas autorizadas), razas y mascotas vinculadas a la cuenta del dueño.
-  * Cálculo dinámico de la edad estimada y registro de atenciones en el historial clínico.
+# 🐾 TRABAJO PRÁCTICO INTEGRADOR (TPI)
+**Asignatura:** Prácticas Profesionalizantes I: Aproximación al Campo Laboral / Desarrollo de Software  
+**Institución:** Instituto de Formación Técnica Superior N° 12 (IFTS N° 12)  
+**Carrera:** Técnico Superior en Ciencia de Datos e Inteligencia Artificial  
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
-
-* **Lenguaje:** Python 3.12
-* **Framework Web:** FastAPI
-* **Servidor ASGI:** Uvicorn
-* **Validación de Datos y Schemas:** Pydantic v2
-* **Matemática y Geolocalización:** Módulo `math` (Fórmula de Haversine)
-* **Arquitectura:** Programación Orientada a Objetos (POO), Clean Architecture y Routers de FastAPI.
+## 👥 Integrantes del Equipo
+* **Caponi, Laura**
+* **Cortes, Alexis**
+* **Di Nucci, Lara**
+* **Gazzola, Agostina**
 
 ---
 
-## 📁 Estructura del Proyecto
+# VetCerca IA: Sistema Inteligente de Triaje, Geolocalización y Recomendación Veterinaria por Barrio
 
+---
+
+## 1. DEFINICIÓN DEL PROBLEMA Y ALCANCE
+
+### A. Contextualización
+* **Sector Profesional:** Salud y bienestar de los animales de compañía en áreas urbanas de la Ciudad Autónoma de Buenos Aires (CABA) y zonas de influencia, abarcando la atención primaria, la categorización de síntomas y el despacho operativo de urgencias.
+* **Actores Involucrados:**
+  * **Tutores de mascotas:** Ciudadanos en situaciones de incertidumbre y estrés ante accidentes o sintomatologías agudas, que necesitan orientación inmediata y clara sin diagnósticos invasivos erróneos.
+  * **Centros y Clínicas Veterinarias:** Red de atención heterogénea distribuida por comunas y barrios (consultorios diurnos vs. clínicas de guardia 24 horas y hospitales de alta complejidad).
+* **Problema Central:**  
+  La falta de orientación médica inicial ante urgencias veterinarias genera demoras críticas al intentar localizar clínicas con guardia 24hs abierta, o bien satura los centros de alta complejidad con afecciones leves. El sistema se enfoca estrictamente en **variables clínicas, técnicas, operativas y territoriales/geográficas**, excluyendo explícitamente variables comerciales o precios, priorizando el bienestar animal y la eficiencia en la atención.
+* **Impacto Esperado:**
+  1. Reducir los tiempos de respuesta y orientación inicial ante emergencias médicas veterinarias.
+  2. Proveer contención estructurada mediante un asistente virtual empático con restricciones éticas rigurosas.
+  3. Priorizar y despachar alertas en tiempo real hacia las guardias médicas ante cuadros críticos.
+  4. Optimizar la canalización zonal y geolocalizada mediante la combinación de pertenencia barrial y cálculo geodésico preciso (**Fórmula de Haversine**).
+
+---
+
+### B. Objetivos del Proyecto
+
+* **Objetivo General:**  
+  Desarrollar una plataforma integral de software, análisis de datos e inteligencia artificial que clasifique el nivel de triaje veterinario a partir de síntomas clínicos, determine la urgencia mediante Machine Learning supervisado y recomiende las clínicas veterinarias disponibles más cercanas combinando análisis barrial y geolocalización GPS.
+
+* **Objetivos Específicos:**
+  1. **Pipeline y Curación de Datos:** Construir y mantener dos datasets tabulares curados: infraestructura veterinaria georreferenciada de CABA (`veterinarias_barrios.csv`) y casuística de triaje sintomático (`sintomas_triaje.csv`).
+  2. **Modelado Supervisado (Triaje Clínico):** Entrenar y evaluar un clasificador multiclase (*Random Forest / Decision Tree*) para predecir el `nivel_urgencia` (*Baja, Moderada, Alta, Emergencia Crítica*), maximizando la métrica de **Recall** en cuadros críticos.
+  3. **Modelado No Supervisado (Clustering Zonal):** Implementar *K-Means Clustering* para segmentar los barrios de CABA según densidad de veterinarias, presencia de guardias 24hs y niveles de complejidad operativa.
+  4. **Geolocalización y Lógica de Contingencia Híbrida:** Desarrollar un motor de proximidad basado en la fórmula geodésica de **Haversine** combinado con matrices de adyacencia barrial para derivación inteligente ante ausencia de guardias locales.
+  5. **Asistente Virtual y Restricciones Éticas:** Diseñar una arquitectura de prompts (Rol, Contexto, Tarea, Restricciones) que proporcione primeros auxilios orientativos y contención emocional sin emitir diagnósticos definitivos ni prescribir farmacología.
+  6. **Arquitectura Backend y POO:** Implementar una API REST robusta en FastAPI con arquitectura limpia, principios de Programación Orientada a Objetos (POO), autenticación de usuarios y despacho de alertas.
+
+---
+
+### C. Preguntas de Investigación y Desarrollo
+1. **Pregunta Predictiva (Supervisada):**  
+   Dada una combinación de síntomas físicos, especie, tiempo de evolución y estado de conciencia, ¿con qué sensibilidad (Recall) el modelo supervisado clasifica los casos de *Alta* y *Emergencia Crítica* para evitar falsos negativos letales?
+2. **Pregunta Espacial y de Segmentación (No Supervisada / Zonal):**  
+   ¿Qué patrones de disparidad territorial surgen al agrupar los barrios de CABA según la disponibilidad de guardias 24hs y cómo optimiza la fórmula de Haversine la derivación a centros limítrofes?
+3. **Pregunta de Interacción y Operatividad (Asistente IA & Backend):**  
+   ¿Cómo coordinar el modelo predictivo, la geolocalización y el asistente conversacional para emitir una respuesta estructurada en menos de 2 segundos y despachar alertas tempranas a la guardia médica?
+
+---
+
+## 2. ARQUITECTURA INTEGRAL DEL SISTEMA
+
+```text
+ ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │                                   ARQUITECTURA VETCERCA IA                                     │
+ └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+  [ FUENTES DE DATOS ]              [ PIPELINE ML / CIENCIA DE DATOS ]
+  ┌──────────────────────┐          ┌────────────────────────────────────────────────────────┐
+  │ veterinarias_barrios │─────────▶│ Preprocesamiento, Limpieza y One-Hot Encoding (Pandas)  │
+  │      (.csv)          │          └──────────────────────────┬─────────────────────────────┘
+  └──────────────────────┘                                     │
+  ┌──────────────────────┐                     ┌───────────────┴───────────────┐
+  │   sintomas_triaje    │                     ▼                               ▼
+  │      (.csv)          │─────────▶┌─────────────────────┐         ┌─────────────────────┐
+  └──────────────────────┘          │   K-Means Zonal     │         │    Random Forest    │
+                                    │ (Clustering Barrios)│         │(Clasificador Triaje)│
+                                    └──────────┬──────────┘         └──────────┬──────────┘
+                                               │                               │
+                                               ▼                               ▼
+                                    ┌─────────────────────┐         ┌─────────────────────┐
+                                    │  Clusters Zonal CABA│         │ modelo_triaje.joblib│
+                                    └──────────┬──────────┘         └──────────┬──────────┘
+                                               │                               │
+ ──────────────────────────────────────────────┼───────────────────────────────┼───────────────────
+  [ BACKEND FASTAPI & POO ]                    │                               │
+                                               ▼                               ▼
+ ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │                             API REST & SERVICIOS DE INFRAESTRUCTURA                            │
+ │                                                                                                │
+ │   ┌───────────────────────┐   ┌───────────────────────────┐   ┌────────────────────────────┐   │
+ │   │  utils/geo.py         │   │  services/asistente_ia.py │   │ services/notificador.py    │   │
+ │   │  • Haversine GPS (km) │   │  • Inferencia ML (Joblib) │   │ • Despacho en tiempo real  │   │
+ │   │  • Matriz Contingencia│   │  • Prompting Ético        │   │ • Alertas WhatsApp / API   │   │
+ │   └───────────┬───────────┘   └─────────────┬─────────────┘   └─────────────┬──────────────┘   │
+ │               │                             │                               │                  │
+ │               └─────────────────────────────┼───────────────────────────────┘                  │
+ │                                             ▼                                                  │
+ │                              ┌─────────────────────────────┐                                   │
+ │                              │     routers/triaje.py       │                                   │
+ │                              │  • Evaluación de Urgencia   │                                   │
+ │                              │  • Geoconsulta de Guardias  │                                   │
+ │                              └──────────────┬──────────────┘                                   │
+ └─────────────────────────────────────────────┼──────────────────────────────────────────────────┘
+                                               ▼
+  [ CAPA DE PRESENTACIÓN ]       ┌─────────────────────────────┐
+                                 │   Frontend Web Interactivo  │
+                                 │ • Mapa / GPS del Tutor      │
+                                 │ • Formulario Clínico Triaje │
+                                 │ • Panel de Guardia Médica   │
+                                 └─────────────────────────────┘
 ```
-vetcerca_ia_backend/
-│
-├── app.py                   # Punto de entrada principal e integración de la API FastAPI
-├── requirements.txt         # Dependencias del proyecto (FastAPI, Uvicorn, Pydantic, httpx)
-├── vetcerca-readme.md       # Documentación técnica y guía de ejecución
-│
-├── models/                  # Dominio y Lógica de Negocio (POO)
-│   ├── usuarios.py          # Clase abstracta Usuario, Cliente y UsuarioVeterinario
-│   ├── mascotas.py          # Clases Mascota, Especie, Raza e HistorialMedico
-│   ├── veterinarias.py      # Clase Veterinaria y gestión de guardias 24hs
-│   └── triaje.py            # Clases ConsultaTriaje y AlertaUrgencia
-│
-├── schemas/                 # Validación de Entradas/Salidas HTTP (Pydantic)
-│   ├── auth.py              # LoginRequest y LoginResponse
-│   ├── mascotas.py          # MascotaCreate y MascotaResponse
-│   └── triaje.py            # TriajeRequest y TriajeResponse
-│
-├── routers/                 # Endpoints desacoplados de FastAPI
-│   ├── auth.py              # Router /auth (Login y gestión de sesiones)
-│   ├── mascotas.py          # Router /mascotas (ABM de pacientes y dueño)
-│   └── triaje.py            # Router /triaje (Evaluación de IA y Alertas)
-│
-├── services/                # Servicios de Infraestructura
-│   ├── asistente_ia.py      # Procesamiento con LLM y reglas de fallback
-│   └── notificador.py       # ServicioNotificacion (Despacho WhatsApp / API)
-│
-└── utils/                   # Utilidades matemáticas e infraestructura
-    └── geo.py               # Función de cálculo de distancia Haversine GPS
 
+---
+
+## 3. PIPELINE DE DATOS Y ANÁLISIS EXPLORATORIO (EDA)
+
+### A. Estructura de los Datasets
+
+1. **Dataset de Infraestructura Veterinaria (`data/veterinarias_barrios.csv`):**
+   * `id_veterinaria`: Identificador único numérico.
+   * `nombre_centro`: Razón social o denominación del establecimiento.
+   * `barrio`: Barrio de CABA (ej. *Palermo, Belgrano, Flores, Caballito, Saavedra*).
+   * `comuna`: Comuna administrativa (1 a 15).
+   * `latitud`: Coordenada geográfica GPS (-34.xxxx).
+   * `longitud`: Coordenada geográfica GPS (-58.xxxx).
+   * `guardia_24hs`: Indicador binario (`1`: Servicio continuo ininterrumpido; `0`: Horario comercial).
+   * `nivel_complejidad`: Nivel operativo (*Básico, Intermedio, Alta Complejidad/Quirófano*).
+   * `especialidades`: Prestaciones (*Clínica Médica, Cirugía, Traumatología, Ecografía, Terapia Intensiva*).
+   * `direccion`: Ubicación física normalizada en CABA.
+   * `telefono_urgencias`: Línea de contacto directo de guardia.
+
+2. **Dataset Clínico de Triaje (`data/sintomas_triaje.csv`):**
+   * `id_caso`: Identificador único del caso clínico.
+   * `especie`: Especie del paciente (*Canino / Felino*).
+   * `sintoma_principal`: Cuadro presentado (ej. *Dificultad respiratoria, Convulsiones, Vómitos reiterados, Traumatismo agudo, Inapetencia*).
+   * `tiempo_evolucion_hs`: Horas transcurridas desde el inicio de los signos.
+   * `estado_conciencia`: Evaluación neurológica (*Alerta, Deprimido, Estuporoso/Comatoso*).
+   * `presencia_hemorragia`: Indicador binario (`1`: Presente; `0`: Ausente).
+   * `nivel_urgencia` (**Target**): 4 clases ordenadas (*Baja, Moderada, Alta, Emergencia Crítica*).
+
+### B. Análisis Exploratorio de Datos (EDA en Notebook)
+El notebook interactivo `notebooks/01_analisis_exploratorio_eda.ipynb` analiza:
+* **Cobertura Territorial:** Concentración de guardias 24hs frente a clínicas diurnas por Comuna y Barrio.
+* **Correlación Clínica:** Heatmaps entre horas de evolución, estado de conciencia, presencia de hemorragia y nivel de severidad.
+* **Distribución de Especies:** Frecuencia cruzada de síntomas críticos según especie canina o felina.
+* **Análisis de Dispersión Espacial:** Densidad de cobertura por coordenadas geográficas lat/long.
+
+---
+
+## 4. MODELADO DE MACHINE LEARNING E INTELIGENCIA ARTIFICIAL
+
+### A. Clasificación Supervisada (Triaje Clínico)
+* **Algoritmo:** *Random Forest Classifier* con balanceo de clases.
+* **Preprocesamiento:** Pipeline con imputación, codificación One-Hot para categóricas y escalado estándar para variables temporales.
+* **Métrica Clave:** **Recall (Sensibilidad)** en las clases *Alta* y *Emergencia Crítica* ($\ge 0.95$), minimizando los falsos negativos donde la vida del paciente corre peligro inminente.
+* **Serialización:** Exportación del estimador a `src/modelo_triaje.joblib` para consumo directo en la API FastAPI.
+
+### B. Segmentación No Supervisada (Clustering Zonal CABA)
+* **Algoritmo:** *K-Means Clustering* analizando variables territoriales por barrio (oferta total de clínicas, proporción de guardias 24hs, densidad de alta complejidad y centroides geográficos).
+* **Clústeres Resultantes:**
+  * **Clúster 0 (Alta Cobertura):** Barrios con alta densidad de centros y guardias 24hs activas (ej. Palermo, Recoleta).
+  * **Clúster 1 (Cobertura Intermedia):** Barrios con atención primaria diurna y guardias limitadas.
+  * **Clúster 2 (Zonas Deficitarias/Críticas):** Barrios sin cobertura nocturna directa, requiriendo activación automática de derivación.
+
+### C. Asistente Virtual e Ingeniería de Prompts
+Implementación de un agente conversacional de contención con arquitectura de prompts estricta:
+* **Rol:** Orientador empático y copiloto de triaje veterinario.
+* **Contexto:** Tutor experimentando angustia ante el malestar o accidente de su mascota.
+* **Entrada:** Diagnóstico del clasificador supervisado (`nivel_urgencia`), datos del paciente y la veterinaria de guardia asignada.
+* **Formato de Respuesta:** 
+  1. *Nivel de Urgencia y Tiempo de Acción Recomendado.*
+  2. *Primeros Auxilios orientativos en viaje (qué hacer y qué NO hacer).*
+  3. *Datos de la Clínica de Guardia más cercana (distancia exacta, dirección y teléfono).*
+* **Restricciones Éticas Mandatorias:** 
+  * Prohibición absoluta de emitir diagnósticos patológicos conclusivos.
+  * Prohibición terminante de indicar fármacos, dosis o remedios caseros.
+  * Obligatoriedad de instar a la atención presencial inmediata en casos de urgencia alta o crítica.
+
+---
+
+## 5. GEOLOCALIZACIÓN Y LÓGICA DE CONTINGENCIA HÍBRIDA
+
+El sistema combina el criterio político-territorial (barrios/comunas) con la distancia geodésica real en kilómetros calculada mediante la **Fórmula de Haversine**:
+
+$$\Delta\sigma = 2 \arcsin \left( \sqrt{\sin^2\left(\frac{\Delta\phi}{2}\right) + \cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\Delta\lambda}{2}\right)} \right)$$
+
+$$d = R \cdot \Delta\sigma \quad \text{donde } R = 6.371\text{ km}$$
+
+### Protocolo de Contingencia Zonal Inteligente:
+1. El usuario ingresa su ubicación (por selección de **Barrio** de CABA o por **GPS del navegador**).
+2. Si el caso se clasifica como `Alta` o `Emergencia Crítica`:
+   * **Caso Directo:** Si el barrio seleccionado posee clínicas con `guardia_24hs == 1`, se ordenan por distancia geodésica Haversine y se asigna la más cercana.
+   * **Caso de Contingencia:** Si el barrio seleccionado carece de guardia 24hs activa, el algoritmo activa la **matriz de adyacencia de comunas limítrofes**, busca las clínicas 24hs de los barrios vecinos y recomienda la que posea menor distancia Haversine, informando la derivación al tutor y estimando el tiempo de arribo.
+
+---
+
+## 6. ARQUITECTURA DE SOFTWARE, POO Y DESPACHO EN TIEMPO REAL
+
+El backend se estructura bajo los principios de **Clean Architecture** y **Programación Orientada a Objetos (POO)**:
+
+### A. Modelo de Dominio (POO)
+* **`Usuario` (Clase Abstracta / ABC):** Encapsula identidad, credenciales hash, contacto y roles.
+  * `Cliente`: Tutor de mascotas con dirección y coordenadas geográficas.
+  * `UsuarioVeterinario`: Personal médico vinculado a una clínica de guardia.
+* **`Mascota`:** Entidad del paciente asociada a `Especie`, `Raza` e `HistorialMedico`.
+* **`Veterinaria`:** Entidad del centro de salud con atributos geográficos, cálculo de distancia Haversine (`calcular_distancia_km`), estado operativo y acreditación de guardia 24hs.
+* **`ConsultaTriaje`:** Registra la sintomatología, ejecuta la inferencia con el modelo supervisado (`ejecutar_triaje`) y coordina las recomendaciones del asistente.
+* **`AlertaUrgencia`:** Ante clasificaciones de `Alta` o `Emergencia Crítica`, despacha una notificación en tiempo real (`ServicioNotificacion`) informando a la guardia médica receptora la llegada estimada del paciente.
+
+### B. Endpoints de la API REST (FastAPI)
+
+| Método | Endpoint | Descripción | Componente |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/triaje/evaluar` | Evalúa síntomas con Random Forest, geolocaliza guardia por Haversine y despacha alerta si es crítica | ML + Geo + Alertas |
+| `GET` | `/veterinarias/cercanas` | Filtra clínicas por radio en km según coordenadas GPS | Haversine GPS |
+| `GET` | `/triaje/contingencia/{barrio}` | Retorna centros del barrio con protocolo de contingencia a limítrofes | Territorial / Contingencia |
+| `GET` | `/triaje/clustering/zonas` | Expone los clústeres de cobertura zonal de CABA generados por K-Means | ML No Supervisado |
+| `POST` | `/auth/login` | Autenticación unificada de clientes y veterinarias | Seguridad / Sesión |
+| `GET/POST`| `/mascotas/` | Gestión de fichas clínicas y pacientes del tutor | Dominio POO |
+
+---
+
+## 7. ESTRUCTURA UNIFICADA DEL REPOSITORIO
+
+```text
+vetcerca-ia-backend/
+├── data/
+│   ├── veterinarias_barrios.csv       # Catálogo georreferenciado de clínicas de CABA
+│   ├── sintomas_triaje.csv            # Casuística clínica de entrenamiento de triaje
+│   └── barrios_clusters.csv           # Segmentación de barrios por K-Means
+├── notebooks/
+│   └── 01_analisis_exploratorio_eda.ipynb # EDA, gráficos de cobertura y correlaciones
+├── src/                               # Módulos de Ciencia de Datos y Machine Learning
+│   ├── generar_datos.py               # Generación y validación de datasets sintéticos CABA
+│   ├── pipeline_limpieza.py           # Preprocesamiento, OHE y estandarización
+│   ├── modelo_clasificador.py         # Entrenamiento y validación de Random Forest
+│   ├── clustering_barrios.py          # K-Means de segmentación territorial
+│   └── modelo_triaje.joblib           # Estimador supervisado serializado
+├── models/                            # Clases de Dominio POO
+│   ├── usuarios.py                    # Usuario (ABC), Cliente, UsuarioVeterinario
+│   ├── mascotas.py                    # Mascota, Especie, Raza, HistorialMedico
+│   ├── veterinarias.py                # Veterinaria, Especialidad, cálculo Haversine
+│   └── triaje.py                      # ConsultaTriaje, AlertaUrgencia
+├── schemas/                           # Validación de contratos de datos (Pydantic v2)
+│   ├── auth.py                        # LoginRequest, LoginResponse
+│   ├── mascotas.py                    # MascotaCreate, MascotaResponse
+│   └── triaje.py                      # TriajeRequest (variables clínicas), TriajeResponse
+├── routers/                           # Endpoints modulares FastAPI
+│   ├── auth.py                        # Sesiones y autenticación
+│   ├── mascotas.py                    # CRUD de mascotas y dueños
+│   └── triaje.py                      # Endpoint principal de triaje y contingencia
+├── services/                          # Lógica de negocio y servicios
+│   ├── asistente_ia.py                # Inferencia con Random Forest + Prompting ético
+│   └── notificador.py                 # Despacho de alertas a clínicas de guardia
+├── utils/                             # Utilidades matemáticas y geográficas
+│   ├── geo.py                         # Fórmula geodésica de Haversine
+│   └── contingencia_barrios.py        # Matriz de adyacencia de barrios y comunas de CABA
+├── frontend/                          # Interfaz web interactiva (HTML5 / CSS3 / Vanilla JS)
+│   ├── index.html                     # Portada y geolocalización de clínicas
+│   ├── dashboard.html                 # Carga de triaje, perfil de mascotas e historial
+│   └── assets/                        # Estilos y scripts clientes
+├── docs/
+│   └── arquitectura_sistema.md        # Especificación técnica y diagramas formales
+├── app.py                             # Punto de entrada principal de FastAPI
+├── requirements.txt                   # Dependencias completas del ecosistema
+└── README.md                          # Documento unificado del proyecto
 ```
 
 ---
 
-## ⚙️ Instalación y Ejecución Rápida
+## 8. GUÍA DE INSTALACIÓN Y EJECUCIÓN
 
-### 1\. Clonar o descargar el proyecto
-
-Poscionarse en la carpeta raíz del backend `vetcerca_ia_backend`.
-
-### 2\. Crear y activar el entorno virtual
-
-```
-# En Linux / macOS:
-python3 -m venv venv
-source venv/bin/activate
-
-# En Windows:
+### 1. Clonar el repositorio y configurar el entorno virtual
+```bash
+# Crear el entorno virtual con Python 3.10+
 python -m venv venv
+
+# Activar en Windows:
 .\venv\Scripts\activate
 
+# Activar en Linux/macOS:
+source venv/bin/activate
 ```
 
-### 3\. Instalar dependencias
-
-```
+### 2. Instalar dependencias completas
+```bash
 pip install -r requirements.txt
-
 ```
 
-### 4\. Iniciar el servidor de desarrollo
+### 3. Generar datasets y entrenar los modelos de Machine Learning
+```bash
+# Genera los CSVs sintéticos curados de CABA
+python src/generar_datos.py
 
+# Ejecuta el preprocesamiento y entrena el clasificador supervisado
+python src/modelo_clasificador.py
+
+# Ejecuta el clustering territorial K-Means
+python src/clustering_barrios.py
 ```
+
+### 4. Iniciar el servidor backend (FastAPI)
+```bash
 uvicorn app:app --reload
-
 ```
+* La API estará activa en: `http://127.0.0.1:8000`
+* Documentación interactiva Swagger: `http://127.0.0.1:8000/docs`
 
-El servidor quedará ejecutándose localmente en: `127.0.0.1:8000`
-
----
-
-## 📖 Documentación Interactiva de la API (Swagger UI)
-
-Una vez iniciado el servidor, acceder a la documentación interactiva OpenAPI en:
-
-👉 **`127.0.0.1:8000/docs`** o **`localhost:8000/docs`**
-
----
-
-## 🖥️ Frontend local
-
-Iniciá el backend con `uvicorn app:app --reload`. En otra terminal, desde la
-raíz del proyecto, serví los archivos frontend:
-
-```powershell
+### 5. Iniciar la interfaz frontend
+En otra terminal dentro de la raíz del proyecto:
+```bash
 python -m http.server 5500 --directory frontend
 ```
-
-Abrí `http://127.0.0.1:5500` para ver la portada y consultar clínicas cercanas.
-Para cargar síntomas y recibir una orientación de triaje primero hay que iniciar
-sesión desde la portada. Después vas a encontrar un espacio privado para cargar
-y gestionar tus mascotas, ver sus datos generales e iniciar el triaje por separado.
-El resultado se presenta en lenguaje claro e incluye la urgencia estimada, los
-pasos sugeridos, la guardia cercana y su ubicación. Desde el dashboard también
-podés consultar el historial clínico.
-El navegador solicitará permiso para compartir la
-ubicación; si no está disponible, se usarán coordenadas predeterminadas de
-Buenos Aires. CORS está habilitado para `localhost` y `127.0.0.1` en los
-puertos 5500 y 5501.
-
-### Acceso de veterinarias (demostración)
-
-El mismo formulario de acceso identifica si la cuenta es de cliente o
-veterinaria y abre el panel correspondiente. Las credenciales locales de
-demostración de veterinaria son `admin` / `1234`.
-El perfil de demostración muestra la clínica configurada en el backend.
-Podés reemplazar estas credenciales configurando `VETCERCA_VET_ADMIN_USER` y
-`VETCERCA_VET_ADMIN_PASSWORD` antes de iniciar FastAPI. Este acceso usa datos
-en memoria y no debe publicarse en Internet con las credenciales por defecto.
-
-### Compartir la demo en una red local
-
-Para que tus compañeros la prueben conectados a la misma red Wi-Fi:
-
-1. Averiguá la IP local de tu computadora con `ipconfig` (por ejemplo,
-   `192.168.1.50`).
-2. En PowerShell, iniciá el backend permitiendo el origen de la página:
-
-   ```powershell
-   $env:VETCERCA_CORS_ORIGINS = "http://192.168.1.50:5500"
-   python -m uvicorn app:app --host 0.0.0.0 --port 8000
-   ```
-
-3. En otra terminal iniciá el frontend para la red local:
-
-   ```powershell
-   python -m http.server 5500 --bind 0.0.0.0 --directory frontend
-   ```
-
-4. Compartí `http://192.168.1.50:5500` con tus compañeros. Si Windows muestra
-   un aviso del firewall, permití el acceso en la red privada.
-
-Esto es solo para una prueba en una red de confianza. No abras los puertos del
-router ni publiques la demo directamente en Internet: los usuarios y datos son
-de demostración y la autenticación aún no es adecuada para producción.
+* Acceder a la plataforma desde el navegador en: `http://127.0.0.1:5500`
 
 ---
 
-## 📌 Resumen de Endpoints
-
-| Método | Endpoint                         | Descripción                                                                              | Requiere Auth |
-| ------ | -------------------------------- | ---------------------------------------------------------------------------------------- | ------------- |
-| `POST` | `/auth/login`                    | Inicia sesión unificada y devuelve el tipo de perfil (cliente o veterinaria)             | ❌             |
-| `POST` | `/auth/veterinaria/login`        | Inicia sesión de demostración de una veterinaria                                        | ❌             |
-| `GET`  | `/auth/veterinaria/perfil`       | Consulta el perfil de la veterinaria usando token Bearer                                 | 🌐 Sí         |
-| `GET`  | `/mascotas/cliente/{identificador_cliente}` | Devuelve mascotas usando ID o username del cliente autenticado                  | 🌐 Sí         |
-| `POST` | `/mascotas/`                     | Registra una nueva mascota vinculada al cliente logueado                                 | 🌐 Sí         |
-| `PUT`  | `/mascotas/{id_mascota}`         | Actualiza una mascota del usuario autenticado                                             | 🌐 Sí         |
-| `DELETE` | `/mascotas/{id_mascota}?username_cliente={username}` | Elimina una mascota propia                         | 🌐 Sí         |
-| `GET`  | `/mascotas/{id_mascota}/historial?username_cliente={username}` | Consulta historial clínico propio       | 🌐 Sí         |
-| `POST` | `/triaje/evaluar`                | Evalúa síntomas con IA, calcula vet más cercana por GPS y despacha alerta si es **ALTA** | ❌             |
-| `GET`  | `/veterinarias/cercanas`         | Busca y ordena clínicas por distancia GPS según un radio en km                           | ❌             |
-
-### Datos de clínicas
-
-El catálogo incluye dos candidatos de CABA con horario `24/7` indicado en
-OpenStreetMap, pero pendiente de confirmación directa:
-
-- Centro Médico Veterinario Belgrano, Amenábar 2214, Belgrano ([ficha OSM](https://www.openstreetmap.org/node/2276920088)).
-- Panda, Av. Ruiz Huidobro 4771, Saavedra ([ficha OSM](https://www.openstreetmap.org/node/8067203564), [sitio oficial](https://www.veterinariapanda.com.ar/)).
-
-La API los muestra como candidatos, pero no los trata como guardias disponibles
-para asignación de triaje. No se encontró un teléfono verificable en las fuentes
-consultadas. Los datos de ubicación y horario proceden de OpenStreetMap bajo
-ODbL. Atribución: © OpenStreetMap contributors
-([licencia](https://www.openstreetmap.org/copyright)).
-
----
-
-## 🤖 Integración Dual de Inteligencia Artificial
-
-1. **IA Integrada en el Producto (`AsistenteIA`)**:
-
-  * Implementa procesamiento de lenguaje para clasificar síntomas veterinarios.
-  * Cuenta con **sistema de resiliencia / fallback** para garantizar disponibilidad operativa continua.
-2. **IA como Copiloto de Desarrollo**:
-
-  * Asistencia en el diseño de arquitectura POO, encapsulamiento y refactorización a Clean Architecture.
-  * Generación y optimización de algoritmos de geolocalización (Haversine).
-  * Automatización de pruebas de integración con `httpx` y `TestClient`.
-
----
-
-## 🏛️ ESPECIFICACIÓN TÉCNICA FORMAL: VETCERCA IA (POO + CASOS DE USO)
-
-### 1. Diagrama de Clases (Arquitectura Orientada a Objetos)
-
-#### Módulo: Autenticación y Usuarios (Herencia)
-* **`Usuario` (Clase Base / Abstracta `ABC`):**
-  * **Atributos privados:**
-    * `- _id_usuario: int`
-    * `- _username: str` (alfanumérico único)
-    * `- _email: str` (único)
-    * `- _contrasena_hash: str`
-    * `- _fecha_registro: datetime`
-    * `- _avatar_url: Optional[str]`
-    * `- _telefono: str`
-  * **Métodos públicos:**
-    * `+ verificar_credenciales(usuario_o_email: str, password: str) -> bool`
-    * `+ cambiar_contrasena(nueva_contrasena: str) -> None`
-* **`Cliente` (Especialización de `Usuario`):**
-  * **Atributos privados:**
-    * `- _direccion: str`
-    * `- _latitud: float`
-    * `- _longitud: float`
-    * `- _telefono: str`
-  * **Relaciones:**
-    * Composición con `Mascota` (1 a 1..*): Un cliente posee una o varias mascotas registradas (`_mascotas: List[Mascota]`).
-* **`UsuarioVeterinario` (Especialización de `Usuario`):**
-  * **Atributos privados:**
-    * `- _matricula_profesional: str`
-    * `- _especialidad_principal: str`
-  * **Relaciones:**
-    * Pertenece a una `Veterinaria` (* a 1).
-  * **Métodos:**
-    * `+ gestionar_estado_guardia(disponible: bool) -> None`
-    * `+ recibir_alerta_urgencia(alerta) -> None`
-
-#### Módulo: Pacientes e Historial Médico
-* **`Mascota`:**
-  * **Atributos privados:**
-    * `- id_mascota: int`
-    * `- nombre: str`
-    * `- fecha_nacimiento: Optional[date]`
-    * `- sexo: str` ("Macho" | "Hembra")
-    * `- _peso_kg: float` (encapsulado con validación > 0)
-    * `- foto_url: Optional[str]`
-  * **Métodos públicos:**
-    * `+ get_peso() -> float`
-    * `+ set_peso(nuevo_peso: float) -> None`
-    * `+ calcular_edad_formateada() -> str`
-  * **Relaciones:**
-    * Asociación con `Raza` (* a 1).
-    * Agregación con `HistorialClinico` (1 a 0..*) vía `_historial_clinico`.
-* **`Especie`:**
-  * `- id_especie: int`
-  * `- nombre: str` ("Felino", "Canino", "Ave Exótica")
-  * `- es_exotico: bool`
-  * `- requiere_permiso_senasa: bool`
-* **`Raza`:**
-  * `- id_raza: int`
-  * `- nombre: str`
-  * `- descripcion: str`
-  * Relación: Pertenece a una `Especie` (* a 1).
-* **`HistorialClinico`:**
-  * `- id_registro: int`
-  * `- id_mascota: int`
-  * `- fecha: date`
-  * `- motivo: str`
-  * `- diagnostico: str`
-  * `- tratamiento: str`
-  * `- veterinario_firmante: str`
-  * `- observaciones: str`
-  * `- veterinaria_emisora: Optional[Veterinaria]`
-
-#### Módulo: Triaje Inteligente y Georreferenciación
-* **`ConsultaTriaje`:**
-  * `- id_triaje: int`
-  * `- id_cliente: int`
-  * `- id_mascota: int`
-  * `- fecha_hora: datetime`
-  * `- sintomas_ingresados: str`
-  * `- nivel_urgencia: str` ("ALTA", "MEDIA", "BAJA")
-  * `- diagnostico_preliminar: str`
-  * `- especialidad_sugerida: str`
-  * `- alerta_despachada: bool`
-  * **Métodos:**
-    * `+ ejecutar_triaje(asistente_ia: AsistenteIA) -> None`
-* **`AsistenteIA` (Servicio de Inferencia):**
-  * `- api_key: str`
-  * `- modelo_principal: str` (LLM / Gemini 1.5 Pro API)
-  * `- modo_fallback: bool` (Motor heurístico de contingencia)
-  * **Métodos:**
-    * `+ clasificar_urgencia(sintomas: str, especie: str) -> dict`: Retorna `{nivel_urgencia, diagnostico_preliminar, especialidad_sugerida, primeros_auxilios}`.
-    * `+ ejecutar_fallback(sintomas: str) -> dict`
-* **`Veterinaria`:**
-  * `- id_veterinaria: int`
-  * `- nombre: str`
-  * `- direccion: str`
-  * `- latitud: float`
-  * `- longitud: float`
-  * `- tiene_guardia_24h: bool`
-  * `- telefono_guardia: Optional[str]`
-  * **Métodos:**
-    * `+ calcular_distancia_km(lat_origen: float, lng_origen: float) -> float` (Fórmula de Haversine encapsulada en la clase)
-    * `+ esta_disponible() -> bool`
-    * `+ actualizar_estado_guardia(estado: str) -> None`
-* **`AlertaUrgencia`:**
-  * `- id_alerta: int`
-  * `- id_triaje: int`
-  * `- id_veterinaria_asignada: int`
-  * `- fecha_hora: datetime`
-  * `- estado: str` ("EMITIDA", "NOTIFICADA", "EN_CURSO", "ATENDIDA")
-  * `- tiempo_estimado_arribo_min: int`
-  * **Métodos:**
-    * `+ transmitir() -> bool`
-* **`ServicioNotificacion`:**
-  * **Métodos:**
-    * `+ despachar_whatsapp(telefono_destino: str, mensaje: str) -> bool`
-    * `+ despachar_alerta(alerta: AlertaUrgencia) -> bool`
-
----
-
-### 2. Especificación Formal de Casos de Uso (UML)
-
-#### Actores
-1. **Cliente (Dueño de Mascota):** Actor humano primario.
-2. **Veterinario de Guardia:** Actor humano secundario/receptor.
-3. **Asistente IA:** Actor del sistema externo (procesamiento de lenguaje natural / Gemini API).
-4. **Servicio Notificación (WhatsApp API):** Actor del sistema externo.
-
-#### CU-01: Iniciar Sesión (Autenticación Dual)
-* **Actor Primario:** Cliente / Veterinario.
-* **Tipo:** Primario, Esencial.
-* **Precondición:** El usuario debe estar registrado en el sistema.
-* **Poscondición:** Sesión iniciada y token devuelto al cliente.
-* **Flujo Principal:**
-  1. El usuario ingresa `usuario_o_email` y `password`.
-  2. El sistema busca coincidencias por username o por email invocando `Usuario.verificar_credenciales()`.
-  3. El sistema valida el hash de la contraseña.
-  4. El sistema registra la sesión en `SESIONES_ACTIVAS` y retorna token y perfil.
-* **Flujo Alternativo (Credenciales inválidas):**
-  * 3a. El sistema emite error HTTP 401 ("Credenciales incorrectas") y deniega el acceso.
-
-#### CU-02: Gestionar Mascotas (CRUD)
-* **Actor Primario:** Cliente.
-* **Tipo:** Primario, Esencial.
-* **Precondición:** Sesión activa válida.
-* **Flujos:**
-  * **Alta (`POST /mascotas/`):** Cliente ingresa nombre, especie, raza, sexo, peso_kg (>0) y foto_url opcional. Se asocia al cliente logueado.
-  * **Lectura (`GET /mascotas/cliente/{username}`):** Sistema lista las mascotas del usuario con edad calculada (`calcular_edad_formateada()`).
-  * **Modificación (`PUT /mascotas/{id}`):** Cliente actualiza peso (`set_peso()`) o nombre; se validan permisos de dueño.
-  * **Baja (`DELETE /mascotas/{id}`):** Se elimina la mascota de la cuenta del cliente.
-
-#### CU-03: Consultar Historial Clínico
-* **Actor:** Cliente / Veterinario.
-* **Tipo:** Secundario, Esencial.
-* **Precondición:** Mascota registrada con identificador válido.
-* **Flujo Principal:**
-  1. El usuario solicita el historial médico de una mascota (`GET /mascotas/{id_mascota}/historial`).
-  2. El sistema recupera la lista cronológica de atenciones del objeto `Mascota._historial_clinico` (fecha, motivo, diagnóstico, tratamiento y veterinario firmante).
-  3. El frontend renderiza las fichas clínicas en un timeline modal.
-
-#### CU-04: Realizar Triaje de Urgencia con IA (Caso Central)
-* **Actor Primario:** Cliente.
-* **Actores Secundarios:** Asistente IA, Servicio Notificación.
-* **Precondición:** Mascota y cliente identificados; síntomas reportados.
-* **Flujo Principal:**
-  1. El cliente envía síntomas y coordenadas GPS del móvil (`POST /triaje/evaluar`).
-  2. Se instancia `ConsultaTriaje` y se invoca `ejecutar_triaje(asistente_ia)`.
-  3. El `AsistenteIA` clasifica la urgencia (`ALTA`, `MEDIA`, `BAJA`), generando diagnóstico preliminar y especialidad sugerida.
-  4. Si la urgencia es **ALTA**:
-     * El sistema filtra las veterinarias disponibles con guardia 24h activa (`tiene_guardia_24h == True` y `esta_disponible() == True`).
-     * Calcula la distancia con `Veterinaria.calcular_distancia_km()` y selecciona la más cercana.
-     * Instancia `AlertaUrgencia` con tiempo estimado de arribo y estado `"EMITIDA"`.
-     * Ejecuta `alerta.transmitir()`, notificando al veterinario de guardia vía `ServicioNotificacion.despachar_whatsapp()`.
-     * El estado de la alerta cambia a `"NOTIFICADA"`.
-  5. Se retorna `TriajeResponse` al cliente con semáforo, primeros auxilios, clínica asignada y confirmación de alerta despachada.
-* **Flujo Alternativo (Contingencia de IA):**
-  * 3a. Si el LLM tiene timeout o no responde, se activa `modo_fallback = True` y se ejecuta `ejecutar_fallback()`, emitiendo una recomendación heurística sin interrumpir el flujo.
-
----
-
-## 📑 REPORTE DE ACTUALIZACIÓN TÉCNICA (NOTEBOOKLM EXPORT)
-
-| Requerimiento POO / UML | Estado | Archivo / Componente |
-| :--- | :---: | :--- |
-| **`Usuario`** (Username, fecha_registro, avatar, verificar_credenciales, cambiar_contrasena) | ✅ Implementado | [`models/usuarios.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/usuarios.py) |
-| **`Cliente`** (Dirección, latitud, longitud, teléfono, composición Mascota) | ✅ Implementado | [`models/usuarios.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/usuarios.py) |
-| **`UsuarioVeterinario`** (Matrícula, especialidad principal, asociación Veterinaria) | ✅ Implementado | [`models/usuarios.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/usuarios.py) |
-| **`Mascota`** (get_peso, set_peso > 0, calcular_edad_formateada, agregación HistorialClinico) | ✅ Implementado | [`models/mascotas.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/mascotas.py) |
-| **`Especie` y `Raza`** (Permiso SENASA, descripción, relaciones) | ✅ Implementado | [`models/mascotas.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/mascotas.py) |
-| **`HistorialClinico`** (id_registro, id_mascota, motivo, diagnóstico, tratamiento, firmante) | ✅ Implementado | [`models/mascotas.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/mascotas.py) |
-| **`Veterinaria`** (calcular_distancia_km Haversine en la clase, tiene_guardia_24h) | ✅ Implementado | [`models/veterinarias.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/veterinarias.py) |
-| **`ConsultaTriaje`** (ejecutar_triaje, diagnostico_preliminar, alerta_despachada) | ✅ Implementado | [`models/triaje.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/triaje.py) |
-| **`AsistenteIA`** (api_key, modelo Gemini, clasificar_urgencia, motor fallback) | ✅ Implementado | [`Services/asistente_ia.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/Services/asistente_ia.py) |
-| **`AlertaUrgencia`** (Máquina de estados EMITIDA->NOTIFICADA, tiempo arribo, transmitir) | ✅ Implementado | [`models/triaje.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/models/triaje.py) |
-| **`ServicioNotificacion`** (despachar_whatsapp) | ✅ Implementado | [`Services/notificador.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/Services/notificador.py) |
-| **Activación de Guardias 24h (Bug Fix)** | ✅ Corregido | [`routers/triaje.py`](file:///d:/TP%20DES/VetCercaIA-Backend/vetcerca-ia-backend-1/routers/triaje.py) |
+## 9. CONCLUSIONES Y TRABAJO FUTURO
+El proyecto unifica con éxito la rigurosidad estadística y predictiva de la Ciencia de Datos con las buenas prácticas de la Ingeniería de Software. La inclusión del cálculo de Haversine junto con la matriz de contingencia barrial resuelve el problema operativo de derivación nocturna, mientras que el clasificador supervisado y el asistente empático ofrecen una herramienta de triaje ágil, segura y con estricta adherencia a la ética veterinaria.
