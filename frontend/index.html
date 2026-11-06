@@ -31,7 +31,7 @@
       crossorigin=""
       defer
     ></script>
-    <script src="app.js" defer></script>
+    <script src="app.js?v=vet-login" defer></script>
   </head>
   <body class="landing-body">
     <header class="landing-header">
@@ -66,6 +66,16 @@
                 data-bs-target="#loginModal"
               >
                 Iniciar sesión / Registro
+              </button>
+            </li>
+            <li class="nav-item">
+              <button
+                class="btn btn-outline-teal btn-sm px-3"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#veterinaryLoginModal"
+              >
+                Acceso veterinario
               </button>
             </li>
           </ul>
@@ -310,6 +320,71 @@
               </div>
               <p id="loginMessage" class="small" role="status" aria-live="polite"></p>
               <button class="btn btn-coral w-100" type="submit">Iniciar sesión</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="veterinaryLoginModal"
+      class="modal fade"
+      tabindex="-1"
+      aria-labelledby="veterinaryLoginModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content login-modal">
+          <div class="modal-header border-0 pb-0">
+            <div>
+              <span class="eyebrow">PORTAL VETERINARIO</span>
+              <h2 id="veterinaryLoginModalLabel" class="modal-title h4 mt-2">
+                Acceso de veterinaria
+              </h2>
+            </div>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body pt-3">
+            <p class="text-secondary">
+              Ingresá con las credenciales de la cuenta veterinaria.
+            </p>
+            <form id="veterinaryLoginForm">
+              <div class="mb-3">
+                <label for="veterinaryUsername" class="form-label">Usuario</label>
+                <input
+                  id="veterinaryUsername"
+                  name="usuario"
+                  class="form-control"
+                  type="text"
+                  autocomplete="username"
+                  required
+                >
+              </div>
+              <div class="mb-3">
+                <label for="veterinaryPassword" class="form-label">Contraseña</label>
+                <input
+                  id="veterinaryPassword"
+                  name="password"
+                  class="form-control"
+                  type="password"
+                  autocomplete="current-password"
+                  required
+                >
+              </div>
+              <p
+                id="veterinaryLoginMessage"
+                class="small"
+                role="status"
+                aria-live="polite"
+              ></p>
+              <button class="btn btn-teal w-100" type="submit">
+                Ingresar al portal veterinario
+              </button>
             </form>
           </div>
         </div>
