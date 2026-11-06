@@ -50,9 +50,31 @@ thor = Mascota(
     Raza(2, "Ovejero Alemán", Especie(2, "Canino", es_exotico=False), descripcion="Canino de guardia y compañía"),
 )
 
+# Mascota de demostración para el usuario admin de clientes
+rocky = Mascota(
+    3,
+    "Rocky",
+    date(2021, 6, 20),
+    "Macho",
+    14.2,
+    Raza(3, "Beagle", Especie(2, "Canino", es_exotico=False), descripcion="Canino alegre y activo"),
+)
+rocky.agregar_historial(
+    HistorialClinico(
+        id_registro=3,
+        id_mascota=3,
+        fecha=date(2024, 10, 1),
+        motivo="Chequeo preventivo y triaje de control",
+        diagnostico="Paciente canino en óptimo estado de salud general.",
+        tratamiento="Control rutinario anual y desparasitación al día",
+        veterinario_firmante="Dr. Juan Carlos Vet (MP 7890)",
+    )
+)
+
 MASCOTAS_DB = [
     {"id_cliente": 1, "mascota": mimi},
     {"id_cliente": 2, "mascota": thor},
+    {"id_cliente": 3, "mascota": rocky},
 ]
 
 HISTORIALES_DB = {
@@ -71,7 +93,16 @@ HISTORIALES_DB = {
             "tratamiento": "Dieta blanda e hidratación",
             "veterinario": "Dra. Laura Martínez (MP 5890)",
         },
-    ]
+    ],
+    3: [
+        {
+            "fecha": "2024-10-01",
+            "motivo": "Chequeo preventivo y triaje de control",
+            "diagnostico": "Paciente canino en óptimo estado de salud general.",
+            "tratamiento": "Control rutinario anual y desparasitación al día",
+            "veterinario": "Dr. Juan Carlos Vet (MP 7890)",
+        }
+    ],
 }
 
 

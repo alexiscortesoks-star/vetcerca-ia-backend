@@ -29,6 +29,19 @@ VETERINARIA_DEMO = Veterinaria(
 VETERINARIA_DEMO.actualizar_estado_guardia("DEMO")
 
 CLIENTES_DB_OBJ: list[Cliente] = [
+    # Usuario admin de clientes solicitado para pruebas directas
+    Cliente(
+        id_usuario=3,
+        username="admin",
+        email="admin@vetcerca.com",
+        contrasena_hash="1234",
+        direccion="Av. Santa Fe 3200, Palermo, CABA",
+        latitud=-34.588,
+        longitud=-58.410,
+        telefono="1144445555",
+        nombre_apellido="Administrador Cliente",
+        avatar_url="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80",
+    ),
     Cliente(
         id_usuario=1,
         username="maria_g2024",
@@ -83,9 +96,44 @@ def cliente_tiene_sesion(id_cliente: int) -> bool:
 
 @router.post("/login", response_model=LoginUnificadoResponse)
 def iniciar_sesion(datos: LoginRequest) -> LoginUnificadoResponse:
-    """Autentica clientes o veterinarias desde el mismo formulario mediante POO."""
+    """
+    Autentica clientes o veterinarias desde el mismo formulario mediante POO.
+    Si se ingresa admin / 1234, inicia sesión como Cliente (tutor) por defecto.
+    Para acceder como veterinaria se puede ingresar como rol='veterinaria', 'admin_vet' o vía el endpoint veterinario.
+    """
     identificador = datos.usuario_o_email.strip().lower()
+    rol_solicitado = (getattr(datos, "rol", None) or "").strip().lower()
 
+    # Si se pide explícitamente rol veterinaria o usa los alias exclusivos de veterinaria:
+    if rol_solicitado == "veterinaria" or identificador in ["admin_vet", "veterinaria"]:
+        if datos.password == PASSWORD_VETERINARIA:
+            veterinaria = VETERINARIA_DEMO
+            token = secrets.token_urlsafe(32)
+            SESIONES_VETERINARIAS[token] = veterinaria.id_veterinaria
+            return LoginUnificadoResponse(
+                tipo_usuario="veterinaria",
+                mensaje="Inicio de sesión de veterinaria exitoso.",
+                id_veterinaria=veterinaria.id_veterinaria,
+                nombre_veterinaria=veterinaria.nombre_fantasia,
+                token_sesion=token,
+            )
+
+    # 1. Autenticación prioritaria como Cliente (incluyendo al usuario 'admin')
+    for cliente in CLIENTES_DB_OBJ:
+        if cliente.verificar_credenciales(datos.usuario_o_email, datos.password):
+            SESIONES_ACTIVAS.add(cliente.username)
+            return LoginUnificadoResponse(
+                tipo_usuario="cliente",
+                mensaje="Inicio de sesión exitoso como cliente.",
+                id_cliente=cliente.id_usuario,
+                username=cliente.username,
+                nombre_cliente=cliente.nombre_apellido,
+                email=cliente.email,
+                avatar_url=cliente.avatar_url or "https://ejemplo.com/avatars/maria.jpg",
+                token_sesion=f"token-sesion-{cliente.username}",
+            )
+
+    # 2. Acceso de fallback a Veterinaria si no coincide con cliente
     if (
         identificador == USUARIO_VETERINARIA.lower()
         and datos.password == PASSWORD_VETERINARIA
@@ -100,21 +148,6 @@ def iniciar_sesion(datos: LoginRequest) -> LoginUnificadoResponse:
             nombre_veterinaria=veterinaria.nombre_fantasia,
             token_sesion=token,
         )
-
-    # Autenticación de Cliente invocando el método de POO verificar_credenciales
-    for cliente in CLIENTES_DB_OBJ:
-        if cliente.verificar_credenciales(datos.usuario_o_email, datos.password):
-            SESIONES_ACTIVAS.add(cliente.username)
-            return LoginUnificadoResponse(
-                tipo_usuario="cliente",
-                mensaje="Inicio de sesión exitoso",
-                id_cliente=cliente.id_usuario,
-                username=cliente.username,
-                nombre_cliente=cliente.nombre_apellido,
-                email=cliente.email,
-                avatar_url=cliente.avatar_url or "https://ejemplo.com/avatars/maria.jpg",
-                token_sesion=f"token-sesion-{cliente.username}",
-            )
 
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -131,8 +164,9 @@ def iniciar_sesion_veterinaria(
     datos: LoginVeterinariaRequest,
 ) -> LoginVeterinariaResponse:
     """Inicia la sesión de demostración del portal veterinario."""
+    usuario_ingresado = datos.usuario.strip().lower()
     if (
-        datos.usuario.strip() != USUARIO_VETERINARIA
+        usuario_ingresado not in [USUARIO_VETERINARIA.lower(), "admin_vet", "veterinaria"]
         or datos.password != PASSWORD_VETERINARIA
     ):
         raise HTTPException(

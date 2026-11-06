@@ -6,12 +6,13 @@ from pydantic import BaseModel, Field
 class LoginRequest(BaseModel):
     usuario_o_email: str = Field(
         ...,
-        example="maria_g2024",
+        example="admin",
         description=(
             "Ingresá tu usuario de cliente, email o usuario de veterinaria."
         ),
     )
-    password: str = Field(..., example="123456")
+    password: str = Field(..., example="1234")
+    rol: Optional[str] = Field(default=None, example="cliente")
 
 
 class LoginResponse(BaseModel):
@@ -53,6 +54,6 @@ class PerfilVeterinariaResponse(BaseModel):
     id_veterinaria: int
     nombre: str
     direccion: str
-    telefono_guardia: str
+    telefono_guardia: Optional[str] = None
     es_24hs: bool
     estado_disponibilidad: str
