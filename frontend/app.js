@@ -15,7 +15,10 @@ let cargandoAlertasVeterinarias = false;
 async function leerRespuesta(response) {
   const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.detail || "No se pudo completar la solicitud.");
+    const detail = Array.isArray(data.detail)
+      ? data.detail.map((error) => error.msg).join(" ")
+      : data.detail;
+    throw new Error(detail || "No se pudo completar la solicitud.");
   }
   return data;
 }
@@ -43,6 +46,19 @@ async function iniciarSesion(usuarioOEmail, password) {
       }),
     });
     const data = await leerRespuesta(response);
+
+    if (data.tipo_usuario === "administrador") {
+      localStorage.removeItem("username");
+      localStorage.removeItem("id_cliente");
+      localStorage.removeItem("token");
+      localStorage.removeItem("vet_username");
+      localStorage.removeItem("vet_id");
+      localStorage.removeItem("vet_token");
+      localStorage.setItem("admin_username", usuarioOEmail);
+      localStorage.setItem("admin_token", data.token_sesion);
+      window.location.href = "admin-dashboard.html";
+      return;
+    }
 
     if (data.tipo_usuario === "veterinaria") {
       localStorage.removeItem("username");
@@ -73,32 +89,149 @@ async function iniciarSesion(usuarioOEmail, password) {
   }
 }
 
-async function iniciarSesionVeterinaria(usuario, password) {
-  const form = document.getElementById("veterinaryLoginForm");
+async function registrarUsuario(datosRegistro) {
+  const form = document.getElementById("registerForm");
   const submitButton = form?.querySelector("button[type='submit']");
-  const message = document.getElementById("veterinaryLoginMessage");
+  const message = document.getElementById("registerMessage");
   if (submitButton) submitButton.disabled = true;
 
   try {
-    const response = await fetch(`${API_URL}/auth/veterinaria/login`, {
+    const response = await fetch(`${API_URL}/auth/registro`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ usuario, password }),
+      body: JSON.stringify(datosRegistro),
     });
     const data = await leerRespuesta(response);
+    if (
+      data.tipo_usuario === "veterinaria" &&
+      data.estado_solicitud === "PENDIENTE"
+    ) {
+      mostrarMensaje(message, data.mensaje);
+      document.getElementById("registerPassword").value = "";
+      document.getElementById("registerPasswordConfirmation").value = "";
+      return;
+    }
+    if (data.tipo_usuario !== "cliente" || !data.username || !data.id_cliente) {
+      throw new Error("La respuesta de registro no contiene un perfil válido.");
+    }
 
-    localStorage.removeItem("username");
-    localStorage.removeItem("id_cliente");
-    localStorage.removeItem("token");
-    localStorage.setItem("vet_username", usuario);
-    localStorage.setItem("vet_id", String(data.id_veterinaria));
-    localStorage.setItem("vet_token", data.token_sesion);
-    window.location.href = "veterinaria-dashboard.html";
+    localStorage.setItem("username", data.username);
+    localStorage.setItem("id_cliente", String(data.id_cliente));
+    localStorage.setItem("token", data.token_sesion);
+    localStorage.removeItem("vet_username");
+    localStorage.removeItem("vet_id");
+    localStorage.removeItem("vet_token");
+    window.location.href = "dashboard.html";
   } catch (error) {
-    console.error("Error al iniciar sesión como veterinaria:", error);
+    console.error("Error al registrar el cliente:", error);
     mostrarMensaje(message, error.message, true);
   } finally {
     if (submitButton) submitButton.disabled = false;
+  }
+}
+
+async function solicitarAdministracion(path, method = "GET") {
+  const token = localStorage.getItem("admin_token");
+  if (!token) {
+    window.location.href = "index.html?acceso=unificado";
+    throw new Error("Iniciá sesión como administrador.");
+  }
+  const response = await fetch(`${API_URL}${path}`, {
+    method,
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (response.status === 401) {
+    localStorage.removeItem("admin_token");
+    localStorage.removeItem("admin_username");
+    window.location.href = "index.html?acceso=unificado";
+  }
+  return leerRespuesta(response);
+}
+
+function mostrarSolicitudVeterinaria(solicitud) {
+  const card = document.createElement("article");
+  card.className = "card p-3";
+  const heading = document.createElement("h3");
+  heading.className = "h5";
+  heading.textContent = solicitud.nombre_veterinaria;
+  const details = document.createElement("p");
+  details.className = "mb-3";
+  details.textContent = [
+    `Profesional: ${solicitud.nombre_apellido}`,
+    `Usuario: ${solicitud.username}`,
+    `Email: ${solicitud.email}`,
+    `Matrícula: ${solicitud.matricula_profesional}`,
+    `Especialidad: ${solicitud.especialidad_principal}`,
+    `Teléfono: ${solicitud.telefono || "No informado"}`,
+    `Dirección: ${solicitud.direccion_veterinaria}, ${solicitud.barrio}`,
+  ].join(" · ");
+
+  const actions = document.createElement("div");
+  actions.className = "d-flex gap-2";
+  for (const [accion, etiqueta, clase] of [
+    ["aprobar", "Aprobar", "btn btn-teal btn-sm"],
+    ["rechazar", "Rechazar", "btn btn-outline-danger btn-sm"],
+  ]) {
+    const button = document.createElement("button");
+    button.className = clase;
+    button.type = "button";
+    button.textContent = etiqueta;
+    button.addEventListener("click", async () => {
+      button.disabled = true;
+      try {
+        await solicitarAdministracion(
+          `/auth/administracion/solicitudes-veterinarias/${solicitud.id_veterinaria}/${accion}`,
+          "POST",
+        );
+        mostrarMensaje(
+          document.getElementById("adminRequestsMessage"),
+          `Solicitud ${accion === "aprobar" ? "aprobada" : "rechazada"}.`,
+        );
+        await cargarSolicitudesAdministrativas();
+      } catch (error) {
+        mostrarMensaje(
+          document.getElementById("adminRequestsMessage"),
+          error.message,
+          true,
+        );
+        button.disabled = false;
+      }
+    });
+    actions.append(button);
+  }
+
+  card.append(heading, details, actions);
+  return card;
+}
+
+async function cargarSolicitudesAdministrativas() {
+  try {
+    const solicitudes = await solicitarAdministracion(
+      "/auth/administracion/solicitudes-veterinarias",
+    );
+    const list = document.getElementById("adminRequestsList");
+    list.replaceChildren();
+    if (!solicitudes.length) {
+      mostrarMensaje(
+        document.getElementById("adminRequestsMessage"),
+        "No hay solicitudes pendientes.",
+      );
+      return;
+    }
+    mostrarMensaje(
+      document.getElementById("adminRequestsMessage"),
+      `${solicitudes.length} solicitud(es) pendiente(s).`,
+    );
+    for (const solicitud of solicitudes) {
+      list.append(mostrarSolicitudVeterinaria(solicitud));
+    }
+  } catch (error) {
+    console.error("Error al cargar las solicitudes veterinarias:", error);
+    mostrarMensaje(
+      document.getElementById("adminRequestsMessage"),
+      error.message,
+      true,
+    );
   }
 }
 
@@ -1576,36 +1709,106 @@ function cerrarSesion() {
   localStorage.removeItem("vet_username");
   localStorage.removeItem("vet_id");
   localStorage.removeItem("vet_token");
+  localStorage.removeItem("admin_username");
+  localStorage.removeItem("admin_token");
   window.location.href = "index.html";
 }
 
 function inicializarAplicacion() {
   cargarClinicasCercanas();
   const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
+  const loginModalTitle = document.getElementById("loginModalLabel");
+  const loginIntro = document.getElementById("loginIntro");
+  const camposVeterinarios = document.getElementById(
+    "veterinaryRegistrationFields",
+  );
+  const actualizarCamposVeterinarios = () => {
+    const esVeterinaria =
+      registerForm?.querySelector("input[name='rol']:checked")?.value ===
+      "veterinaria";
+    camposVeterinarios?.classList.toggle("d-none", !esVeterinaria);
+    camposVeterinarios
+      ?.querySelectorAll("input")
+      .forEach((input) => {
+        input.disabled = !esVeterinaria;
+        input.required = esVeterinaria;
+      });
+    if (esVeterinaria) {
+      loginIntro.textContent =
+        "Completá los datos profesionales. El acceso quedará pendiente de aprobación.";
+    } else if (registerForm && !registerForm.classList.contains("d-none")) {
+      loginIntro.textContent =
+        "Registrate como cliente para cuidar el perfil de tus mascotas.";
+    }
+  };
+  const mostrarFormularioRegistro = (mostrarRegistro) => {
+    loginForm?.classList.toggle("d-none", mostrarRegistro);
+    registerForm?.classList.toggle("d-none", !mostrarRegistro);
+    loginModalTitle.textContent = mostrarRegistro ? "Crear cuenta" : "Bienvenido/a";
+    loginIntro.textContent = mostrarRegistro
+      ? "Elegí si vas a registrarte como cliente o como veterinario/a."
+      : "Ingresá con tu cuenta de cliente o veterinaria para continuar.";
+    mostrarMensaje(document.getElementById("loginMessage"), "");
+    mostrarMensaje(document.getElementById("registerMessage"), "");
+    actualizarCamposVeterinarios();
+  };
+  registerForm
+    ?.querySelectorAll("input[name='rol']")
+    .forEach((radio) =>
+      radio.addEventListener("change", actualizarCamposVeterinarios),
+    );
+  document
+    .getElementById("showRegisterForm")
+    ?.addEventListener("click", () => mostrarFormularioRegistro(true));
+  document
+    .getElementById("showLoginForm")
+    ?.addEventListener("click", () => mostrarFormularioRegistro(false));
+
   loginForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
     const form = new FormData(loginForm);
     await iniciarSesion(form.get("usuario_o_email"), form.get("password"));
   });
 
-  const veterinaryLoginForm = document.getElementById("veterinaryLoginForm");
-  veterinaryLoginForm?.addEventListener("submit", async (event) => {
+  registerForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const form = new FormData(veterinaryLoginForm);
-    await iniciarSesionVeterinaria(form.get("usuario"), form.get("password"));
+    const form = new FormData(registerForm);
+    const password = form.get("password");
+    const passwordConfirmation = document.getElementById(
+      "registerPasswordConfirmation",
+    ).value;
+    const message = document.getElementById("registerMessage");
+    if (password !== passwordConfirmation) {
+      mostrarMensaje(message, "Las contraseñas no coinciden.", true);
+      return;
+    }
+
+    const datosRegistro = Object.fromEntries(form.entries());
+    delete datosRegistro.passwordConfirmation;
+    await registrarUsuario({ ...datosRegistro, password });
   });
 
-  if (loginForm || veterinaryLoginForm) {
+  if (loginForm) {
     const acceso = new URLSearchParams(window.location.search).get("acceso");
     if (acceso === "unificado") {
       bootstrap.Modal.getOrCreateInstance(
         document.getElementById("loginModal"),
       ).show();
-    } else if (acceso === "veterinaria" && veterinaryLoginForm) {
-      bootstrap.Modal.getOrCreateInstance(
-        document.getElementById("veterinaryLoginModal"),
-      ).show();
     }
+  }
+
+  if (document.getElementById("adminDashboard")) {
+    const adminToken = localStorage.getItem("admin_token");
+    if (!adminToken) {
+      window.location.href = "index.html?acceso=unificado";
+      return;
+    }
+    document.getElementById("adminWelcome").textContent =
+      `Hola, ${localStorage.getItem("admin_username") || "administrador"}`;
+    document.getElementById("adminLogoutButton")
+      ?.addEventListener("click", cerrarSesion);
+    cargarSolicitudesAdministrativas();
   }
 
   if (document.getElementById("veterinaryDashboard")) {

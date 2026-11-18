@@ -50,7 +50,7 @@ thor = Mascota(
     Raza(2, "Ovejero Alemán", Especie(2, "Canino", es_exotico=False), descripcion="Canino de guardia y compañía"),
 )
 
-# Mascota de demostración para el usuario admin de clientes
+# Mascota de demostración para el cliente demo
 rocky = Mascota(
     3,
     "Rocky",

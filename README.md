@@ -330,6 +330,18 @@ python -m http.server 5500 --directory frontend
 ```
 * Acceder a la plataforma desde el navegador en: `http://127.0.0.1:5500`
 
+El formulario unificado permite iniciar sesión como cliente, veterinaria o
+administrador. Para crear una cuenta, elegí **Registrarse** y seleccioná un único
+rol: cliente o veterinaria. Las cuentas de clientes se activan al registrarse;
+las solicitudes veterinarias requieren aprobación desde el panel administrativo.
+Las cuentas nuevas se guardan localmente en `data/usuarios.db` y sus contraseñas
+se almacenan con hash; este archivo no se incluye en Git.
+
+Credenciales locales de demostración:
+* Cliente con mascota de ejemplo Rocky: `demo` / `1234`
+* Administración: `admin` / `1234`
+* Veterinaria demo: `admin_vet` / `1234`
+
 ---
 
 ## 9. CONCLUSIONES Y TRABAJO FUTURO

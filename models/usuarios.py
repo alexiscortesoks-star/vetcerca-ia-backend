@@ -1,6 +1,46 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
+import hashlib
+import hmac
+import secrets
 from typing import List, Optional
+
+
+_ITERACIONES_HASH_CONTRASENA = 600_000
+
+
+def hashear_contrasena(contrasena: str) -> str:
+    sal = secrets.token_bytes(16)
+    digest = hashlib.pbkdf2_hmac(
+        "sha256",
+        contrasena.encode("utf-8"),
+        sal,
+        _ITERACIONES_HASH_CONTRASENA,
+    )
+    return (
+        f"pbkdf2_sha256${_ITERACIONES_HASH_CONTRASENA}"
+        f"${sal.hex()}${digest.hex()}"
+    )
+
+
+def verificar_contrasena(contrasena: str, hash_almacenado: str) -> bool:
+    if not hash_almacenado.startswith("pbkdf2_sha256$"):
+        return hmac.compare_digest(hash_almacenado, contrasena)
+
+    try:
+        algoritmo, iteraciones, sal_hex, digest_esperado = hash_almacenado.split("$")
+        if algoritmo != "pbkdf2_sha256":
+            return False
+        digest_actual = hashlib.pbkdf2_hmac(
+            "sha256",
+            contrasena.encode("utf-8"),
+            bytes.fromhex(sal_hex),
+            int(iteraciones),
+        ).hex()
+    except (TypeError, ValueError):
+        return False
+
+    return hmac.compare_digest(digest_esperado, digest_actual)
 
 
 class Usuario(ABC):
@@ -65,7 +105,9 @@ class Usuario(ABC):
         coincide_identificador = (
             usuario_o_email.strip().lower() in (self._username.lower(), self._email.lower())
         )
-        return coincide_identificador and self._contrasena_hash == password
+        return coincide_identificador and verificar_contrasena(
+            password, self._contrasena_hash
+        )
 
     def cambiar_contrasena(self, nueva_contrasena: str) -> None:
         """Actualiza la contraseña hash del usuario."""
@@ -75,7 +117,7 @@ class Usuario(ABC):
 
     # Alias de compatibilidad
     def autenticar(self, password: str) -> bool:
-        return self._contrasena_hash == password
+        return verificar_contrasena(password, self._contrasena_hash)
 
 
 class Cliente(Usuario):

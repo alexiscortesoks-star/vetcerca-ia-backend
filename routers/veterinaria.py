@@ -10,7 +10,11 @@ from Services.alertas_veterinaria import (
     registrar_alerta_veterinaria,
 )
 from models.mascotas import HistorialClinico
-from routers.auth import SESIONES_VETERINARIAS, USUARIOS_DB, VETERINARIA_DEMO
+from routers.auth import (
+    SESIONES_VETERINARIAS,
+    USUARIOS_DB,
+    obtener_veterinaria_por_id,
+)
 from routers.mascotas import HISTORIALES_DB, MASCOTAS_DB
 from schemas.veterinaria import EstadoAlertaRequest, EvolucionClinicaRequest
 
@@ -117,6 +121,12 @@ def simular_alerta_veterinaria(
     authorization: Optional[str] = Header(default=None),
 ) -> dict[str, Any]:
     id_veterinaria = _obtener_id_veterinaria(authorization)
+    veterinaria = obtener_veterinaria_por_id(id_veterinaria)
+    if veterinaria is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No se encontró el perfil de la veterinaria.",
+        )
     item_mascota = next(
         (
             item
@@ -172,9 +182,9 @@ def simular_alerta_veterinaria(
             "telefono": cliente.telefono,
         },
         "veterinaria": {
-            "nombre": VETERINARIA_DEMO.nombre_fantasia,
-            "direccion": VETERINARIA_DEMO.direccion,
-            "telefono": VETERINARIA_DEMO.telefono_guardia,
+            "nombre": veterinaria.nombre_fantasia,
+            "direccion": veterinaria.direccion,
+            "telefono": veterinaria.telefono_guardia,
         },
     }
     registrar_alerta_veterinaria(alerta, mascota)
@@ -236,6 +246,12 @@ def agregar_evolucion_alerta(
     id_veterinaria = _obtener_id_veterinaria(authorization)
     alerta = _obtener_alerta_veterinaria(id_alerta, id_veterinaria)
     mascota = _obtener_mascota(id_alerta, alerta["id_mascota"])
+    veterinaria = obtener_veterinaria_por_id(id_veterinaria)
+    if veterinaria is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No se encontró el perfil de la veterinaria.",
+        )
 
     registros = getattr(mascota, "_historial_clinico", [])
     nuevo_id = max(
@@ -249,9 +265,9 @@ def agregar_evolucion_alerta(
         motivo=datos.motivo,
         diagnostico=datos.diagnostico,
         tratamiento=datos.tratamiento,
-        veterinario_firmante=VETERINARIA_DEMO.nombre_fantasia,
+        veterinario_firmante=veterinaria.nombre_fantasia,
         observaciones=datos.observaciones,
-        veterinaria_emisora=VETERINARIA_DEMO,
+        veterinaria_emisora=veterinaria,
     )
     mascota.agregar_historial(registro)
     if any(item["mascota"] is mascota for item in MASCOTAS_DB):

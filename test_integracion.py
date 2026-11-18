@@ -8,9 +8,16 @@ from fastapi.testclient import TestClient
 
 from Services.asistente_ia import InterpretacionSintoma
 from app import app
+from models.usuarios import verificar_contrasena
+from routers import auth as auth_router
 from routers import triaje as triaje_router
-from routers.auth import SESIONES_ACTIVAS
+from routers.auth import (
+    SESIONES_ACTIVAS,
+    SESIONES_ADMINISTRADORES,
+    SESIONES_VETERINARIAS,
+)
 from utils.geo import calcular_distancia_haversine
+from utils import usuarios_store
 
 USUARIO_CLIENTE = "maria_g2024"
 PASSWORD_CLIENTE = "123456"
@@ -23,6 +30,7 @@ def client() -> Iterator[TestClient]:
         yield api_client
     finally:
         SESIONES_ACTIVAS.discard(USUARIO_CLIENTE)
+        SESIONES_ACTIVAS.discard("demo")
         api_client.close()
 
 
@@ -59,6 +67,189 @@ def test_login_credenciales(client: TestClient) -> None:
         },
     )
     assert response_invalido.status_code == 401
+
+
+def test_cliente_demo_con_mascota_y_login_admin(client: TestClient) -> None:
+    response_cliente = client.post(
+        "/auth/login",
+        json={"usuario_o_email": "demo", "password": "1234"},
+    )
+    assert response_cliente.status_code == 200
+    assert response_cliente.json()["tipo_usuario"] == "cliente"
+    assert response_cliente.json()["id_cliente"] == 3
+
+    mascotas = client.get("/mascotas/cliente/demo")
+    assert mascotas.status_code == 200
+    assert any(item["nombre"] == "Rocky" for item in mascotas.json())
+
+    response_admin = client.post(
+        "/auth/login",
+        json={"usuario_o_email": "admin", "password": "1234"},
+    )
+    assert response_admin.status_code == 200
+    assert response_admin.json()["tipo_usuario"] == "administrador"
+    SESIONES_ADMINISTRADORES.discard(response_admin.json()["token_sesion"])
+
+
+def test_registro_cliente_y_login(
+    client: TestClient,
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path,
+) -> None:
+    monkeypatch.setattr(
+        usuarios_store,
+        "DATABASE_PATH",
+        tmp_path / "usuarios.db",
+    )
+    username = f"alta_{uuid4().hex[:8]}"
+    nombre = f"Usuario {username}"
+    email = f"{username}@example.com"
+    password = "ClaveSegura123"
+    payload = {
+        "rol": "cliente",
+        "nombre_apellido": nombre,
+        "username": username,
+        "email": email,
+        "password": password,
+        "telefono": "",
+    }
+    cliente_creado = None
+
+    try:
+        response_registro = client.post("/auth/registro", json=payload)
+
+        assert response_registro.status_code == 201
+        cuenta = response_registro.json()
+        assert cuenta["tipo_usuario"] == "cliente"
+        assert cuenta["username"] == username
+        cliente_creado = next(
+            cliente
+            for cliente in auth_router.CLIENTES_DB_OBJ
+            if cliente.username == username
+        )
+        assert cliente_creado.contrasena_hash != password
+        assert verificar_contrasena(password, cliente_creado.contrasena_hash)
+        persistidos = usuarios_store.cargar_clientes_registrados()
+        assert any(
+            registro["username"] == username
+            and registro["password_hash"] == cliente_creado.contrasena_hash
+            for registro in persistidos
+        )
+
+        response_duplicado = client.post("/auth/registro", json=payload)
+        assert response_duplicado.status_code == 409
+
+        response_login = client.post(
+            "/auth/login",
+            json={"usuario_o_email": email, "password": password},
+        )
+        assert response_login.status_code == 200
+        assert response_login.json()["username"] == username
+    finally:
+        if cliente_creado:
+            auth_router.CLIENTES_DB_OBJ.remove(cliente_creado)
+            auth_router.USUARIOS_DB[:] = [
+                usuario
+                for usuario in auth_router.USUARIOS_DB
+                if usuario["username"] != username
+            ]
+            SESIONES_ACTIVAS.discard(username)
+
+
+def test_alta_y_aprobacion_veterinaria(
+    client: TestClient,
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path,
+) -> None:
+    monkeypatch.setattr(
+        usuarios_store,
+        "DATABASE_PATH",
+        tmp_path / "usuarios.db",
+    )
+    username = f"vet_{uuid4().hex[:8]}"
+    email = f"{username}@example.com"
+    password = "ClaveVeterinaria123"
+    payload = {
+        "rol": "veterinaria",
+        "nombre_apellido": "Profesional de prueba",
+        "username": username,
+        "email": email,
+        "password": password,
+        "telefono": "1100000000",
+        "matricula_profesional": "MP-12345",
+        "especialidad_principal": "Clínica médica",
+        "nombre_veterinaria": "Clínica de prueba",
+        "direccion_veterinaria": "Av. Siempre Viva 123",
+        "barrio": "Palermo",
+    }
+    id_veterinaria = None
+    token_admin = None
+    token_veterinaria = None
+
+    try:
+        response_registro = client.post("/auth/registro", json=payload)
+        assert response_registro.status_code == 201
+        assert response_registro.json()["estado_solicitud"] == "PENDIENTE"
+        id_veterinaria = next(
+            solicitud["id_veterinaria"]
+            for solicitud in auth_router.SOLICITUDES_VETERINARIAS
+            if solicitud["username"] == username
+        )
+
+        response_login_pendiente = client.post(
+            "/auth/login",
+            json={"usuario_o_email": username, "password": password},
+        )
+        assert response_login_pendiente.status_code == 403
+
+        response_admin = client.post(
+            "/auth/login",
+            json={"usuario_o_email": "admin", "password": "1234"},
+        )
+        assert response_admin.status_code == 200
+        token_admin = response_admin.json()["token_sesion"]
+        headers_admin = {"Authorization": f"Bearer {token_admin}"}
+
+        response_listado = client.get(
+            "/auth/administracion/solicitudes-veterinarias",
+            headers=headers_admin,
+        )
+        assert response_listado.status_code == 200
+        assert any(
+            item["username"] == username for item in response_listado.json()
+        )
+        assert "password_hash" not in response_listado.json()[0]
+
+        response_aprobacion = client.post(
+            f"/auth/administracion/solicitudes-veterinarias/{id_veterinaria}/aprobar",
+            headers=headers_admin,
+        )
+        assert response_aprobacion.status_code == 200
+
+        response_login_veterinaria = client.post(
+            "/auth/login",
+            json={"usuario_o_email": email, "password": password},
+        )
+        assert response_login_veterinaria.status_code == 200
+        token_veterinaria = response_login_veterinaria.json()["token_sesion"]
+        response_perfil = client.get(
+            "/auth/veterinaria/perfil",
+            headers={"Authorization": f"Bearer {token_veterinaria}"},
+        )
+        assert response_perfil.status_code == 200
+        assert response_perfil.json()["nombre"] == "Clínica de prueba"
+    finally:
+        if id_veterinaria is not None:
+            auth_router.SOLICITUDES_VETERINARIAS[:] = [
+                solicitud
+                for solicitud in auth_router.SOLICITUDES_VETERINARIAS
+                if solicitud["id_veterinaria"] != id_veterinaria
+            ]
+            auth_router.VETERINARIAS_REGISTRADAS.pop(id_veterinaria, None)
+        if token_admin:
+            SESIONES_ADMINISTRADORES.discard(token_admin)
+        if token_veterinaria:
+            SESIONES_VETERINARIAS.pop(token_veterinaria, None)
 
 
 def test_gestion_mascotas(client: TestClient) -> None:

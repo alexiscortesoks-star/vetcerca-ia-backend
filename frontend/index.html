@@ -31,7 +31,7 @@
       crossorigin=""
       defer
     ></script>
-    <script src="app.js?v=vet-login" defer></script>
+    <script src="app.js?v=registro-unificado" defer></script>
   </head>
   <body class="landing-body">
     <header class="landing-header">
@@ -66,16 +66,6 @@
                 data-bs-target="#loginModal"
               >
                 Iniciar sesión / Registro
-              </button>
-            </li>
-            <li class="nav-item">
-              <button
-                class="btn btn-outline-teal btn-sm px-3"
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#veterinaryLoginModal"
-              >
-                Acceso veterinario
               </button>
             </li>
           </ul>
@@ -293,7 +283,9 @@
           </div>
           <div class="modal-body pt-3">
             <p class="text-secondary">
-              Ingresá con tu cuenta de cliente o veterinaria para continuar.
+              <span id="loginIntro">
+                Ingresá con tu cuenta de cliente o veterinaria para continuar.
+              </span>
             </p>
             <form id="loginForm">
               <div class="mb-3">
@@ -320,75 +312,200 @@
               </div>
               <p id="loginMessage" class="small" role="status" aria-live="polite"></p>
               <button class="btn btn-coral w-100" type="submit">Iniciar sesión</button>
+              <button
+                id="showRegisterForm"
+                class="btn btn-link w-100 mt-2"
+                type="button"
+              >
+                ¿No tenés cuenta? Registrate
+              </button>
             </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div
-      id="veterinaryLoginModal"
-      class="modal fade"
-      tabindex="-1"
-      aria-labelledby="veterinaryLoginModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content login-modal">
-          <div class="modal-header border-0 pb-0">
-            <div>
-              <span class="eyebrow">PORTAL VETERINARIO</span>
-              <h2 id="veterinaryLoginModalLabel" class="modal-title h4 mt-2">
-                Acceso de veterinaria
-              </h2>
-            </div>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Cerrar"
-            ></button>
-          </div>
-          <div class="modal-body pt-3">
-            <p class="text-secondary">
-              Ingresá con las credenciales de la cuenta veterinaria.
-            </p>
-            <form id="veterinaryLoginForm">
+            <form id="registerForm" class="d-none">
+              <fieldset class="mb-3">
+                <legend class="form-label fs-6">Tipo de cuenta</legend>
+                <div class="form-check">
+                  <input
+                    id="registerRoleClient"
+                    class="form-check-input"
+                    type="radio"
+                    name="rol"
+                    value="cliente"
+                    checked
+                    required
+                  >
+                  <label class="form-check-label" for="registerRoleClient">
+                    Soy cliente
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    id="registerRoleVet"
+                    class="form-check-input"
+                    type="radio"
+                    name="rol"
+                    value="veterinaria"
+                  >
+                  <label class="form-check-label" for="registerRoleVet">
+                    Soy veterinario/a
+                  </label>
+                </div>
+              </fieldset>
               <div class="mb-3">
-                <label for="veterinaryUsername" class="form-label">Usuario</label>
+                <label for="registerName" class="form-label">Nombre y apellido</label>
                 <input
-                  id="veterinaryUsername"
-                  name="usuario"
+                  id="registerName"
+                  name="nombre_apellido"
+                  class="form-control"
+                  type="text"
+                  autocomplete="name"
+                  minlength="2"
+                  maxlength="100"
+                  required
+                >
+              </div>
+              <div class="mb-3">
+                <label for="registerUsername" class="form-label">Usuario</label>
+                <input
+                  id="registerUsername"
+                  name="username"
                   class="form-control"
                   type="text"
                   autocomplete="username"
+                  pattern="[A-Za-z0-9_.-]{3,32}"
+                  title="Usá de 3 a 32 letras, números, puntos, guiones o guiones bajos."
                   required
                 >
               </div>
               <div class="mb-3">
-                <label for="veterinaryPassword" class="form-label">Contraseña</label>
+                <label for="registerEmail" class="form-label">Email</label>
                 <input
-                  id="veterinaryPassword"
-                  name="password"
+                  id="registerEmail"
+                  name="email"
                   class="form-control"
-                  type="password"
-                  autocomplete="current-password"
+                  type="email"
+                  autocomplete="email"
                   required
                 >
               </div>
-              <p
-                id="veterinaryLoginMessage"
-                class="small"
-                role="status"
-                aria-live="polite"
-              ></p>
-              <button class="btn btn-teal w-100" type="submit">
-                Ingresar al portal veterinario
+              <div class="mb-3">
+                <label for="registerPhone" class="form-label">Teléfono (opcional)</label>
+                <input
+                  id="registerPhone"
+                  name="telefono"
+                  class="form-control"
+                  type="tel"
+                  autocomplete="tel"
+                  maxlength="30"
+                >
+              </div>
+              <div id="veterinaryRegistrationFields" class="d-none">
+                <div class="mb-3">
+                  <label for="registerLicense" class="form-label">
+                    Matrícula profesional
+                  </label>
+                  <input
+                    id="registerLicense"
+                    name="matricula_profesional"
+                    class="form-control"
+                    type="text"
+                    maxlength="50"
+                    disabled
+                  >
+                </div>
+                <div class="mb-3">
+                  <label for="registerSpecialty" class="form-label">
+                    Especialidad principal
+                  </label>
+                  <input
+                    id="registerSpecialty"
+                    name="especialidad_principal"
+                    class="form-control"
+                    type="text"
+                    maxlength="100"
+                    disabled
+                  >
+                </div>
+                <div class="mb-3">
+                  <label for="registerClinic" class="form-label">
+                    Nombre de la veterinaria
+                  </label>
+                  <input
+                    id="registerClinic"
+                    name="nombre_veterinaria"
+                    class="form-control"
+                    type="text"
+                    maxlength="120"
+                    disabled
+                  >
+                </div>
+                <div class="mb-3">
+                  <label for="registerClinicAddress" class="form-label">
+                    Dirección de la veterinaria
+                  </label>
+                  <input
+                    id="registerClinicAddress"
+                    name="direccion_veterinaria"
+                    class="form-control"
+                    type="text"
+                    autocomplete="street-address"
+                    maxlength="200"
+                    disabled
+                  >
+                </div>
+                <div class="mb-3">
+                  <label for="registerClinicNeighborhood" class="form-label">Barrio</label>
+                  <input
+                    id="registerClinicNeighborhood"
+                    name="barrio"
+                    class="form-control"
+                    type="text"
+                    autocomplete="address-level2"
+                    maxlength="80"
+                    disabled
+                  >
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="registerPassword" class="form-label">Contraseña</label>
+                <input
+                  id="registerPassword"
+                  name="password"
+                  class="form-control"
+                  type="password"
+                  autocomplete="new-password"
+                  minlength="8"
+                  maxlength="128"
+                  required
+                >
+              </div>
+              <div class="mb-3">
+                <label for="registerPasswordConfirmation" class="form-label">
+                  Confirmar contraseña
+                </label>
+                <input
+                  id="registerPasswordConfirmation"
+                  class="form-control"
+                  type="password"
+                  autocomplete="new-password"
+                  minlength="8"
+                  maxlength="128"
+                  required
+                >
+              </div>
+              <p id="registerMessage" class="small" role="status" aria-live="polite"></p>
+              <button class="btn btn-coral w-100" type="submit">Crear cuenta</button>
+              <button
+                id="showLoginForm"
+                class="btn btn-link w-100 mt-2"
+                type="button"
+              >
+                Ya tengo una cuenta
               </button>
             </form>
           </div>
         </div>
       </div>
     </div>
+
   </body>
 </html>
