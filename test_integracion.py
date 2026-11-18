@@ -13,6 +13,16 @@ from routers.triaje import (
     consultar_clustering_zonas,
 )
 from schemas.triaje import TriajeRequest
+from routers.auth import SESIONES_VETERINARIAS, VETERINARIA_DEMO
+from routers.veterinaria import (
+    agregar_evolucion_alerta,
+    actualizar_estado_alerta,
+    listar_alertas_veterinaria,
+    listar_historial_alertas_veterinaria,
+    obtener_historia_alerta,
+    simular_alerta_veterinaria,
+)
+from schemas.veterinaria import EstadoAlertaRequest, EvolucionClinicaRequest
 
 def run_tests():
     print("--- 1. Probando Endpoint Raíz ---")
@@ -43,6 +53,66 @@ def run_tests():
         print(f"  Barrio derivación: {res_critico.barrio_derivacion}")
     print(f"  Alerta despachada en tiempo real: {res_critico.alerta_despachada}")
     print(f"  Primeros auxilios: {res_critico.primeros_auxilios[:90]}...")
+
+    SESIONES_VETERINARIAS["token-integracion-vet"] = VETERINARIA_DEMO.id_veterinaria
+    alertas_veterinarias = listar_alertas_veterinaria(
+        authorization="Bearer token-integracion-vet"
+    )
+    alerta_veterinaria = alertas_veterinarias[0]
+    assert alerta_veterinaria["mascota"]["nombre"] == "Thor"
+    assert alerta_veterinaria["nivel_urgencia"] == "Emergencia Crítica"
+    assert alerta_veterinaria["tiempo_estimado_arribo_min"] > 0
+    historia_inicial = obtener_historia_alerta(
+        alerta_veterinaria["id_alerta"],
+        authorization="Bearer token-integracion-vet",
+    )
+    registro_evolucion = agregar_evolucion_alerta(
+        alerta_veterinaria["id_alerta"],
+        EvolucionClinicaRequest(
+            motivo="Atención inicial de urgencia",
+            diagnostico="Paciente evaluado en guardia.",
+            tratamiento="Evaluación y estabilización veterinaria.",
+            observaciones="Registro de prueba de integración.",
+        ),
+        authorization="Bearer token-integracion-vet",
+    )
+    historia_actualizada = obtener_historia_alerta(
+        alerta_veterinaria["id_alerta"],
+        authorization="Bearer token-integracion-vet",
+    )
+    assert len(historia_actualizada["historial"]) == (
+        historia_inicial["total_atenciones"] + 1
+    )
+    assert registro_evolucion["motivo"] == "Atención inicial de urgencia"
+    estado_actualizado = actualizar_estado_alerta(
+        alerta_veterinaria["id_alerta"],
+        EstadoAlertaRequest(estado="EN_ATENCION"),
+        authorization="Bearer token-integracion-vet",
+    )
+    assert estado_actualizado["estado"] == "EN_ATENCION"
+    alerta_resuelta = actualizar_estado_alerta(
+        alerta_veterinaria["id_alerta"],
+        EstadoAlertaRequest(estado="RESUELTA"),
+        authorization="Bearer token-integracion-vet",
+    )
+    alertas_activas = listar_alertas_veterinaria(
+        authorization="Bearer token-integracion-vet"
+    )
+    historial_alertas = listar_historial_alertas_veterinaria(
+        authorization="Bearer token-integracion-vet"
+    )
+    assert alerta_resuelta["estado"] == "RESUELTA"
+    assert all(
+        alerta["id_alerta"] != alerta_veterinaria["id_alerta"]
+        for alerta in alertas_activas
+    )
+    assert historial_alertas[0]["id_alerta"] == alerta_veterinaria["id_alerta"]
+    alerta_simulada = simular_alerta_veterinaria(
+        authorization="Bearer token-integracion-vet"
+    )
+    assert alerta_simulada["es_demostracion"] is True
+    assert alerta_simulada["estado"] == "RECIBIDA"
+    print("OK: el portal veterinario lista, actualiza y agrega evoluciones a una alerta.")
 
     print("\n--- 3. Probando Evaluación de Triaje (Caso Leve / Baja) ---")
     req_leve = TriajeRequest(
@@ -78,7 +148,31 @@ def run_tests():
     assert res_no_reconocido.alerta_despachada is False
     print(f"OK: {res_no_reconocido.nivel_urgencia}; no se despachó alerta.")
 
-    print("\n--- 5. Probando datos clínicos incompletos ---")
+    resultado_sin_respuesta = asistente_router.clasificar_urgencia(
+        sintomas="esta decaido y no responde",
+        especie="Canino",
+        tiempo_evolucion_hs=2.0,
+        estado_conciencia="Estuporoso/Comatoso",
+        presencia_hemorragia=0,
+    )
+    assert resultado_sin_respuesta["nivel_urgencia"] == "Emergencia Crítica"
+    print("OK: pérdida de conciencia reportada activa orientación crítica aunque el síntoma sea libre.")
+
+    print("\n--- 5. Priorizando sangrado abundante con texto no reconocido ---")
+    req_sangrado_no_reconocido = TriajeRequest(
+        nombre_mascota="Rocky",
+        sintomas="asadas",
+        tiempo_evolucion_hs=2.0,
+        estado_conciencia="Deprimido",
+        presencia_hemorragia=1,
+    )
+    with patch.object(asistente_router, "api_key", ""):
+        res_sangrado = evaluar_triaje(req_sangrado_no_reconocido)
+    assert res_sangrado.nivel_urgencia == "Emergencia Crítica"
+    assert res_sangrado.alerta_despachada is True
+    print("OK: el dato de sangrado abundante activa emergencia aunque el texto no se reconozca.")
+
+    print("\n--- 6. Probando datos clínicos incompletos ---")
     req_incompleto = TriajeRequest(
         nombre_mascota="Firulais",
         sintoma_principal="Prurito y rascado auricular leve",
@@ -89,7 +183,70 @@ def run_tests():
     assert res_incompleto.alerta_despachada is False
     print(f"OK: {res_incompleto.nivel_urgencia} si faltan datos clínicos.")
 
-    print("\n--- 6. Probando interpretación Gemini sin llamada externa ---")
+    print("\n--- 7. Probando aclaración conversacional de un error tipográfico ---")
+    asistente_chat = AsistenteIA(api_key="")
+    with patch.object(asistente_chat, "api_key", ""):
+        resultado_error = asistente_chat.clasificar_urgencia(
+            sintomas="Sanngra",
+            especie="Canino",
+            tiempo_evolucion_hs=0.5,
+            estado_conciencia="Alerta",
+            presencia_hemorragia=0,
+        )
+    assert resultado_error["nivel_urgencia"] == "No concluyente"
+    assert "sangrado" in resultado_error["pregunta_aclaratoria"].lower()
+    assert "guardia" in resultado_error["pregunta_aclaratoria"].lower()
+
+    asistente_chat.modo_fallback = True
+    resultado_aclarado = asistente_chat.clasificar_urgencia(
+        sintomas="Sanngra. Aclaración del tutor: sí, sangra mucho y no para",
+        especie="Canino",
+        tiempo_evolucion_hs=0.5,
+        estado_conciencia="Alerta",
+        presencia_hemorragia=0,
+    )
+    assert resultado_aclarado["nivel_urgencia"] == "Emergencia Crítica"
+    print("OK: sugiere confirmar el síntoma y reconoce sangrado abundante como emergencia.")
+
+    resultado_sin_sintomas = asistente_chat.clasificar_urgencia(
+        sintomas="esta bien",
+        especie="Canino",
+        tiempo_evolucion_hs=2.0,
+        estado_conciencia="Alerta",
+        presencia_hemorragia=0,
+    )
+    assert resultado_sin_sintomas["nivel_urgencia"] == "No concluyente"
+    assert resultado_sin_sintomas["confianza"] == 0.0
+    print("OK: una expresión sin síntomas no se clasifica como emergencia.")
+
+    resultado_alergia_cutanea = asistente_chat.clasificar_urgencia(
+        sintomas="alergia en la piel",
+        especie="Canino",
+        tiempo_evolucion_hs=2.0,
+        estado_conciencia="Alerta",
+        presencia_hemorragia=0,
+    )
+    assert resultado_alergia_cutanea["nivel_urgencia"] == "Moderada"
+    assert "dificultad para respirar" in resultado_alergia_cutanea["primeros_auxilios"]
+    resultado_reaccion_alergica_grave = asistente_chat.clasificar_urgencia(
+        sintomas="alergia en la piel, le cuesta respirar y tiene el hocico hinchado",
+        especie="Canino",
+        tiempo_evolucion_hs=2.0,
+        estado_conciencia="Alerta",
+        presencia_hemorragia=0,
+    )
+    assert resultado_reaccion_alergica_grave["nivel_urgencia"] == "Emergencia Crítica"
+    resultado_alergia_sin_signos_cutaneos = asistente_chat.clasificar_urgencia(
+        sintomas="alergia alimentaria sin síntomas cutáneos",
+        especie="Canino",
+        tiempo_evolucion_hs=2.0,
+        estado_conciencia="Alerta",
+        presencia_hemorragia=0,
+    )
+    assert resultado_alergia_sin_signos_cutaneos["nivel_urgencia"] == "No concluyente"
+    print("OK: alergia cutánea sin Gemini recibe orientación moderada y detecta señales críticas.")
+
+    print("\n--- 8. Probando interpretación Gemini sin llamada externa ---")
     asistente_prueba = AsistenteIA(api_key="clave-de-prueba")
     interpretacion_leve = InterpretacionSintoma(
         sintoma_catalogo="Prurito y rascado auricular leve",
@@ -132,11 +289,11 @@ def run_tests():
     assert resultado_ambiguo["pregunta_aclaratoria"]
     print("OK: descripción ambigua solicita una aclaración sin generar urgencia.")
 
-    print("\n--- 7. Probando Consulta de Veterinarias Cercanas (Haversine GPS) ---")
+    print("\n--- 9. Probando Consulta de Veterinarias Cercanas (Haversine GPS) ---")
     res_vets = obtener_veterinarias_cercanas(latitud=-34.5800, longitud=-58.4200, radio_km=3.0)
     print(f"OK: Encontradas {res_vets['cantidad']} veterinarias en radio de 3 km.")
 
-    print("\n--- 8. Probando Clustering Zonal (K-Means) ---")
+    print("\n--- 10. Probando Clustering Zonal (K-Means) ---")
     res_clusters = consultar_clustering_zonas()
     print(f"OK: Se retornaron {len(res_clusters)} barrios segmentados por K-Means.")
 

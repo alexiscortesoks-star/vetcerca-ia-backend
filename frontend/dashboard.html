@@ -10,12 +10,12 @@
     >
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=consulta-guiada-3">
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       defer
     ></script>
-    <script src="app.js" defer></script>
+    <script src="app.js?v=consulta-guiada-3" defer></script>
   </head>
   <body class="landing-body">
     <header class="landing-header">
@@ -29,7 +29,7 @@
         </a>
         <nav class="dashboard-nav d-flex flex-wrap align-items-center gap-3" aria-label="Navegación principal">
           <a class="nav-link" href="dashboard.html">Mi espacio</a>
-          <a class="nav-link" href="triage.html">Iniciar triaje</a>
+          <a class="nav-link" href="#consultaTriage" data-bs-toggle="modal">Consulta triaje</a>
           <span id="welcomeMessage" class="welcome-message"></span>
           <button id="logoutButton" class="btn btn-coral btn-sm px-3" type="button">
             Cerrar sesión
@@ -66,9 +66,17 @@
         <div class="col-md-6">
           <article class="dashboard-action-card action-triage">
             <div class="dashboard-action-icon" aria-hidden="true">🩺</div>
-            <h2>Iniciar triaje</h2>
-            <p>Describí los síntomas para recibir una orientación y encontrar una guardia cercana.</p>
-            <a class="btn btn-teal" href="triage.html">Comenzar evaluación</a>
+            <h2>Consulta de triaje</h2>
+            <p>Contanos paso a paso qué le pasa a tu mascota y te orientamos para encontrar ayuda cercana.</p>
+            <button
+              id="iniciarConsultaTriage"
+              class="btn btn-teal"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#consultaTriage"
+            >
+              💬 Iniciar consulta triaje
+            </button>
           </article>
         </div>
       </section>
@@ -291,6 +299,181 @@
               aria-live="polite"
               aria-busy="false"
             ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="consultaTriage"
+      class="modal fade"
+      tabindex="-1"
+      aria-labelledby="consultaTriageTitulo"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div>
+              <span class="eyebrow mb-1">CONSULTA GUIADA</span>
+              <h2 id="consultaTriageTitulo" class="modal-title h5">
+                ¿Qué le pasa a tu mascota?
+              </h2>
+            </div>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p class="small text-muted">
+              Respondé con tus palabras o elegí una opción. Si parece una urgencia,
+              vas a poder revisar los pasos y confirmar si querés alertar a la veterinaria.
+            </p>
+            <div
+              id="consultaTriageMensajes"
+              class="triage-chat-messages dashboard-triage-messages"
+              aria-live="polite"
+              aria-relevant="additions"
+            ></div>
+            <div id="consultaTriageOpciones" class="triage-chat-quick-replies"></div>
+            <form id="consultaTriageForm" class="mt-3">
+              <label id="consultaTriageEtiqueta" for="consultaTriageRespuesta" class="form-label">
+                Describí qué notaste
+              </label>
+              <div class="input-group">
+                <input
+                  id="consultaTriageRespuesta"
+                  class="form-control"
+                  maxlength="1000"
+                  autocomplete="off"
+                  placeholder="Por ejemplo: vomitó y está decaído"
+                >
+                <button id="consultaTriageEnviar" class="btn btn-teal" type="submit">
+                  Enviar
+                </button>
+              </div>
+            </form>
+            <p id="consultaTriageEstado" class="small mt-2 mb-0" role="status" aria-live="polite"></p>
+            <section id="consultaTriageResultado" class="mt-4" hidden>
+              <div class="triage-result-heading">
+                <div>
+                  <span class="eyebrow">ORIENTACIÓN INICIAL</span>
+                  <h3 id="consultaTriagePaciente" class="h5 mt-1"></h3>
+                </div>
+                <span id="consultaTriageUrgencia" class="urgency-badge"></span>
+              </div>
+              <p id="consultaTriageSintomas" class="mb-2"></p>
+              <article class="result-guidance result-first-aid">
+                <h4 class="h6">Qué hacer ahora</h4>
+                <p id="consultaTriagePasos" class="mb-0"></p>
+              </article>
+              <section id="consultaTriageVeterinaria" class="assigned-clinic mt-3" hidden>
+                <h4 class="h6">Veterinaria cercana</h4>
+                <strong id="consultaTriageClinica"></strong>
+                <p id="consultaTriageDireccion" class="mb-2"></p>
+                <a id="consultaTriageTelefono" class="btn btn-coral btn-sm" hidden>
+                  Llamar a la guardia
+                </a>
+                <a id="consultaTriageMapaExterno" class="btn btn-outline-teal btn-sm" target="_blank" rel="noopener noreferrer">
+                  Cómo llegar
+                </a>
+              </section>
+              <section id="consultaTriageMapaSection" class="mt-3" hidden>
+                <h4 class="h6">Tu ubicación y la veterinaria</h4>
+                <iframe
+                  id="consultaTriageMapa"
+                  class="dashboard-triage-map rounded border"
+                  title="Mapa de tu ubicación y la veterinaria"
+                  loading="lazy"
+                ></iframe>
+              </section>
+              <p id="consultaTriageAlertaEstado" class="alert-dispatched mt-3" hidden></p>
+            </section>
+          </div>
+          <div class="modal-footer">
+            <button id="consultaTriageReiniciar" class="btn btn-outline-secondary" type="button">
+              Empezar de nuevo
+            </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="modalAlertaUrgencia"
+      class="modal fade"
+      tabindex="-1"
+      aria-labelledby="modalAlertaUrgenciaTitulo"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content urgency-modal-content">
+          <div class="modal-header urgency-modal-header">
+            <div>
+              <span class="eyebrow text-danger mb-1">ATENCIÓN INMEDIATA</span>
+              <h2 id="modalAlertaUrgenciaTitulo" class="modal-title h5">
+                Ayuda para tu mascota
+              </h2>
+            </div>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p class="urgency-modal-pet">
+              <strong id="modalUrgenciaMascota"></strong>
+              <span id="modalUrgenciaNivel"></span>
+            </p>
+            <article class="urgency-modal-steps">
+              <h3 class="h6">Qué hacer ahora</h3>
+              <p id="modalUrgenciaPasos" class="mb-0"></p>
+            </article>
+            <article class="urgency-modal-clinic mt-3">
+              <h3 class="h6">Veterinaria asignada</h3>
+              <strong id="modalUrgenciaClinica"></strong>
+              <p id="modalUrgenciaDireccion" class="mb-2"></p>
+              <a id="modalUrgenciaTelefono" class="btn btn-coral btn-sm" hidden>
+                Llamar a la guardia
+              </a>
+              <a
+                id="modalUrgenciaComoLlegar"
+                class="btn btn-outline-teal btn-sm"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Cómo llegar
+              </a>
+            </article>
+            <section id="modalUrgenciaMapaSection" class="mt-3" hidden>
+              <h3 class="h6">Ubicación y veterinaria</h3>
+              <iframe
+                id="modalUrgenciaMapa"
+                class="dashboard-triage-map rounded border"
+                title="Mapa de la emergencia y veterinaria"
+                loading="lazy"
+              ></iframe>
+            </section>
+            <p class="small text-muted mt-3 mb-0">
+              La alerta es una demostración mientras no se configure un proveedor real de notificaciones.
+            </p>
+            <p id="modalUrgenciaError" class="small text-danger mt-2 mb-0" role="status" aria-live="polite"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              Seguir sin alertar
+            </button>
+            <button id="modalUrgenciaAlertar" class="btn btn-danger" type="button">
+              Alertar a la veterinaria asignada
+            </button>
           </div>
         </div>
       </div>

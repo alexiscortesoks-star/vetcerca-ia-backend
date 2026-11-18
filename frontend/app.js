@@ -2,6 +2,15 @@ const API_URL = `${window.location.protocol}//${window.location.hostname}:8000`;
 let mapaInstancia = null;
 const mascotasPorId = new Map();
 let mascotaEnEdicionId = null;
+let ultimoResultadoTriaje = null;
+let ultimoNombreMascotaTriaje = null;
+let ultimoDatosTriaje = null;
+let consultaGuiada = null;
+let suspenderReinicioConsulta = false;
+let alertaVeterinariaSeleccionada = null;
+const alertasVeterinariasMostradas = new Set();
+const colaAlertasVeterinarias = [];
+let cargandoAlertasVeterinarias = false;
 
 async function leerRespuesta(response) {
   const data = await response.json();
@@ -108,8 +117,6 @@ async function cargarPerfilVeterinaria() {
     document.getElementById("vetName").textContent = perfil.nombre;
     document.getElementById("vetAddress").textContent = perfil.direccion;
     document.getElementById("vetPhone").textContent = perfil.telefono_guardia;
-    document.getElementById("vetPhoneLink").href =
-      `tel:${perfil.telefono_guardia.replace(/[^\d+]/g, "")}`;
     document.getElementById("vetAvailability").textContent =
       perfil.estado_disponibilidad === "DISPONIBLE"
         ? "Disponible"
@@ -131,7 +138,331 @@ async function cargarPerfilVeterinaria() {
   }
 }
 
-async function evaluarTriaje(nombreMascota, sintomas, lat, lng, datosClinicos) {
+async function solicitarApiVeterinaria(path, options = {}) {
+  const token = localStorage.getItem("vet_token");
+  if (!token) throw new Error("La sesión veterinaria venció. Iniciá sesión nuevamente.");
+  const response = await fetch(`${API_URL}${path}`, {
+    ...options,
+    headers: {
+      ...(options.headers || {}),
+      Authorization: `Bearer ${token}`,
+      ...(options.body ? { "Content-Type": "application/json" } : {}),
+    },
+  });
+  return leerRespuesta(response);
+}
+
+async function cargarAlertasVeterinarias(silencioso = false) {
+  const alertas = document.getElementById("vetAlertsList");
+  const mensajeAlertas = document.getElementById("vetAlertsMessage");
+  const historial = document.getElementById("vetAlertHistoryList");
+  const mensajeHistorial = document.getElementById("vetAlertHistoryMessage");
+  if (
+    !alertas ||
+    !mensajeAlertas ||
+    !historial ||
+    !mensajeHistorial ||
+    cargandoAlertasVeterinarias
+  ) return;
+
+  cargandoAlertasVeterinarias = true;
+  for (const [contenedor, mensaje] of [
+    [alertas, mensajeAlertas],
+    [historial, mensajeHistorial],
+  ]) {
+    mensaje.classList.remove("text-danger");
+    if (!silencioso) mensaje.textContent = "Cargando...";
+    contenedor.setAttribute("aria-busy", "true");
+  }
+
+  try {
+    const [activas, resueltas] = await Promise.all([
+      solicitarApiVeterinaria("/veterinaria/alertas"),
+      solicitarApiVeterinaria("/veterinaria/alertas/historial"),
+    ]);
+    renderizarListaAlertasVeterinarias(
+      activas,
+      alertas,
+      mensajeAlertas,
+      "Todavía no hay alertas recibidas.",
+    );
+    renderizarListaAlertasVeterinarias(
+      resueltas,
+      historial,
+      mensajeHistorial,
+      "Las alertas marcadas como resueltas aparecerán aquí.",
+    );
+    for (const alerta of activas) {
+      if (
+        alerta.estado === "RECIBIDA" &&
+        !alertasVeterinariasMostradas.has(alerta.id_alerta) &&
+        !colaAlertasVeterinarias.includes(alerta.id_alerta)
+      ) {
+        colaAlertasVeterinarias.push(alerta.id_alerta);
+      }
+    }
+    await mostrarSiguienteAlertaVeterinaria();
+  } catch (error) {
+    const detalle = error.message || "No se pudieron cargar las alertas.";
+    for (const mensaje of [mensajeAlertas, mensajeHistorial]) {
+      mensaje.textContent = detalle;
+      mensaje.classList.add("text-danger");
+    }
+  } finally {
+    alertas.setAttribute("aria-busy", "false");
+    historial.setAttribute("aria-busy", "false");
+    cargandoAlertasVeterinarias = false;
+  }
+}
+
+async function mostrarSiguienteAlertaVeterinaria() {
+  const modal = document.getElementById("modalDetalleAlertaVet");
+  if (!modal || modal.classList.contains("show")) return;
+
+  const idAlerta = colaAlertasVeterinarias.shift();
+  if (!idAlerta) return;
+  await abrirDetalleAlertaVeterinaria(idAlerta);
+}
+
+function renderizarListaAlertasVeterinarias(
+  alertas,
+  contenedor,
+  mensaje,
+  mensajeVacio,
+) {
+  contenedor.replaceChildren();
+  if (!alertas.length) {
+    mensaje.textContent = mensajeVacio;
+    return;
+  }
+
+  mensaje.textContent = `${alertas.length} ${
+    alertas.length === 1 ? "alerta" : "alertas"
+  }.`;
+  for (const alerta of alertas) {
+    const card = document.createElement("article");
+    card.className = "vet-alert-card";
+    const details = document.createElement("div");
+    const title = document.createElement("h3");
+    title.textContent = `${alerta.mascota.nombre} · ${alerta.nivel_urgencia}`;
+    if (alerta.es_demostracion) {
+      const demo = document.createElement("span");
+      demo.className = "vet-alert-demo-badge";
+      demo.textContent = "DEMO";
+      title.append(" ", demo);
+    }
+    const symptoms = document.createElement("p");
+    symptoms.textContent = alerta.sintomas;
+    const meta = document.createElement("div");
+    meta.className = "vet-alert-card-meta";
+    const tutor = document.createElement("span");
+    tutor.textContent = `Tutor/a: ${alerta.tutor.nombre}`;
+    const arrival = document.createElement("span");
+    arrival.textContent = `Arribo estimado: ${alerta.tiempo_estimado_arribo_min} min`;
+    const state = document.createElement("span");
+    state.textContent = `Estado: ${alerta.estado.replace(/_/g, " ")}`;
+    meta.append(tutor, arrival, state);
+    details.append(title, symptoms, meta);
+
+    const open = document.createElement("button");
+    open.type = "button";
+    open.className = "btn btn-outline-teal btn-sm";
+    open.textContent = "Ver alerta";
+    open.addEventListener("click", () =>
+      abrirDetalleAlertaVeterinaria(alerta.id_alerta),
+    );
+    card.append(details, open);
+    contenedor.appendChild(card);
+  }
+}
+
+async function simularAlertaVeterinaria(button) {
+  const mensaje = document.getElementById("vetAlertsMessage");
+  button.disabled = true;
+  button.textContent = "Creando alerta...";
+  try {
+    await solicitarApiVeterinaria(
+      "/veterinaria/alertas/simular",
+      { method: "POST" },
+    );
+    await cargarAlertasVeterinarias();
+    mensaje.textContent =
+      "Alerta de demostración creada. No se envió ninguna notificación externa.";
+  } catch (error) {
+    mensaje.textContent = error.message || "No se pudo crear la alerta de demostración.";
+    mensaje.classList.add("text-danger");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Simular alerta";
+  }
+}
+
+async function abrirDetalleAlertaVeterinaria(idAlerta) {
+  alertasVeterinariasMostradas.add(idAlerta);
+  const indiceEnCola = colaAlertasVeterinarias.indexOf(idAlerta);
+  if (indiceEnCola !== -1) colaAlertasVeterinarias.splice(indiceEnCola, 1);
+  const mensaje = document.getElementById("vetAlertActionMessage");
+  mensaje.textContent = "Cargando detalle...";
+  try {
+    const alerta = await solicitarApiVeterinaria(
+      `/veterinaria/alertas/${encodeURIComponent(idAlerta)}`,
+    );
+    alertaVeterinariaSeleccionada = alerta;
+    const animal = alerta.mascota;
+    const tutor = alerta.tutor;
+    document.getElementById("vetAlertDetailKicker").textContent =
+      alerta.es_demostracion ? "ALERTA DE DEMOSTRACIÓN" : "ALERTA DE GUARDIA";
+    document.getElementById("vetAlertDetailTitle").textContent =
+      `${alerta.es_demostracion ? "Demostración · " : ""}Alerta #${alerta.id_alerta}`;
+    document.getElementById("vetAlertAnimal").textContent =
+      `${animal.nombre} · ${animal.especie} · ${animal.raza} · ${animal.edad} · ${animal.sexo} · ${animal.peso_kg} kg`;
+    document.getElementById("vetAlertTutor").textContent =
+      `${tutor.nombre} (@${tutor.username}) · ${tutor.email} · ${tutor.telefono}`;
+    document.getElementById("vetAlertSymptoms").textContent = alerta.sintomas;
+    document.getElementById("vetAlertUrgency").textContent =
+      `${alerta.nivel_urgencia} · arribo estimado en ${alerta.tiempo_estimado_arribo_min} min`;
+    document.getElementById("vetAlertClinic").textContent =
+      `${alerta.veterinaria.nombre} · ${alerta.veterinaria.direccion} · ${alerta.fecha_hora}`;
+    const botonAceptar = document.getElementById("vetAcceptAlert");
+    botonAceptar.disabled = alerta.estado !== "RECIBIDA";
+    botonAceptar.textContent =
+      alerta.estado === "RECIBIDA"
+        ? "Aceptar"
+        : alerta.estado === "EN_ATENCION"
+          ? "Aceptada"
+          : "Alerta resuelta";
+    const alertaResuelta = alerta.estado === "RESUELTA";
+    document.getElementById("vetAlertResolved").disabled = alertaResuelta;
+    document.getElementById("vetHistorySection").hidden = true;
+    document.getElementById("vetHistoryList").replaceChildren();
+    mensaje.textContent = `Estado actual: ${alerta.estado.replace(/_/g, " ")}.`;
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("modalDetalleAlertaVet"),
+    ).show();
+  } catch (error) {
+    mensaje.textContent = error.message || "No se pudo abrir la alerta.";
+    mensaje.classList.add("text-danger");
+  }
+}
+
+async function actualizarEstadoAlertaVeterinaria(estado) {
+  if (!alertaVeterinariaSeleccionada) return;
+  const mensaje = document.getElementById("vetAlertActionMessage");
+  mensaje.textContent = "Actualizando estado...";
+  try {
+    const alerta = await solicitarApiVeterinaria(
+      `/veterinaria/alertas/${encodeURIComponent(alertaVeterinariaSeleccionada.id_alerta)}/estado`,
+      { method: "PATCH", body: JSON.stringify({ estado }) },
+    );
+    alertaVeterinariaSeleccionada = alerta;
+    const botonAceptar = document.getElementById("vetAcceptAlert");
+    botonAceptar.disabled = alerta.estado !== "RECIBIDA";
+    botonAceptar.textContent =
+      alerta.estado === "RECIBIDA"
+        ? "Aceptar"
+        : alerta.estado === "EN_ATENCION"
+          ? "Aceptada"
+          : "Alerta resuelta";
+    document.getElementById("vetAlertResolved").disabled =
+      alerta.estado === "RESUELTA";
+    mensaje.textContent = `Alerta marcada como ${alerta.estado.replace(/_/g, " ").toLowerCase()}.`;
+    await cargarAlertasVeterinarias();
+  } catch (error) {
+    mensaje.textContent = error.message || "No se pudo actualizar el estado.";
+    mensaje.classList.add("text-danger");
+  }
+}
+
+async function cargarHistoriaAlertaVeterinaria() {
+  if (!alertaVeterinariaSeleccionada) return;
+  const section = document.getElementById("vetHistorySection");
+  const list = document.getElementById("vetHistoryList");
+  const message = document.getElementById("vetHistoryMessage");
+  section.hidden = false;
+  list.setAttribute("aria-busy", "true");
+  list.replaceChildren();
+  message.textContent = "";
+  try {
+    const data = await solicitarApiVeterinaria(
+      `/veterinaria/alertas/${encodeURIComponent(alertaVeterinariaSeleccionada.id_alerta)}/historia`,
+    );
+    if (!data.historial.length) {
+      const empty = document.createElement("p");
+      empty.className = "text-secondary mb-0";
+      empty.textContent = "Todavía no hay evoluciones registradas para esta mascota.";
+      list.appendChild(empty);
+      return;
+    }
+    for (const registro of data.historial) {
+      const item = document.createElement("article");
+      item.className = "list-group-item mb-2 rounded";
+      const heading = document.createElement("h4");
+      heading.className = "h6";
+      heading.textContent = `${registro.fecha} · ${registro.motivo}`;
+      const diagnosis = document.createElement("p");
+      diagnosis.textContent = `Evaluación: ${registro.diagnostico}`;
+      const treatment = document.createElement("p");
+      treatment.textContent = `Tratamiento: ${registro.tratamiento}`;
+      const observations = document.createElement("p");
+      observations.className = "small text-secondary mb-1";
+      observations.textContent = registro.observaciones
+        ? `Observaciones: ${registro.observaciones}`
+        : "";
+      const vet = document.createElement("p");
+      vet.className = "small text-secondary mb-0";
+      vet.textContent = `Registrado por: ${registro.veterinario}`;
+      item.append(heading, diagnosis, treatment, observations, vet);
+      list.appendChild(item);
+    }
+  } catch (error) {
+    const failure = document.createElement("p");
+    failure.className = "text-danger mb-0";
+    failure.textContent = error.message || "No se pudo cargar la historia clínica.";
+    list.appendChild(failure);
+  } finally {
+    list.setAttribute("aria-busy", "false");
+  }
+}
+
+async function guardarEvolucionVeterinaria(event) {
+  event.preventDefault();
+  if (!alertaVeterinariaSeleccionada) return;
+  const form = event.currentTarget;
+  const button = document.getElementById("vetSaveEvolution");
+  const message = document.getElementById("vetHistoryMessage");
+  button.disabled = true;
+  message.textContent = "Guardando evolución...";
+  const payload = {
+    motivo: document.getElementById("vetEvolutionReason").value.trim(),
+    diagnostico: document.getElementById("vetEvolutionDiagnosis").value.trim(),
+    tratamiento: document.getElementById("vetEvolutionTreatment").value.trim(),
+    observaciones:
+      document.getElementById("vetEvolutionObservations").value.trim() || null,
+  };
+  try {
+    await solicitarApiVeterinaria(
+      `/veterinaria/alertas/${encodeURIComponent(alertaVeterinariaSeleccionada.id_alerta)}/historia`,
+      { method: "POST", body: JSON.stringify(payload) },
+    );
+    form.reset();
+    await cargarHistoriaAlertaVeterinaria();
+    message.textContent = "La evolución se agregó a la historia clínica.";
+  } catch (error) {
+    message.textContent = error.message || "No se pudo guardar la evolución.";
+    message.classList.add("text-danger");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function evaluarTriaje(
+  nombreMascota,
+  sintomas,
+  lat,
+  lng,
+  datosClinicos,
+  despacharAlerta = false,
+) {
   const idCliente = Number(localStorage.getItem("id_cliente"));
   const payload = {
     nombre_mascota: nombreMascota,
@@ -144,11 +475,14 @@ async function evaluarTriaje(nombreMascota, sintomas, lat, lng, datosClinicos) {
     payload.id_cliente = idCliente;
   }
 
-  const response = await fetch(`${API_URL}/triaje/evaluar`, {
+  const response = await fetch(
+    `${API_URL}/triaje/evaluar?despachar_alerta=${despacharAlerta ? "true" : "false"}`,
+    {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
-  });
+    },
+  );
   return leerRespuesta(response);
 }
 
@@ -382,6 +716,7 @@ function renderizarMapaGPS(
 }
 
 function renderizarResultadoTriaje(data) {
+  ultimoResultadoTriaje = data;
   const resultado = document.getElementById("resultadoCard");
   const urgencia = document.getElementById("resultadoUrgencia");
   const nivel = String(data.nivel_urgencia || "")
@@ -407,15 +742,14 @@ function renderizarResultadoTriaje(data) {
   };
 
   resultado.hidden = false;
+  document.getElementById("triageChat").hidden =
+    data.nivel_urgencia !== "No concluyente";
   urgencia.textContent = etiqueta.texto;
   urgencia.className = `urgency-badge ${etiqueta.clase}`;
   document.getElementById("resultadoPaciente").textContent =
     data.paciente || "Tu mascota";
   document.getElementById("resultadoSintomas").textContent =
     data.sintomas_ingresados || "";
-  const preguntaAclaratoria = document.getElementById("preguntaAclaratoria");
-  preguntaAclaratoria.textContent = data.pregunta_aclaratoria || "";
-  preguntaAclaratoria.hidden = !data.pregunta_aclaratoria;
   document.getElementById("resultadoEspecialidad").textContent =
     data.especialidad_sugerida || "No disponible";
   document.getElementById("resultadoPrimerosAuxilios").textContent =
@@ -443,7 +777,434 @@ function renderizarResultadoTriaje(data) {
   alerta.textContent = data.alerta_despachada
     ? data.mensaje_alerta || "Se notificó a la guardia veterinaria asignada."
     : "";
+
+  const puedeAlertar =
+    ["Alta", "Emergencia Crítica"].includes(data.nivel_urgencia) &&
+    !data.alerta_despachada &&
+    data.veterinaria_cercana &&
+    data.veterinaria_cercana !== "No disponible";
+  const botonUrgencia = document.getElementById("abrirAccionesUrgencia");
+  if (botonUrgencia) botonUrgencia.hidden = !puedeAlertar;
+
+  if (puedeAlertar) {
+    abrirModalUrgencia(data);
+  }
   document.getElementById("triageMessage").textContent = "";
+}
+
+function agregarMensajeChatTriaje(rol, mensaje) {
+  const messages = document.getElementById("triageChatMessages");
+  if (!messages || !mensaje) return;
+
+  const bubble = document.createElement("p");
+  bubble.className = `triage-chat-message triage-chat-message-${rol}`;
+  bubble.textContent = mensaje;
+  messages.appendChild(bubble);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function abrirModalUrgencia(data) {
+  const modalElement = document.getElementById("modalAccionesUrgencia");
+  if (!modalElement) return;
+
+  document.getElementById("urgenciaModalNivel").textContent =
+    data.nivel_urgencia || "Urgencia";
+  document.getElementById("urgenciaModalMascota").textContent =
+    data.paciente || "Tu mascota";
+  document.getElementById("urgenciaModalVeterinaria").textContent =
+    data.veterinaria_cercana || "Veterinaria asignada";
+  document.getElementById("urgenciaModalDireccion").textContent =
+    data.direccion_veterinaria || "";
+  document.getElementById("urgenciaModalPasos").textContent =
+    data.primeros_auxilios || "Trasladá a la mascota a una guardia veterinaria.";
+
+  if (typeof bootstrap !== "undefined") {
+    bootstrap.Modal.getOrCreateInstance(modalElement).show();
+  }
+}
+
+function agregarRespuestasRapidasChat() {
+  const messages = document.getElementById("triageChatMessages");
+  if (!messages) return;
+
+  const botones = [
+    ["Está alerta", "Está alerta y responde normalmente"],
+    ["Está decaído", "Está decaído y responde poco"],
+    ["No responde", "No responde o cuesta despertarlo"],
+    ["Tiene sangrado abundante", "Tiene sangrado abundante y no se detiene"],
+    ["No tiene sangrado", "No tiene sangrado abundante"],
+  ];
+
+  const contenedor = document.createElement("div");
+  contenedor.className = "triage-chat-quick-replies";
+  for (const [etiqueta, respuesta] of botones) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "btn btn-outline-teal btn-sm";
+    button.textContent = etiqueta;
+    button.addEventListener("click", () => {
+      const replyInput = document.getElementById("triageChatReply");
+      if (replyInput) {
+        replyInput.value = respuesta;
+        document.getElementById("triageChatForm")?.requestSubmit();
+      }
+    });
+    contenedor.appendChild(button);
+  }
+  messages.appendChild(contenedor);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function agregarMensajeConsultaGuiada(rol, mensaje) {
+  const messages = document.getElementById("consultaTriageMensajes");
+  if (!messages || !mensaje) return;
+  const bubble = document.createElement("p");
+  bubble.className = `triage-chat-message triage-chat-message-${rol}`;
+  bubble.textContent = mensaje;
+  messages.appendChild(bubble);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function mostrarOpcionesConsultaGuiada(opciones) {
+  const contenedor = document.getElementById("consultaTriageOpciones");
+  if (!contenedor) return;
+  contenedor.replaceChildren();
+  for (const opcion of opciones) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "btn btn-outline-teal btn-sm";
+    button.textContent = opcion.label;
+    button.addEventListener("click", () => procesarRespuestaConsultaGuiada(
+      opcion.answer,
+      opcion.value,
+    ));
+    contenedor.appendChild(button);
+  }
+}
+
+function iniciarConsultaGuiada() {
+  consultaGuiada = {
+    paso: "mascota",
+    mascota: null,
+    sintomas: "",
+    horas: null,
+    conciencia: "Alerta",
+    hemorragia: 0,
+    ubicacion: null,
+  };
+  document.getElementById("consultaTriageMensajes").replaceChildren();
+  document.getElementById("consultaTriageResultado").hidden = true;
+  const estado = document.getElementById("consultaTriageEstado");
+  estado.textContent = "";
+  estado.classList.remove("text-danger");
+  document.getElementById("consultaTriageAlertaEstado").hidden = true;
+  document.getElementById("consultaTriageForm").hidden = true;
+  agregarMensajeConsultaGuiada(
+    "asistente",
+    "Hola. Te voy a hacer unas preguntas breves para orientarte. ¿Por cuál mascota consultás?",
+  );
+  const mascotas = Array.from(mascotasPorId.values());
+  if (!mascotas.length) {
+    agregarMensajeConsultaGuiada(
+      "asistente",
+      "Todavía no hay mascotas registradas. Cerrá esta ventana y cargá una mascota en “Mis mascotas” para iniciar la consulta.",
+    );
+    mostrarOpcionesConsultaGuiada([]);
+    return;
+  }
+  mostrarOpcionesConsultaGuiada(
+    mascotas.map((mascota) => ({
+      label: `${mascota.nombre} (${mascota.especie || "mascota"})`,
+      answer: mascota.nombre,
+      value: mascota,
+    })),
+  );
+}
+
+function avanzarConsultaGuiada(mensaje, opciones) {
+  if (mensaje) agregarMensajeConsultaGuiada("asistente", mensaje);
+  mostrarOpcionesConsultaGuiada(opciones);
+  const form = document.getElementById("consultaTriageForm");
+  const input = document.getElementById("consultaTriageRespuesta");
+  form.hidden = opciones.length > 0;
+  input.value = "";
+  input.placeholder = "Escribí tu respuesta...";
+  input.focus();
+}
+
+async function procesarRespuestaConsultaGuiada(respuesta, valor) {
+  if (!consultaGuiada) return;
+  agregarMensajeConsultaGuiada("tutor", respuesta);
+
+  if (consultaGuiada.paso === "mascota") {
+    consultaGuiada.mascota = valor;
+    consultaGuiada.paso = "sintomas";
+    document.getElementById("consultaTriageEtiqueta").textContent =
+      "¿Qué cambio o síntoma notaste?";
+    avanzarConsultaGuiada(
+      `¿Qué le está pasando a ${valor.nombre}? Contalo con tus palabras, por ejemplo: “vomitó dos veces y está decaído”.`,
+      [],
+    );
+    return;
+  }
+
+  if (consultaGuiada.paso === "sintomas") {
+    consultaGuiada.sintomas = respuesta;
+    consultaGuiada.paso = "horas";
+    document.getElementById("consultaTriageForm").hidden = true;
+    avanzarConsultaGuiada("¿Hace cuánto empezó?", [
+      { label: "Hace menos de 1 hora", answer: "Hace menos de 1 hora", value: 0.5 },
+      { label: "Hace unas 2 horas", answer: "Hace unas 2 horas", value: 2 },
+      { label: "Hace unas 6 horas", answer: "Hace unas 6 horas", value: 6 },
+      { label: "Desde ayer o más", answer: "Desde ayer o más", value: 24 },
+    ]);
+    return;
+  }
+
+  if (consultaGuiada.paso === "horas") {
+    consultaGuiada.horas = valor;
+    consultaGuiada.paso = "conciencia";
+    avanzarConsultaGuiada("¿Cómo está de ánimo y respuesta?", [
+      { label: "Alerta y responde", answer: "Está alerta y responde normalmente", value: "Alerta" },
+      { label: "Decaído o responde poco", answer: "Está decaído y responde poco", value: "Deprimido" },
+      { label: "No responde / cuesta despertarlo", answer: "No responde o cuesta despertarlo", value: "Estuporoso/Comatoso" },
+    ]);
+    return;
+  }
+
+  if (consultaGuiada.paso === "conciencia") {
+    consultaGuiada.conciencia = valor;
+    consultaGuiada.paso = "sangrado";
+    avanzarConsultaGuiada("¿Tiene un sangrado abundante que no se detiene?", [
+      { label: "Sí", answer: "Sí, tiene sangrado abundante", value: 1 },
+      { label: "No", answer: "No tiene sangrado abundante", value: 0 },
+    ]);
+    return;
+  }
+
+  if (consultaGuiada.paso === "sangrado") {
+    consultaGuiada.hemorragia = valor;
+    await enviarConsultaGuiada();
+    return;
+  }
+
+  if (consultaGuiada.paso === "aclaracion") {
+    consultaGuiada.sintomas += `\nAclaración del tutor: ${respuesta}`;
+    await enviarConsultaGuiada();
+  }
+}
+
+async function enviarConsultaGuiada() {
+  if (!consultaGuiada) return;
+  document.getElementById("consultaTriageOpciones").replaceChildren();
+  document.getElementById("consultaTriageForm").hidden = true;
+  const estado = document.getElementById("consultaTriageEstado");
+  estado.textContent = "Revisando la información...";
+  try {
+    consultaGuiada.ubicacion =
+      consultaGuiada.ubicacion || await obtenerUbicacion();
+    const mascota = consultaGuiada.mascota;
+    const datosClinicos = {
+      especie: mascota.especie || "Canino",
+      tiempo_evolucion_hs: consultaGuiada.horas,
+      estado_conciencia: consultaGuiada.conciencia,
+      presencia_hemorragia: consultaGuiada.hemorragia,
+    };
+    const data = await evaluarTriaje(
+      mascota.nombre,
+      consultaGuiada.sintomas,
+      consultaGuiada.ubicacion.lat,
+      consultaGuiada.ubicacion.lng,
+      datosClinicos,
+    );
+    ultimoNombreMascotaTriaje = mascota.nombre;
+    ultimoDatosTriaje = {
+      sintomas: consultaGuiada.sintomas,
+      lat: consultaGuiada.ubicacion.lat,
+      lng: consultaGuiada.ubicacion.lng,
+      datosClinicos,
+    };
+    mostrarResultadoConsultaGuiada(data);
+    estado.textContent = "";
+
+    if (data.nivel_urgencia === "No concluyente") {
+      consultaGuiada.paso = "aclaracion";
+      agregarMensajeConsultaGuiada(
+        "asistente",
+        data.pregunta_aclaratoria ||
+          "No pude identificar con claridad el síntoma. ¿Podés describirlo de otra manera?",
+      );
+      document.getElementById("consultaTriageEtiqueta").textContent =
+        "Aclaración";
+      avanzarConsultaGuiada("", []);
+    }
+  } catch (error) {
+    estado.textContent = error.message || "No se pudo completar la consulta.";
+    estado.classList.add("text-danger");
+    document.getElementById("consultaTriageForm").hidden = false;
+  }
+}
+
+function mostrarResultadoConsultaGuiada(data) {
+  const resultado = document.getElementById("consultaTriageResultado");
+  resultado.hidden = false;
+  document.getElementById("consultaTriagePaciente").textContent =
+    data.paciente || "Tu mascota";
+  document.getElementById("consultaTriageUrgencia").textContent =
+    data.nivel_urgencia || "Por confirmar";
+  const nivel = String(data.nivel_urgencia || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toUpperCase();
+  const clasesUrgencia = {
+    ALTA: "urgency-high",
+    "EMERGENCIA CRITICA": "urgency-high",
+    MODERADA: "urgency-medium",
+    BAJA: "urgency-low",
+    "NO CONCLUYENTE": "urgency-unknown",
+  };
+  document.getElementById("consultaTriageUrgencia").className =
+    `urgency-badge ${clasesUrgencia[nivel] || "urgency-unknown"}`;
+  document.getElementById("consultaTriageSintomas").textContent =
+    data.sintomas_ingresados || "";
+  document.getElementById("consultaTriagePasos").textContent =
+    data.primeros_auxilios || "Contactá a un/a veterinario/a si el cuadro te preocupa.";
+
+  const hayVeterinaria =
+    data.veterinaria_cercana && data.veterinaria_cercana !== "No disponible";
+  document.getElementById("consultaTriageVeterinaria").hidden = !hayVeterinaria;
+  document.getElementById("consultaTriageClinica").textContent =
+    data.veterinaria_cercana || "";
+  document.getElementById("consultaTriageDireccion").textContent =
+    data.direccion_veterinaria || "";
+  const telefono = document.getElementById("consultaTriageTelefono");
+  const telefonoSeguro = String(data.telefono_veterinaria || "").replace(/[^\d+]/g, "");
+  telefono.hidden = !telefonoSeguro;
+  if (telefonoSeguro) telefono.href = `tel:${telefonoSeguro}`;
+  else telefono.removeAttribute("href");
+
+  const mapaSection = document.getElementById("consultaTriageMapaSection");
+  const coordenadas = [
+    data.latitud_cliente,
+    data.longitud_cliente,
+    data.latitud_veterinaria,
+    data.longitud_veterinaria,
+  ];
+  mapaSection.hidden = coordenadas.some((valor) => !Number.isFinite(valor));
+  if (!mapaSection.hidden) {
+    const [lat, lng, vetLat, vetLng] = coordenadas;
+    const margen = 0.012;
+    const bounds = [
+      Math.min(lng, vetLng) - margen,
+      Math.min(lat, vetLat) - margen,
+      Math.max(lng, vetLng) + margen,
+      Math.max(lat, vetLat) + margen,
+    ];
+    const map = document.getElementById("consultaTriageMapa");
+    map.src = `https://www.openstreetmap.org/export/embed.html?bbox=${bounds.join("%2C")}&layer=mapnik&marker=${vetLat}%2C${vetLng}`;
+    document.getElementById("consultaTriageMapaExterno").href =
+      `https://www.openstreetmap.org/directions?from=${lat}%2C${lng}&to=${vetLat}%2C${vetLng}`;
+  }
+
+  const esUrgente = ["ALTA", "EMERGENCIA CRITICA"].includes(nivel);
+  const alertaEstado = document.getElementById("consultaTriageAlertaEstado");
+  alertaEstado.hidden = !data.alerta_despachada;
+  alertaEstado.textContent = data.alerta_despachada
+    ? data.mensaje_alerta || "Alerta de demostración registrada."
+    : "";
+  if (esUrgente && hayVeterinaria && !data.alerta_despachada) {
+    abrirModalAlertaUrgencia(data);
+  }
+}
+
+function abrirModalAlertaUrgencia(data) {
+  const parentModal = document.getElementById("consultaTriage");
+  const urgentModal = document.getElementById("modalAlertaUrgencia");
+  if (!parentModal || !urgentModal || typeof bootstrap === "undefined") return;
+
+  document.getElementById("modalUrgenciaMascota").textContent =
+    data.paciente || "Tu mascota";
+  document.getElementById("modalUrgenciaNivel").textContent =
+    data.nivel_urgencia || "Urgencia";
+  document.getElementById("modalUrgenciaPasos").textContent =
+    data.primeros_auxilios || "Trasladá a la mascota a una guardia veterinaria.";
+  document.getElementById("modalUrgenciaClinica").textContent =
+    data.veterinaria_cercana || "Veterinaria asignada";
+  document.getElementById("modalUrgenciaDireccion").textContent =
+    data.direccion_veterinaria || "";
+  document.getElementById("modalUrgenciaError").textContent = "";
+  const alertButton = document.getElementById("modalUrgenciaAlertar");
+  alertButton.disabled = false;
+  alertButton.textContent = "Alertar a la veterinaria asignada";
+
+  const telefono = document.getElementById("modalUrgenciaTelefono");
+  const telefonoSeguro = String(data.telefono_veterinaria || "").replace(/[^\d+]/g, "");
+  telefono.hidden = !telefonoSeguro;
+  if (telefonoSeguro) telefono.href = `tel:${telefonoSeguro}`;
+  else telefono.removeAttribute("href");
+
+  const comoLlegar = document.getElementById("modalUrgenciaComoLlegar");
+  const mapaSection = document.getElementById("modalUrgenciaMapaSection");
+  const coordenadas = [
+    data.latitud_cliente,
+    data.longitud_cliente,
+    data.latitud_veterinaria,
+    data.longitud_veterinaria,
+  ];
+  mapaSection.hidden = coordenadas.some((valor) => !Number.isFinite(valor));
+  comoLlegar.hidden = mapaSection.hidden;
+  if (!mapaSection.hidden) {
+    const [lat, lng, vetLat, vetLng] = coordenadas;
+    comoLlegar.href =
+      `https://www.openstreetmap.org/directions?from=${lat}%2C${lng}&to=${vetLat}%2C${vetLng}`;
+    const margen = 0.012;
+    const bounds = [
+      Math.min(lng, vetLng) - margen,
+      Math.min(lat, vetLat) - margen,
+      Math.max(lng, vetLng) + margen,
+      Math.max(lat, vetLat) + margen,
+    ];
+    document.getElementById("modalUrgenciaMapa").src =
+      `https://www.openstreetmap.org/export/embed.html?bbox=${bounds.join("%2C")}&layer=mapnik&marker=${vetLat}%2C${vetLng}`;
+  }
+
+  const urgentInstance = bootstrap.Modal.getOrCreateInstance(urgentModal);
+  const mostrarUrgencia = () => {
+    parentModal.removeEventListener("hidden.bs.modal", mostrarUrgencia);
+    urgentInstance.show();
+  };
+  if (parentModal.classList.contains("show")) {
+    suspenderReinicioConsulta = true;
+    parentModal.addEventListener("hidden.bs.modal", mostrarUrgencia, { once: true });
+    bootstrap.Modal.getOrCreateInstance(parentModal).hide();
+  } else {
+    mostrarUrgencia();
+  }
+}
+
+async function confirmarAlertaConsultaGuiada(button) {
+  if (!ultimoNombreMascotaTriaje || !ultimoDatosTriaje) return;
+  button.disabled = true;
+  button.textContent = "Enviando alerta...";
+  try {
+    const data = await evaluarTriaje(
+      ultimoNombreMascotaTriaje,
+      ultimoDatosTriaje.sintomas,
+      ultimoDatosTriaje.lat,
+      ultimoDatosTriaje.lng,
+      ultimoDatosTriaje.datosClinicos,
+      true,
+    );
+    mostrarResultadoConsultaGuiada(data);
+    bootstrap.Modal.getInstance(
+      document.getElementById("modalAlertaUrgencia"),
+    )?.hide();
+  } catch (error) {
+    document.getElementById("modalUrgenciaError").textContent =
+      error.message || "No se pudo registrar la alerta.";
+  } finally {
+    button.disabled = false;
+  }
 }
 
 async function cargarMascotasEnSelect() {
@@ -850,12 +1611,115 @@ function inicializarAplicacion() {
   if (document.getElementById("veterinaryDashboard")) {
     document.getElementById("vetLogoutButton")
       ?.addEventListener("click", cerrarSesion);
+    document.getElementById("vetRefreshAlerts")
+      ?.addEventListener("click", () => cargarAlertasVeterinarias());
+    document.getElementById("vetSimulateAlert")
+      ?.addEventListener("click", (event) =>
+        simularAlertaVeterinaria(event.currentTarget),
+      );
+    document.getElementById("vetAcceptAlert")
+      ?.addEventListener("click", () =>
+        actualizarEstadoAlertaVeterinaria("EN_ATENCION"),
+      );
+    document.getElementById("vetAlertResolved")
+      ?.addEventListener("click", () =>
+        actualizarEstadoAlertaVeterinaria("RESUELTA"),
+      );
+    document.getElementById("vetOpenHistory")
+      ?.addEventListener("click", cargarHistoriaAlertaVeterinaria);
+    document.getElementById("vetEvolutionForm")
+      ?.addEventListener("submit", guardarEvolucionVeterinaria);
+    document.getElementById("modalDetalleAlertaVet")
+      ?.addEventListener("hidden.bs.modal", mostrarSiguienteAlertaVeterinaria);
     cargarPerfilVeterinaria();
+    cargarAlertasVeterinarias();
+    window.setInterval(() => cargarAlertasVeterinarias(true), 5000);
   }
 
   const triageForm = document.getElementById("triageForm");
+  const triageChatForm = document.getElementById("triageChatForm");
   const mascotasGrid = document.getElementById("mascotasGrid");
+  let textoSintomasConversacion = "";
+  let datosClinicosConversacion = null;
+  let ubicacionConversacion = null;
   if (triageForm || mascotasGrid) {
+    const consultaModal = document.getElementById("consultaTriage");
+    const modalUrgencia = document.getElementById("modalAlertaUrgencia");
+    consultaModal?.addEventListener("shown.bs.modal", () => {
+      if (!consultaGuiada) iniciarConsultaGuiada();
+    });
+    consultaModal?.addEventListener("hidden.bs.modal", () => {
+      if (suspenderReinicioConsulta) {
+        suspenderReinicioConsulta = false;
+        return;
+      }
+      consultaGuiada = null;
+    });
+    modalUrgencia?.addEventListener("hidden.bs.modal", () => {
+      if (consultaGuiada && !consultaModal.classList.contains("show")) {
+        bootstrap.Modal.getOrCreateInstance(consultaModal).show();
+      }
+    });
+    document.getElementById("consultaTriageReiniciar")
+      ?.addEventListener("click", iniciarConsultaGuiada);
+
+    document.getElementById("consultaTriageForm")
+      ?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const input = document.getElementById("consultaTriageRespuesta");
+        const respuesta = input.value.trim();
+        if (!respuesta || !consultaGuiada) return;
+        input.value = "";
+        await procesarRespuestaConsultaGuiada(respuesta);
+      });
+
+    document.getElementById("modalUrgenciaAlertar")
+      ?.addEventListener("click", (event) =>
+        confirmarAlertaConsultaGuiada(event.currentTarget),
+      );
+
+    document
+      .getElementById("abrirAccionesUrgencia")
+      ?.addEventListener("click", () => {
+        if (ultimoResultadoTriaje) abrirModalUrgencia(ultimoResultadoTriaje);
+      });
+
+    document
+      .getElementById("confirmarAlertaVeterinaria")
+      ?.addEventListener("click", async (event) => {
+        const button = event.currentTarget;
+        if (!ultimoNombreMascotaTriaje || !ultimoDatosTriaje) return;
+        button.disabled = true;
+        button.textContent = "Enviando alerta...";
+        try {
+          const data = await evaluarTriaje(
+            ultimoNombreMascotaTriaje,
+            ultimoDatosTriaje.sintomas,
+            ultimoDatosTriaje.lat,
+            ultimoDatosTriaje.lng,
+            ultimoDatosTriaje.datosClinicos,
+            true,
+          );
+          renderizarResultadoTriaje(data);
+          renderizarMapaGPS(
+            data.latitud_cliente,
+            data.longitud_cliente,
+            data.veterinaria_cercana,
+            data.latitud_veterinaria,
+            data.longitud_veterinaria,
+          );
+          bootstrap.Modal.getInstance(
+            document.getElementById("modalAccionesUrgencia"),
+          )?.hide();
+        } catch (error) {
+          document.getElementById("triageMessage").textContent =
+            error.message || "No se pudo enviar la alerta.";
+        } finally {
+          button.disabled = false;
+          button.textContent = "Alertar a la veterinaria asignada";
+        }
+      });
+
     const username = localStorage.getItem("username");
     if (!username) {
       window.location.href = "index.html";
@@ -877,18 +1741,42 @@ function inicializarAplicacion() {
 
       try {
         const ubicacion = await obtenerUbicacion();
+        textoSintomasConversacion = String(form.get("sintomas"));
+        datosClinicosConversacion = {
+          tiempo_evolucion_hs: Number(form.get("tiempo_evolucion_hs")),
+          estado_conciencia: form.get("estado_conciencia"),
+          presencia_hemorragia: Number(form.get("presencia_hemorragia")),
+        };
+        ubicacionConversacion = ubicacion;
+        const messages = document.getElementById("triageChatMessages");
+        messages.replaceChildren();
+        agregarMensajeChatTriaje("tutor", textoSintomasConversacion);
         const data = await evaluarTriaje(
           mascotasPorId.get(form.get("nombre_mascota"))?.nombre,
-          form.get("sintomas"),
+          textoSintomasConversacion,
           ubicacion.lat,
           ubicacion.lng,
-          {
-            tiempo_evolucion_hs: Number(form.get("tiempo_evolucion_hs")),
-            estado_conciencia: form.get("estado_conciencia"),
-            presencia_hemorragia: Number(form.get("presencia_hemorragia")),
-          },
+          datosClinicosConversacion,
         );
+        ultimoNombreMascotaTriaje =
+          mascotasPorId.get(form.get("nombre_mascota"))?.nombre ||
+          "Tu mascota";
+        ultimoDatosTriaje = {
+          sintomas: textoSintomasConversacion,
+          lat: ubicacion.lat,
+          lng: ubicacion.lng,
+          datosClinicos: datosClinicosConversacion,
+        };
         renderizarResultadoTriaje(data);
+        if (data.nivel_urgencia === "No concluyente") {
+          agregarMensajeChatTriaje(
+            "asistente",
+            data.pregunta_aclaratoria ||
+              "No llego a identificar ese síntoma. ¿Podés describir qué cambio observás?",
+          );
+          agregarRespuestasRapidasChat();
+          document.getElementById("triageChatReply").focus();
+        }
         renderizarMapaGPS(
           data.latitud_cliente,
           data.longitud_cliente,
@@ -898,6 +1786,76 @@ function inicializarAplicacion() {
         );
       } catch (error) {
         console.error("Error en el triaje:", error);
+        mostrarMensaje(result, error.message, true);
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+
+    triageChatForm?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const replyInput = document.getElementById("triageChatReply");
+      const reply = replyInput.value.trim();
+      if (!reply || !datosClinicosConversacion || !ubicacionConversacion) return;
+
+      const submitButton = triageChatForm.querySelector("button[type='submit']");
+      const result = document.getElementById("triageMessage");
+      submitButton.disabled = true;
+      mostrarMensaje(result, "Revisando tu aclaración...");
+      agregarMensajeChatTriaje("tutor", reply);
+      textoSintomasConversacion += `\nAclaración del tutor: ${reply}`;
+      if (/no responde|cuesta despertarlo/i.test(reply)) {
+        datosClinicosConversacion.estado_conciencia = "Estuporoso/Comatoso";
+      } else if (/decaído|responde poco/i.test(reply)) {
+        datosClinicosConversacion.estado_conciencia = "Deprimido";
+      } else if (/alerta|responde normalmente/i.test(reply)) {
+        datosClinicosConversacion.estado_conciencia = "Alerta";
+      }
+      if (/sangrado abundante|no se detiene/i.test(reply)) {
+        datosClinicosConversacion.presencia_hemorragia = 1;
+      } else if (/no tiene sangrado|no hay sangrado/i.test(reply)) {
+        datosClinicosConversacion.presencia_hemorragia = 0;
+      }
+
+      try {
+        const form = new FormData(triageForm);
+        const data = await evaluarTriaje(
+          mascotasPorId.get(form.get("nombre_mascota"))?.nombre,
+          textoSintomasConversacion,
+          ubicacionConversacion.lat,
+          ubicacionConversacion.lng,
+          datosClinicosConversacion,
+        );
+        ultimoNombreMascotaTriaje =
+          mascotasPorId.get(form.get("nombre_mascota"))?.nombre ||
+          "Tu mascota";
+        ultimoDatosTriaje = {
+          sintomas: textoSintomasConversacion,
+          lat: ubicacionConversacion.lat,
+          lng: ubicacionConversacion.lng,
+          datosClinicos: datosClinicosConversacion,
+        };
+        renderizarResultadoTriaje(data);
+        if (data.nivel_urgencia === "No concluyente") {
+          agregarMensajeChatTriaje(
+            "asistente",
+            data.pregunta_aclaratoria ||
+              "Todavía no puedo confirmarlo. ¿Podés describir qué observás con otras palabras?",
+          );
+          agregarRespuestasRapidasChat();
+          replyInput.value = "";
+          replyInput.focus();
+        }
+        renderizarMapaGPS(
+          data.latitud_cliente,
+          data.longitud_cliente,
+          data.veterinaria_cercana,
+          data.latitud_veterinaria,
+          data.longitud_veterinaria,
+        );
+        mostrarMensaje(result, "");
+      } catch (error) {
+        console.error("Error al aclarar el triaje:", error);
         mostrarMensaje(result, error.message, true);
       } finally {
         submitButton.disabled = false;

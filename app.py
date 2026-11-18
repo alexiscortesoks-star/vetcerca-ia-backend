@@ -92,8 +92,9 @@ def obtener_veterinarias_cercanas(
     return {"cantidad": len(cercanas), "veterinarias": cercanas}
 
 
-from routers import auth, mascotas, triaje
+from routers import auth, mascotas, triaje, veterinaria
 
 app.include_router(auth.router)
 app.include_router(mascotas.router)
 app.include_router(triaje.router)
+app.include_router(veterinaria.router)

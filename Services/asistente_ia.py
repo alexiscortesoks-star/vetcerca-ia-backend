@@ -1,11 +1,17 @@
 import os
+import re
+from difflib import SequenceMatcher
 from typing import Any, Dict, Optional
 
-import httpx2
 from fastapi import HTTPException
 from pydantic import BaseModel, Field
+import httpx
 
-from src.pipeline_limpieza import obtener_catalogo_sintomas, sintoma_reconocido
+from src.pipeline_limpieza import (
+    normalizar_sintoma,
+    obtener_catalogo_sintomas,
+    sintoma_reconocido,
+)
 
 # Intentar importar el motor predictivo de Machine Learning supervisado
 try:
@@ -79,6 +85,12 @@ class AsistenteIA:
         Clasifica la urgencia médica veterinaria.
         Aplica el clasificador supervisado y genera la orientación estructurada con ética médica.
         """
+        if self._describe_estado_sin_sintomas(sintomas):
+            return self._respuesta_no_concluyente(
+                especie,
+                "¿Qué cambio o síntoma estás observando? Contame qué le sucede a la mascota.",
+            )
+
         if (
             tiempo_evolucion_hs is None
             or estado_conciencia is None
@@ -89,14 +101,27 @@ class AsistenteIA:
                 "Completá cuánto tiempo lleva así, cómo responde y si tiene sangrado abundante.",
             )
 
+        if self._conciencia_comprometida(estado_conciencia):
+            return self._respuesta_urgencia_critica(especie, sintomas)
+
+        if presencia_hemorragia == 1 or self._reporta_sangrado_abundante(sintomas):
+            return self._respuesta_urgencia_critica(
+                especie,
+                "Hemorragia arterial profusa no controlada",
+            )
+
+        if self._reporta_reaccion_alergica_grave(sintomas):
+            return self._respuesta_urgencia_critica(especie, sintomas)
+
+        if self._describe_sintoma_cutaneo_alergico(sintomas):
+            return self._respuesta_alergia_cutanea(especie)
+
         pregunta_aclaratoria = None
         if not sintoma_reconocido(sintomas):
             if not self.api_key:
                 return self._respuesta_no_concluyente(
                     especie,
-                    "Describí el cambio que observás con palabras concretas. "
-                    "Para interpretar descripciones libres, el servidor necesita "
-                    "tener configurada la clave de Gemini.",
+                    self._pregunta_para_sintoma(sintomas),
                 )
 
             interpretacion = self._interpretar_sintoma_con_gemini(
@@ -114,7 +139,7 @@ class AsistenteIA:
                 return self._respuesta_no_concluyente(
                     especie,
                     interpretacion.pregunta_aclaratoria
-                    or "¿Podés describir qué cambio concreto notaste y desde cuándo?",
+                    or self._pregunta_para_sintoma(sintomas),
                 )
             sintomas = sintoma_catalogo
 
@@ -158,6 +183,197 @@ class AsistenteIA:
             "pregunta_aclaratoria": pregunta_aclaratoria,
         }
 
+    @staticmethod
+    def _reporta_sangrado_abundante(sintomas: str) -> bool:
+        texto = normalizar_sintoma(sintomas)
+        menciona_sangrado = re.search(
+            r"\b(sangra|sangrado|hemorragia)\b", texto
+        )
+        describe_gravedad = re.search(
+            r"\b(abundante|mucho|mucha|profuso|profusa|incontrolable)\b"
+            r"|\b(no para|no se detiene|sin parar|no frena)\b",
+            texto,
+        )
+        return bool(menciona_sangrado and describe_gravedad)
+
+    @staticmethod
+    def _describe_sintoma_cutaneo_alergico(sintomas: str) -> bool:
+        texto = normalizar_sintoma(sintomas)
+        menciona_alergia_cutanea = (
+            "alerg" in texto and ("piel" in texto or "cutane" in texto)
+        )
+        niega_signos_cutaneos = re.search(
+            r"\b(?:sin|no tiene|no presenta|no hay)\s+"
+            r"(?:ningun[oa]s?\s+)?(?:sintomas|signos)\s+"
+            r"(?:cutaneos?|de piel|en la piel)\b",
+            texto,
+        )
+        signos_cutaneos = (
+            "picazon",
+            "prurito",
+            "roncha",
+            "urticaria",
+            "sarpullido",
+            "erupcion cutanea",
+            "irritacion en la piel",
+            "piel irritada",
+            "piel enrojecida",
+        )
+        signos_positivos = any(signo in texto for signo in signos_cutaneos)
+        return signos_positivos or bool(
+            menciona_alergia_cutanea and not niega_signos_cutaneos
+        )
+
+    @staticmethod
+    def _reporta_reaccion_alergica_grave(sintomas: str) -> bool:
+        texto = normalizar_sintoma(sintomas)
+        if "anafilax" in texto or "angioedema" in texto:
+            return True
+
+        menciona_alergia_o_piel = any(
+            termino in texto
+            for termino in (
+                "alerg",
+                "piel",
+                "cutane",
+                "roncha",
+                "urticaria",
+            )
+        )
+        signos_graves = (
+            "dificultad para respirar",
+            "respira con dificultad",
+            "le cuesta respirar",
+            "no puede respirar",
+            "hinchazon de cara",
+            "hinchazon del hocico",
+            "hinchazon en la cara",
+            "hinchazon en el hocico",
+            "hinchazon facial",
+            "cara hinchada",
+            "hocico hinchado",
+            "hincho la cara",
+            "hincho el hocico",
+            "desmayo",
+            "colapso",
+        )
+        return menciona_alergia_o_piel and any(
+            signo in texto for signo in signos_graves
+        )
+
+    @staticmethod
+    def _respuesta_alergia_cutanea(especie: str) -> Dict[str, Any]:
+        return {
+            "nivel_urgencia": "Moderada",
+            "confianza": 0.85,
+            "probabilidades": {"Moderada": 0.85},
+            "diagnostico_preliminar": (
+                f"Se describen signos cutáneos en {especie}; no es posible "
+                "determinar la causa sin una evaluación veterinaria."
+            ),
+            "especialidad_sugerida": "Clínica Veterinaria General",
+            "primeros_auxilios": (
+                "Solicitá una evaluación veterinaria durante el día y no "
+                "apliques cremas ni administres medicamentos sin indicación. "
+                "Si aparece hinchazón en la cara o el hocico, dificultad para "
+                "respirar, vómitos repetidos o desmayo, acudí a una guardia "
+                "inmediatamente."
+            ),
+            "mensaje_empatico": (
+                "Entiendo tu preocupación. Con los datos actuales no se "
+                "describe una señal de emergencia, pero conviene que un/a "
+                "veterinario/a revise la piel durante el día."
+            ),
+            "pregunta_aclaratoria": None,
+        }
+
+    @staticmethod
+    def _conciencia_comprometida(estado_conciencia: str) -> bool:
+        estado = normalizar_sintoma(estado_conciencia)
+        return estado in {
+            "estuporoso comatoso",
+            "inconsciente",
+            "no responde",
+            "cuesta despertarlo",
+        }
+
+    def _respuesta_urgencia_critica(
+        self, especie: str, sintomas: str
+    ) -> Dict[str, Any]:
+        orientacion = self._generar_orientacion_etica(
+            nivel_urgencia="Emergencia Crítica",
+            especie=especie,
+            sintomas=sintomas,
+            conciencia="Estuporoso/Comatoso",
+            hemorragia=1 if self._reporta_sangrado_abundante(sintomas) else 0,
+        )
+        return {
+            "nivel_urgencia": "Emergencia Crítica",
+            "confianza": 1.0,
+            "probabilidades": {"Emergencia Crítica": 1.0},
+            **orientacion,
+            "pregunta_aclaratoria": None,
+        }
+
+    @staticmethod
+    def _describe_estado_sin_sintomas(sintomas: str) -> bool:
+        texto = normalizar_sintoma(sintomas)
+        expresiones = {
+            "esta bien",
+            "esta perfecto",
+            "esta normal",
+            "sin sintomas",
+            "no tiene sintomas",
+            "nada",
+            "ninguno",
+        }
+        return texto in expresiones
+
+    @staticmethod
+    def _pregunta_para_sintoma(sintomas: str) -> str:
+        tokens = normalizar_sintoma(sintomas).split()
+        palabras_catalogo = {
+            palabra
+            for item in obtener_catalogo_sintomas()
+            for palabra in normalizar_sintoma(item).split()
+            if len(palabra) >= 5
+        }
+        coincidencias = sorted(
+            (
+                (SequenceMatcher(None, token, palabra).ratio(), palabra)
+                for token in tokens
+                if len(token) >= 5
+                for palabra in palabras_catalogo
+                if token != palabra
+            ),
+            reverse=True,
+        )
+        sugerencia = None
+        if coincidencias and coincidencias[0][0] >= 0.78:
+            mejor_puntaje, mejor_palabra = coincidencias[0]
+            segundo_puntaje = next(
+                (
+                    puntaje
+                    for puntaje, palabra in coincidencias[1:]
+                    if palabra != mejor_palabra
+                ),
+                0.0,
+            )
+            if mejor_puntaje - segundo_puntaje >= 0.02:
+                sugerencia = mejor_palabra
+
+        if sugerencia in {"sangrado", "sangre", "sangra"}:
+            return (
+                f"¿Quisiste decir «{sugerencia}»? ¿El sangrado es abundante "
+                "o no se detiene? Si es así, acudí a una guardia veterinaria ahora."
+            )
+        if sugerencia:
+            return (
+                f"¿Quisiste decir «{sugerencia}»? Confirmame si entendí bien "
+                "y contame qué observás."
+            )
+        return "No llego a identificar ese síntoma. ¿Podés describir qué cambio observás?"
+
     def _interpretar_sintoma_con_gemini(
         self, sintomas: str, especie: str
     ) -> InterpretacionSintoma:
@@ -194,7 +410,7 @@ class AsistenteIA:
                     temperature=0,
                 ),
             )
-        except (APIError, httpx2.HTTPError) as error:
+        except (APIError, httpx.HTTPError) as error:
             raise HTTPException(
                 status_code=503,
                 detail=(
@@ -332,7 +548,18 @@ class AsistenteIA:
         """Motor heurístico de contingencia en caso de indisponibilidad del modelo ML."""
         sintomas_lower = sintomas.lower()
         
-        if any(w in sintomas_lower for w in ["respirat", "convuls", "sangr", "inconscient", "shock", "paro"]):
+        if any(
+            word in sintomas_lower
+            for word in (
+                "respirat",
+                "convuls",
+                "sangr",
+                "hemorrag",
+                "inconscient",
+                "shock",
+                "paro",
+            )
+        ):
             urgencia = "Emergencia Crítica"
         elif any(w in sintomas_lower for w in ["dolor", "obstruc", "herida", "vomito", "trauma"]):
             urgencia = "Alta"

@@ -11,19 +11,21 @@ from models.veterinarias import Veterinaria
 from schemas.triaje import TriajeRequest, TriajeResponse
 from utils.contingencia_barrios import resolver_contingencia_zonal, cargar_catalogo_veterinarias
 from src.clustering_barrios import obtener_metricas_por_barrio, obtener_diagnostico_barrio
+from Services.alertas_veterinaria import (
+    generar_id_alerta,
+    registrar_alerta_veterinaria,
+)
 
 
 router = APIRouter(prefix="/triaje", tags=["Triaje de Urgencia e IA"])
 asistente_ia = AsistenteIA()
 notificador = ServicioNotificacion(proveedor_api="WhatsApp / Twilio")
 
-contador_alertas = 900
-
-
 @router.post("/evaluar", response_model=TriajeResponse)
-def evaluar_triaje(datos: TriajeRequest) -> TriajeResponse:
-    global contador_alertas
-
+def evaluar_triaje(
+    datos: TriajeRequest,
+    despachar_alerta: bool = True,
+) -> TriajeResponse:
     # Normalizar síntomas de entrada
     sintomas_texto = datos.sintoma_principal or datos.sintomas or "Decaimiento general"
 
@@ -113,10 +115,9 @@ def evaluar_triaje(datos: TriajeRequest) -> TriajeResponse:
     mensaje_texto = None
     tiempo_arribo = vet_info.get("tiempo_estimado_min", 15) if vet_info else None
 
-    if es_urgencia_critica and veterinaria_obj:
-        contador_alertas += 1
+    if es_urgencia_critica and veterinaria_obj and despachar_alerta:
         alerta = AlertaUrgencia(
-            id_alerta=contador_alertas,
+            id_alerta=generar_id_alerta(),
             consulta_triaje=consulta,
             veterinaria_destino=veterinaria_obj,
             servicio_notificacion=notificador,
@@ -125,6 +126,67 @@ def evaluar_triaje(datos: TriajeRequest) -> TriajeResponse:
             tiempo_estimado_arribo_min=tiempo_arribo or 15,
         )
         alerta.transmitir()
+        from routers.auth import USUARIOS_DB, VETERINARIA_DEMO
+        from routers.mascotas import MASCOTAS_DB
+
+        usuario = next(
+            (
+                item
+                for item in USUARIOS_DB
+                if item["id_cliente"] == consulta.id_cliente
+            ),
+            None,
+        )
+        cliente_obj = usuario.get("cliente_obj") if usuario else None
+        mascota_registrada = next(
+            (
+                item["mascota"]
+                for item in MASCOTAS_DB
+                if item["id_cliente"] == consulta.id_cliente
+                and item["mascota"].id_mascota == paciente.id_mascota
+                and item["mascota"].nombre.casefold() == paciente.nombre.casefold()
+            ),
+            paciente,
+        )
+        registrar_alerta_veterinaria(
+            {
+                "id_alerta": alerta.id_alerta,
+                "id_triaje": consulta.id_triaje,
+                "id_veterinaria": VETERINARIA_DEMO.id_veterinaria,
+                "id_veterinaria_destino": veterinaria_obj.id_veterinaria,
+                "fecha_hora": alerta.fecha_hora.isoformat(timespec="seconds"),
+                "estado": "RECIBIDA",
+                "nivel_urgencia": consulta.nivel_urgencia,
+                "sintomas": sintomas_texto,
+                "tiempo_estimado_arribo_min": alerta.tiempo_estimado_arribo_min,
+                "id_mascota": mascota_registrada.id_mascota,
+                "mascota": {
+                    "nombre": mascota_registrada.nombre,
+                    "especie": mascota_registrada.raza.especie.nombre,
+                    "raza": mascota_registrada.raza.nombre,
+                    "sexo": mascota_registrada.sexo,
+                    "edad": mascota_registrada.calcular_edad_formateada(),
+                    "peso_kg": mascota_registrada.peso_kg,
+                },
+                "tutor": {
+                    "id_cliente": consulta.id_cliente,
+                    "nombre": (
+                        cliente_obj.nombre_apellido
+                        if cliente_obj
+                        else "Tutor/a"
+                    ),
+                    "username": usuario["username"] if usuario else "",
+                    "email": cliente_obj.email if cliente_obj else "",
+                    "telefono": cliente_obj.telefono if cliente_obj else "",
+                },
+                "veterinaria": {
+                    "nombre": veterinaria_obj.nombre_fantasia,
+                    "direccion": veterinaria_obj.direccion,
+                    "telefono": veterinaria_obj.telefono_guardia,
+                },
+            },
+            mascota_registrada,
+        )
         alerta_enviada = True
         id_alerta_generada = alerta.id_alerta
         estado_envio = alerta.estado

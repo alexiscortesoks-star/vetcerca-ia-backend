@@ -10,12 +10,12 @@
     >
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=panel-alertas-5">
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       defer
     ></script>
-    <script src="app.js" defer></script>
+    <script src="app.js?v=panel-alertas-5" defer></script>
   </head>
   <body id="veterinaryDashboard" class="landing-body">
     <header class="landing-header">
@@ -35,7 +35,7 @@
       <div class="dashboard-intro">
         <span class="eyebrow"><span class="status-dot"></span> PORTAL VETERINARIO</span>
         <h1>Panel de tu veterinaria</h1>
-        <p>Consultá la información que ven los clientes al buscar una guardia cercana.</p>
+        <p>Las alertas nuevas se abrirán automáticamente para que puedas aceptarlas y revisar los datos del paciente.</p>
       </div>
       <section class="veterinary-profile-card" aria-labelledby="vetName">
         <div class="veterinary-profile-heading">
@@ -48,14 +48,125 @@
         <div class="veterinary-contact">
           <span>Teléfono de guardia</span>
           <strong id="vetPhone"></strong>
-          <a id="vetPhoneLink" class="btn btn-teal btn-sm mt-3" href="#">
-            Llamar a la clínica
-          </a>
         </div>
       </section>
+      <section class="vet-alerts-section mt-5" aria-labelledby="vetAlertsHeading">
+        <div class="pets-overview-heading">
+          <div>
+            <span class="eyebrow">GUARDIA</span>
+            <h2 id="vetAlertsHeading">Alertas recibidas</h2>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <button id="vetRefreshAlerts" class="btn btn-outline-teal btn-sm" type="button">
+              Actualizar
+            </button>
+            <button id="vetSimulateAlert" class="btn btn-coral btn-sm" type="button">
+              Simular alerta
+            </button>
+          </div>
+        </div>
+        <p id="vetAlertsMessage" class="small" role="status" aria-live="polite"></p>
+        <div id="vetAlertsList" class="vet-alerts-list"></div>
+      </section>
+      <section class="vet-alerts-section mt-5" aria-labelledby="vetAlertHistoryHeading">
+        <div class="pets-overview-heading">
+          <div>
+            <span class="eyebrow">REGISTRO</span>
+            <h2 id="vetAlertHistoryHeading">Historial de alertas resueltas</h2>
+          </div>
+        </div>
+        <p id="vetAlertHistoryMessage" class="small" role="status" aria-live="polite"></p>
+        <div id="vetAlertHistoryList" class="vet-alerts-list"></div>
+      </section>
       <p class="small text-secondary mt-4">
-        Este portal es una demostración inicial. La gestión de turnos, alertas y estado de guardia se puede incorporar en una siguiente etapa.
+        En esta demostración, las alertas y evoluciones se guardan en memoria y se pierden al reiniciar el backend.
       </p>
     </main>
+
+    <div
+      id="modalDetalleAlertaVet"
+      class="modal fade"
+      tabindex="-1"
+      aria-labelledby="vetAlertDetailTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div>
+              <span id="vetAlertDetailKicker" class="eyebrow text-danger mb-1">ALERTA DE GUARDIA</span>
+              <h2 id="vetAlertDetailTitle" class="modal-title h5">
+                Detalle de la alerta
+              </h2>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="vet-alert-detail-grid">
+              <article class="result-guidance">
+                <h3>Animal</h3>
+                <p id="vetAlertAnimal" class="mb-0"></p>
+              </article>
+              <article class="result-guidance">
+                <h3>Tutor/a</h3>
+                <p id="vetAlertTutor" class="mb-0"></p>
+              </article>
+              <article class="result-guidance">
+                <h3>Sintomatología</h3>
+                <p id="vetAlertSymptoms" class="mb-0"></p>
+              </article>
+              <article class="result-guidance vet-alert-severity">
+                <h3>Urgencia y arribo</h3>
+                <p id="vetAlertUrgency" class="mb-0"></p>
+              </article>
+            </div>
+            <p id="vetAlertClinic" class="small text-secondary mt-3 mb-0"></p>
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              <button id="vetAcceptAlert" class="btn btn-teal btn-sm" type="button">
+                Aceptar
+              </button>
+              <button id="vetAlertResolved" class="btn btn-outline-secondary btn-sm" type="button">
+                Marcar resuelta
+              </button>
+              <button id="vetOpenHistory" class="btn btn-outline-teal btn-sm" type="button">
+                Historia clínica y evolución
+              </button>
+            </div>
+            <p id="vetAlertActionMessage" class="small mt-2 mb-0" role="status" aria-live="polite"></p>
+
+            <section id="vetHistorySection" class="vet-history-section mt-4" hidden>
+              <h3 class="h5">Historia clínica</h3>
+              <div id="vetHistoryList" class="list-group mb-4" aria-live="polite"></div>
+              <form id="vetEvolutionForm">
+                <h4 class="h6">Agregar evolución</h4>
+                <div class="mb-3">
+                  <label for="vetEvolutionReason" class="form-label">Motivo / evolución</label>
+                  <input id="vetEvolutionReason" class="form-control" maxlength="300" required>
+                </div>
+                <div class="mb-3">
+                  <label for="vetEvolutionDiagnosis" class="form-label">Evaluación / diagnóstico</label>
+                  <textarea id="vetEvolutionDiagnosis" class="form-control" rows="2" maxlength="1000" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="vetEvolutionTreatment" class="form-label">Tratamiento / indicaciones</label>
+                  <textarea id="vetEvolutionTreatment" class="form-control" rows="2" maxlength="1000" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="vetEvolutionObservations" class="form-label">Observaciones (opcional)</label>
+                  <textarea id="vetEvolutionObservations" class="form-control" rows="2" maxlength="2000"></textarea>
+                </div>
+                <button id="vetSaveEvolution" class="btn btn-teal" type="submit">
+                  Guardar evolución clínica
+                </button>
+                <p id="vetHistoryMessage" class="small mt-2 mb-0" role="status" aria-live="polite"></p>
+              </form>
+            </section>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

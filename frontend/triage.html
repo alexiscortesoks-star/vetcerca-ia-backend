@@ -20,7 +20,7 @@
     >
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=triage-urgencia-3">
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       defer
@@ -31,7 +31,7 @@
       crossorigin=""
       defer
     ></script>
-    <script src="app.js" defer></script>
+    <script src="app.js?v=triage-urgencia-3" defer></script>
   </head>
   <body class="landing-body">
     <header class="landing-header">
@@ -136,8 +136,8 @@
                 </select>
               </div>
               <p class="form-text">
-                Si el síntoma no coincide con los que puede analizar el sistema,
-                te haremos una pregunta para que puedas aclararlo y volver a enviarlo.
+                Si no reconocemos una palabra o el síntoma, te haremos una
+                pregunta por chat. Un síntoma ambiguo no se clasifica como leve.
               </p>
               <button class="btn btn-alertar-guardia w-100" type="submit" disabled>
                 Recibir orientación
@@ -161,7 +161,30 @@
             <p class="result-disclaimer">
               Esta orientación no reemplaza la evaluación de un/a veterinario/a.
             </p>
-            <p id="preguntaAclaratoria" class="alert alert-info" hidden></p>
+            <section id="triageChat" class="triage-chat" aria-label="Aclaración del triaje" hidden>
+              <div
+                id="triageChatMessages"
+                class="triage-chat-messages"
+                aria-live="polite"
+                aria-relevant="additions"
+              ></div>
+              <form id="triageChatForm" class="triage-chat-form">
+                <label for="triageChatReply" class="form-label">
+                  Tu respuesta
+                </label>
+                <textarea
+                  id="triageChatReply"
+                  class="form-control"
+                  rows="2"
+                  maxlength="1000"
+                  placeholder="Contanos un poco más..."
+                  required
+                ></textarea>
+                <button class="btn btn-coral mt-2" type="submit">
+                  Enviar aclaración
+                </button>
+              </form>
+            </section>
             <div class="result-pet-panel">
               <span>Mascota</span>
               <strong id="resultadoPaciente"></strong>
@@ -186,6 +209,14 @@
                 Llamar a la guardia
               </a>
             </section>
+            <button
+              id="abrirAccionesUrgencia"
+              class="btn btn-coral w-100 mt-3"
+              type="button"
+              hidden
+            >
+              Ver pasos y alertar a la veterinaria
+            </button>
             <p id="alertaGuardia" class="alert-dispatched" hidden></p>
             <section id="mapaSection" class="mt-4" hidden>
               <h3 class="h6">Ubicación y guardia asignada</h3>
@@ -200,5 +231,58 @@
         </section>
       </div>
     </main>
+
+    <div
+      id="modalAccionesUrgencia"
+      class="modal fade"
+      tabindex="-1"
+      aria-labelledby="urgenciaModalTitulo"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content urgency-modal-content">
+          <div class="modal-header urgency-modal-header">
+            <div>
+              <span class="eyebrow text-danger mb-1">URGENCIA</span>
+              <h2 id="urgenciaModalTitulo" class="modal-title h5 mb-0">
+                Acciones inmediatas
+              </h2>
+            </div>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p class="urgency-modal-pet">
+              <strong id="urgenciaModalMascota"></strong>
+              <span id="urgenciaModalNivel"></span>
+            </p>
+            <article class="urgency-modal-steps">
+              <h3 class="h6">Pasos a seguir</h3>
+              <p id="urgenciaModalPasos"></p>
+            </article>
+            <article class="urgency-modal-clinic">
+              <h3 class="h6">Veterinaria asignada</h3>
+              <strong id="urgenciaModalVeterinaria"></strong>
+              <p id="urgenciaModalDireccion" class="mb-0"></p>
+            </article>
+            <p class="small text-muted mt-3 mb-0">
+              Esta alerta es una simulación. En producción deberá confirmar el envío con el proveedor configurado.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              Ahora no
+            </button>
+            <button id="confirmarAlertaVeterinaria" class="btn btn-coral" type="button">
+              Alertar a la veterinaria asignada
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
