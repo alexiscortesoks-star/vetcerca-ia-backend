@@ -3,33 +3,61 @@ from pydantic import BaseModel, Field
 
 
 class TriajeRequest(BaseModel):
-    id_cliente: Optional[int] = Field(default=1, example=1)
-    nombre_mascota: str = Field(..., example="Mimi")
+    id_cliente: Optional[int] = Field(
+        default=1,
+        json_schema_extra={"example": 1},
+    )
+    nombre_mascota: str = Field(
+        ...,
+        json_schema_extra={"example": "Mimi"},
+    )
     sintomas: Optional[str] = Field(
         default=None,
         max_length=1000,
-        example="Dificultad respiratoria y decaimiento severo"
+        json_schema_extra={
+            "example": "Dificultad respiratoria y decaimiento severo"
+        },
     )
     # Variables clínicas requeridas por el TPI de Ciencia de Datos
-    especie: Optional[str] = Field(default="Canino", example="Felino")
+    especie: Optional[str] = Field(
+        default="Canino",
+        json_schema_extra={"example": "Felino"},
+    )
     sintoma_principal: Optional[str] = Field(
         default=None,
         max_length=1000,
-        example="Dificultad respiratoria severa / Cianosis"
+        json_schema_extra={
+            "example": "Dificultad respiratoria severa / Cianosis"
+        },
     )
-    tiempo_evolucion_hs: Optional[float] = Field(default=None, ge=0, example=2.5)
+    tiempo_evolucion_hs: Optional[float] = Field(
+        default=None,
+        ge=0,
+        json_schema_extra={"example": 2.5},
+    )
     estado_conciencia: Optional[str] = Field(
-        default=None, example="Deprimido"
+        default=None,
+        json_schema_extra={"example": "Deprimido"},
     )
-    presencia_hemorragia: Optional[int] = Field(default=None, ge=0, le=1, example=0)
+    presencia_hemorragia: Optional[int] = Field(
+        default=None,
+        ge=0,
+        le=1,
+        json_schema_extra={"example": 0},
+    )
     
     # Geolocalización y zonificación barrial en CABA
-    barrio: Optional[str] = Field(default="Palermo", example="Palermo")
+    barrio: Optional[str] = Field(
+        default="Palermo",
+        json_schema_extra={"example": "Palermo"},
+    )
     latitud_cliente: Optional[float] = Field(
-        default=-34.6037, example=-34.6037
+        default=-34.6037,
+        json_schema_extra={"example": -34.6037},
     )
     longitud_cliente: Optional[float] = Field(
-        default=-58.3816, example=-58.3816
+        default=-58.3816,
+        json_schema_extra={"example": -58.3816},
     )
 
 

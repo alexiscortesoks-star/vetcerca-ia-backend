@@ -124,10 +124,21 @@ class AsistenteIA:
                     self._pregunta_para_sintoma(sintomas),
                 )
 
-            interpretacion = self._interpretar_sintoma_con_gemini(
-                sintomas=sintomas,
-                especie=especie,
-            )
+            try:
+                interpretacion = self._interpretar_sintoma_con_gemini(
+                    sintomas=sintomas,
+                    especie=especie,
+                )
+            except HTTPException as error:
+                if error.status_code != 503:
+                    raise
+                resultado_fallback = self.ejecutar_fallback(sintomas, especie)
+                resultado_fallback["diagnostico_preliminar"] = (
+                    "Gemini no estuvo disponible; se aplicó una orientación "
+                    "heurística local. "
+                    f"{resultado_fallback['diagnostico_preliminar']}"
+                )
+                return resultado_fallback
             sintoma_catalogo = interpretacion.sintoma_catalogo
             sintomas_catalogo = set(obtener_catalogo_sintomas())
             if (
@@ -546,10 +557,10 @@ class AsistenteIA:
 
     def ejecutar_fallback(self, sintomas: str, especie: str = "Canino") -> Dict[str, Any]:
         """Motor heurístico de contingencia en caso de indisponibilidad del modelo ML."""
-        sintomas_lower = sintomas.lower()
+        sintomas_normalizados = normalizar_sintoma(sintomas)
         
         if any(
-            word in sintomas_lower
+            word in sintomas_normalizados
             for word in (
                 "respirat",
                 "convuls",
@@ -561,12 +572,36 @@ class AsistenteIA:
             )
         ):
             urgencia = "Emergencia Crítica"
-        elif any(w in sintomas_lower for w in ["dolor", "obstruc", "herida", "vomito", "trauma"]):
+        elif any(
+            word in sintomas_normalizados
+            for word in ("dolor", "obstruc", "herida", "vomito", "trauma")
+        ):
             urgencia = "Alta"
-        elif any(w in sintomas_lower for w in ["diarrea", "fiebre", "cojera", "decaid"]):
+        elif any(
+            word in sintomas_normalizados
+            for word in ("diarrea", "fiebre", "cojera", "decaid")
+        ):
             urgencia = "Moderada"
-        else:
+        elif any(
+            word in sintomas_normalizados
+            for word in (
+                "alerg",
+                "alopecia",
+                "consulta de rutina",
+                "control de peso",
+                "estornudo aislado",
+                "lagrimeo leve",
+                "prurito",
+                "rascad",
+                "vacun",
+            )
+        ):
             urgencia = "Baja"
+        else:
+            return self._respuesta_no_concluyente(
+                especie,
+                self._pregunta_para_sintoma(sintomas),
+            )
 
         orientacion = self._generar_orientacion_etica(
             nivel_urgencia=urgencia,

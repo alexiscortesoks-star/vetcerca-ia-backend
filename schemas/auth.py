@@ -6,13 +6,16 @@ from pydantic import BaseModel, Field
 class LoginRequest(BaseModel):
     usuario_o_email: str = Field(
         ...,
-        example="admin",
+        json_schema_extra={"example": "admin"},
         description=(
             "Ingresá tu usuario de cliente, email o usuario de veterinaria."
         ),
     )
-    password: str = Field(..., example="1234")
-    rol: Optional[str] = Field(default=None, example="cliente")
+    password: str = Field(..., json_schema_extra={"example": "1234"})
+    rol: Optional[str] = Field(
+        default=None,
+        json_schema_extra={"example": "cliente"},
+    )
 
 
 class LoginResponse(BaseModel):
@@ -39,8 +42,8 @@ class LoginUnificadoResponse(BaseModel):
 
 
 class LoginVeterinariaRequest(BaseModel):
-    usuario: str = Field(..., example="admin")
-    password: str = Field(..., example="1234")
+    usuario: str = Field(..., json_schema_extra={"example": "admin"})
+    password: str = Field(..., json_schema_extra={"example": "1234"})
 
 
 class LoginVeterinariaResponse(BaseModel):
